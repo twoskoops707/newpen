@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <!-- Gear outer teeth (8-tooth cog) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="
+        M20,4 L20,9 Q22,8.5 24,8.5 Q26,8.5 28,9 L28,4 Q26,3 24,3 Q22,3 20,4 Z
+        M28,4 L28,9 Q30.5,9.5 32.5,11 L36,7 Q33,5 28,4 Z
+        M36,7 L32.5,11 Q34,13 35,15.5 L40,13.5 Q38.5,10 36,7 Z
+        M40,13.5 L35,15.5 Q35.5,17.5 35.5,19.5 Q35.5,21.5 35,23.5 L40,25.5 Q41,23 41,20.5 Q41,18 40,13.5 Z
+        M40,25.5 L35,23.5 Q34,26 32.5,27.5 L36,31 Q38.5,29 40,25.5 Z
+        M36,31 L32.5,27.5 Q30.5,29 28,29.5 L28,34.5 Q33,33.5 36,31 Z
+        M28,34.5 L28,29.5 Q26,30 24,30 Q22,30 20,29.5 L20,34.5 Q22,35.5 24,35.5 Q26,35.5 28,34.5 Z
+        M20,34.5 L20,29.5 Q17.5,29 15.5,27.5 L12,31 Q15,33.5 20,34.5 Z
+        M12,31 L15.5,27.5 Q14,26 13,23.5 L8,25.5 Q9.5,29 12,31 Z
+        M8,25.5 L13,23.5 Q12.5,21.5 12.5,19.5 Q12.5,17.5 13,15.5 L8,13.5 Q7,16 7,20.5 Q7,23 8,25.5 Z
+        M8,13.5 L13,15.5 Q14,13 15.5,11 L12,7 Q9.5,10 8,13.5 Z
+        M12,7 L15.5,11 Q17.5,9.5 20,9 L20,4 Q15,5 12,7 Z" />
+
+    <!-- Gear center hole -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#27272A"
+        android:strokeWidth="8"
+        android:pathData="M24,19.5 a6,6 0 1,0 0.001,0 Z" />
+
+    <!-- Inner ring outline -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"
+        android:pathData="M24,19.5 a6,6 0 1,0 0.001,0 Z" />
+
+</vector>

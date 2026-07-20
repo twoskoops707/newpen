@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <!-- Emitter device body -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.5"
+        android:pathData="M6,18 L6,30 Q6,32 8,32 L18,32 Q20,32 20,30 L20,18 Q20,16 18,16 L8,16 Q6,16 6,18 Z" />
+
+    <!-- Emitter LED dot -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M17,23 a2,2 0 1,0 0,2 a2,2 0 1,0 0,-2" />
+
+    <!-- IR beam lines (dashed effect with separate paths) -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:pathData="M24,24 L30,24" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:pathData="M33,24 L39,24" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:pathData="M42,24 L46,24" />
+
+    <!-- Beam spread top -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:pathData="M24,20 L30,17 L39,13" />
+
+    <!-- Beam spread bottom -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:pathData="M24,28 L30,31 L39,35" />
+
+</vector>

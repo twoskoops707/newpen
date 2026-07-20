@@ -32,12 +32,12 @@
             android:padding="16dp"
             android:gravity="center">
 
-            <TextView
-                android:id="@+id/tvEmoji"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="36sp"
-                android:gravity="center" />
+            <ImageView
+                android:id="@+id/ivIcon"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:scaleType="fitCenter"
+                android:contentDescription="@null" />
 
             <TextView
                 android:id="@+id/tvTitle"

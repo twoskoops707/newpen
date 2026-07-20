@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <!-- USB plug body -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.5"
+        android:pathData="M18,28 L18,38 L30,38 L30,28 L18,28 Z" />
+
+    <!-- USB prongs -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:pathData="M22,28 L22,22 M26,28 L26,22" />
+
+    <!-- USB top bar -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:pathData="M20,22 L28,22" />
+
+    <!-- Cable going up -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:pathData="M24,38 L24,42" />
+
+    <!-- Lightning bolt (keyboard attack symbol) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M26,6 L20,18 L24,18 L22,28 L30,14 L26,14 Z" />
+
+</vector>

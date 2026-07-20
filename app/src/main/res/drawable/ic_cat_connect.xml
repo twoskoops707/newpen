@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <!-- Flipper device body (landscape rectangle) -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.5"
+        android:pathData="M4,28 L4,42 Q4,44 6,44 L42,44 Q44,44 44,42 L44,28 Q44,26 42,26 L6,26 Q4,26 4,28 Z" />
+
+    <!-- Flipper screen -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.5"
+        android:pathData="M8,29 L8,39 L26,39 L26,29 Z" />
+
+    <!-- D-pad circle -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M35,34 a4,4 0 1,0 0.001,0 Z" />
+    <path
+        android:fillColor="#27272A"
+        android:pathData="M35,30 L35,38 M31,34 L39,34"
+        android:strokeColor="#27272A"
+        android:strokeWidth="2" />
+
+    <!-- BT signal arcs coming up from device -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:pathData="M18,22 A8,8 0 0 1 30,22" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:pathData="M13,17 A14,14 0 0 1 35,17" />
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:pathData="M8,12 A20,20 0 0 1 40,12" />
+
+    <!-- Signal dot -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M22,25 a2,2 0 1,0 4,0 a2,2 0 1,0 -4,0" />
+
+</vector>
