@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/homeFragment"
+            android:icon="@drawable/ic_home"
+            android:title="@string/nav_home" />
+
+        <item
+            android:id="@+id/cheatSheetFragment"
+            android:icon="@drawable/ic_cheat_sheet"
+            android:title="@string/nav_cheat_sheet" />
+
+        <item
+            android:id="@+id/setupFragment"
+            android:icon="@drawable/ic_setup"
+            android:title="@string/nav_setup" />
+
+        <item
+            android:id="@+id/resourcesFragment"
+            android:icon="@drawable/ic_resources"
+            android:title="@string/nav_resources" />
+
+        <item
+            android:id="@+id/connectFragment"
+            android:icon="@drawable/ic_connect"
+            android:title="@string/nav_connect" />
+
+    </group>
+
+</menu>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.FlipperGuide" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryDark</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorSurface">@color/colorSurface</item>
+        <item name="colorOnSurface">@color/colorTextPrimary</item>
+        <item name="colorBackground">@color/colorBackground</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="colorOnBackground">@color/colorOnBackground</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+        <item name="colorPrimaryContainer">@color/colorPrimaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/colorOnPrimaryContainer</item>
+        <item name="colorSecondaryContainer">@color/colorSecondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/colorOnSecondaryContainer</item>
+        <item name="colorError">@color/colorError</item>
+        <item name="colorSurfaceVariant">@color/colorSurfaceVariant</item>
+        <item name="android:statusBarColor">@color/colorStatusBar</item>
+        <item name="android:navigationBarColor">@color/colorNavigationBar</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.FlipperGuide.AlertDialog</item>
+        <item name="toolbarStyle">@style/Widget.FlipperGuide.Toolbar</item>
+        <item name="navigationViewStyle">@style/Widget.FlipperGuide.NavigationView</item>
+        <item name="materialCardViewStyle">@style/Widget.FlipperGuide.CardView</item>
+        <item name="textAppearanceBodyLarge">@style/TextAppearance.FlipperGuide.BodyLarge</item>
+        <item name="textAppearanceBodyMedium">@style/TextAppearance.FlipperGuide.BodyMedium</item>
+        <item name="textAppearanceTitleLarge">@style/TextAppearance.FlipperGuide.TitleLarge</item>
+        <item name="searchViewStyle">@style/Widget.FlipperGuide.SearchView</item>
+        <item name="snackbarStyle">@style/Widget.FlipperGuide.Snackbar</item>
+        <item name="snackbarButtonStyle">@style/Widget.FlipperGuide.SnackbarButton</item>
+    </style>
+
+    <style name="Widget.FlipperGuide.Toolbar" parent="Widget.Material3.Toolbar">
+        <item name="android:background">@color/colorToolbar</item>
+        <item name="titleTextColor">@color/colorPrimary</item>
+        <item name="subtitleTextColor">@color/colorTextSecondary</item>
+        <item name="titleTextAppearance">@style/TextAppearance.FlipperGuide.Toolbar.Title</item>
+    </style>
+
+    <style name="TextAppearance.FlipperGuide.Toolbar.Title" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:letterSpacing">0.05</item>
+    </style>
+
+    <style name="Widget.FlipperGuide.NavigationView" parent="Widget.Material3.NavigationView">
+        <item name="android:background">@color/colorSurface</item>
+        <item name="itemIconTint">@color/colorPrimary</item>
+        <item name="itemTextColor">@color/colorTextPrimary</item>
+        <item name="itemRippleColor">@color/colorStrokeAlpha</item>
+    </style>
+
+    <style name="Widget.FlipperGuide.CardView" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardBackgroundColor">@color/colorCard</item>
+        <item name="strokeColor">@color/colorStroke</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="cardElevation">0dp</item>
+        <item name="cardCornerRadius">8dp</item>
+        <item name="rippleColor">@color/colorStrokeAlpha</item>
+    </style>
+
+    <style name="TextAppearance.FlipperGuide.BodyLarge" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:textColor">@color/colorTextPrimary</item>
+    </style>
+
+    <style name="TextAppearance.FlipperGuide.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">@color/colorTextSecondary</item>
+    </style>
+
+    <style name="TextAppearance.FlipperGuide.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="android:fontFamily">monospace</item>
+    </style>
+
+    <style name="Widget.FlipperGuide.SearchView" parent="Widget.AppCompat.SearchView">
+        <item name="android:background">@color/colorCard</item>
+        <item name="queryHint">@string/btn_scan</item>
+    </style>
+
+    <style name="Widget.FlipperGuide.Snackbar" parent="Widget.Material3.Snackbar">
+        <item name="android:background">@color/colorSurface</item>
+    </style>
+
+    <style name="Widget.FlipperGuide.SnackbarButton" parent="Widget.Material3.Button.TextButton.Snackbar">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="ThemeOverlay.FlipperGuide.AlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="android:background">@color/colorSurface</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorOnSurface">@color/colorTextPrimary</item>
+    </style>
+
+    <style name="Widget.FlipperGuide.Button.Primary" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="strokeColor">@color/colorPrimary</item>
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:letterSpacing">0.05</item>
+        <item name="rippleColor">@color/colorStrokeAlpha</item>
+    </style>
+
+    <style name="Widget.FlipperGuide.Button.Danger" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:textColor">@color/colorError</item>
+        <item name="strokeColor">@color/colorError</item>
+        <item name="android:fontFamily">monospace</item>
+    </style>
+
+    <style name="Widget.FlipperGuide.Badge" parent="Widget.Material3.Button.TextButton">
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:paddingBottom">2dp</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:fontFamily">monospace</item>
+        <item name="cornerRadius">4dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+    </style>
+
+    <style name="Widget.FlipperGuide.Badge.Flipper" parent="Widget.FlipperGuide.Badge">
+        <item name="android:textColor">@color/colorHardwareFlipper</item>
+        <item name="android:background">@color/colorBadgeFlipperBg</item>
+    </style>
+
+    <style name="Widget.FlipperGuide.Badge.AWOK" parent="Widget.FlipperGuide.Badge">
+        <item name="android:textColor">@color/colorHardwareAWOK</item>
+        <item name="android:background">@color/colorBadgeAWOKBg</item>
+    </style>
+
+    <style name="Widget.FlipperGuide.Badge.Both" parent="Widget.FlipperGuide.Badge">
+        <item name="android:textColor">@color/colorHardwareBoth</item>
+        <item name="android:background">@color/colorBadgeBothBg</item>
+    </style>
+
+</resources>

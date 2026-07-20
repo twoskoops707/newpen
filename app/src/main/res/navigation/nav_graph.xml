@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.twoskoops707.newpen.ui.home.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_workflowListFragment"
+            app:destination="@id/workflowListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/workflowListFragment"
+        android:name="com.twoskoops707.newpen.ui.workflows.WorkflowListFragment"
+        android:label="Workflows"
+        tools:layout="@layout/fragment_workflow_list">
+        <argument
+            android:name="categoryId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_workflowListFragment_to_workflowDetailFragment"
+            app:destination="@id/workflowDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/workflowDetailFragment"
+        android:name="com.twoskoops707.newpen.ui.workflows.WorkflowDetailFragment"
+        android:label="Workflow Detail"
+        tools:layout="@layout/fragment_workflow_detail">
+        <argument
+            android:name="workflowId"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/cheatSheetFragment"
+        android:name="com.twoskoops707.newpen.ui.cheatsheet.CheatSheetFragment"
+        android:label="Cheat Sheet"
+        tools:layout="@layout/fragment_cheat_sheet" />
+
+    <fragment
+        android:id="@+id/setupFragment"
+        android:name="com.twoskoops707.newpen.ui.setup.SetupFragment"
+        android:label="Setup Guide"
+        tools:layout="@layout/fragment_setup" />
+
+    <fragment
+        android:id="@+id/resourcesFragment"
+        android:name="com.twoskoops707.newpen.ui.resources.ResourcesFragment"
+        android:label="Resources"
+        tools:layout="@layout/fragment_resources" />
+
+    <fragment
+        android:id="@+id/connectFragment"
+        android:name="com.twoskoops707.newpen.ui.connect.ConnectFragment"
+        android:label="Connect Flipper"
+        tools:layout="@layout/fragment_connect" />
+
+</navigation>

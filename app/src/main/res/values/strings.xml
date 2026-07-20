@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FlipperGuide</string>
+
+    <string name="nav_home">Home</string>
+    <string name="nav_cheat_sheet">Cheat Sheet</string>
+    <string name="nav_setup">Setup Guide</string>
+    <string name="nav_resources">Resources</string>
+    <string name="nav_connect">Connect Flipper</string>
+
+    <string name="btn_scan">Scan for Flipper</string>
+    <string name="btn_connect">Connect</string>
+    <string name="btn_disconnect">Disconnect</string>
+    <string name="btn_ping">Ping Device</string>
+    <string name="btn_device_info">Device Info</string>
+    <string name="btn_reboot">Reboot Flipper</string>
+
+    <string name="lbl_connected">● CONNECTED</string>
+    <string name="lbl_disconnected">○ DISCONNECTED</string>
+    <string name="lbl_scanning">SCANNING…</string>
+    <string name="lbl_step_of">Step %1$d of %2$d</string>
+    <string name="lbl_prerequisites">Prerequisites</string>
+    <string name="lbl_commands">Commands</string>
+    <string name="lbl_tips">Tips ▸</string>
+    <string name="lbl_warning">⚠ Warning</string>
+    <string name="lbl_copy">COPY</string>
+    <string name="lbl_hardware_flipper">FLIPPER</string>
+    <string name="lbl_hardware_awok">AWOK</string>
+    <string name="lbl_hardware_both">BOTH</string>
+    <string name="lbl_no_workflows">No workflows found</string>
+
+    <string name="lbl_commands_prefix">COMMANDS:</string>
+    <string name="lbl_tips_prefix">▸ TIPS:</string>
+    <string name="lbl_step_prefix">STEP</string>
+    <string name="lbl_prereq_collapsed">▶ Prerequisites</string>
+    <string name="lbl_prereq_expanded">▼ Prerequisites</string>
+    <string name="toast_copied">Copied!</string>
+    <string name="lbl_resources">RESOURCES</string>
+    <string name="lbl_home_title">FLIPPER GUIDE</string>
+    <string name="lbl_home_subtitle">Select a category</string>
+    <string name="lbl_scan_hint">Search commands…</string>
+    <string name="lbl_device_name">Device Name</string>
+    <string name="lbl_rssi">Signal</string>
+    <string name="lbl_mac_address">MAC Address</string>
+    <string name="lbl_response">Response</string>
+    <string name="cd_copy_button">Copy command to clipboard</string>
+    <string name="cd_external_link">Open external link</string>
+    <string name="cd_navigation_drawer">Open navigation drawer</string>
+    <string name="cd_close_drawer">Close navigation drawer</string>
+    <string name="lbl_via_marauder">via MARAUDER</string>
+    <string name="lbl_via_flipper">via FLIPPER</string>
+    <string name="lbl_via_cli">via CLI</string>
+    <string name="lbl_type_youtube">YOUTUBE</string>
+    <string name="lbl_type_github">GITHUB</string>
+    <string name="lbl_type_docs">DOCS</string>
+    <string name="lbl_type_forum">FORUM</string>
+    <string name="lbl_workflows_count">%1$d workflows</string>
+    <string name="lbl_category_count">%1$d categories</string>
+    <string name="hint_search_commands">Search commands…</string>
+    <string name="btn_send">SEND</string>
+    <string name="lbl_command_input_hint">Enter command…</string>
+    <string name="lbl_setup_guide">SETUP GUIDE</string>
+    <string name="lbl_cheat_sheet">CHEAT SHEET</string>
+</resources>
