@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.title = "FlipperGuide"
 
         drawerLayout = binding.drawerLayout
-        val navView: NavigationView = binding.navView
+        val navView: NavigationView = binding.navigationView
 
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment

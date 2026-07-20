@@ -19,13 +19,10 @@ class WorkflowAdapter(
             binding.tvTitle.text = workflow.title
             binding.tvSubtitle.text = workflow.subtitle
 
-            val hardwareLabel = when {
-                workflow.hardware.containsAll(listOf(Hardware.FLIPPER, Hardware.AWOK)) || workflow.hardware.contains(Hardware.BOTH) -> "Flipper + AWOK"
-                workflow.hardware.contains(Hardware.FLIPPER) -> "Flipper Zero"
-                workflow.hardware.contains(Hardware.AWOK) -> "AWOK ESP32"
-                else -> "Phone Only"
-            }
-            binding.tvHardware.text = hardwareLabel
+            val hasFlipper = workflow.hardware.contains(Hardware.FLIPPER) || workflow.hardware.contains(Hardware.BOTH)
+            val hasAWOK = workflow.hardware.contains(Hardware.AWOK) || workflow.hardware.contains(Hardware.BOTH)
+            binding.tvBadgeFlipper.visibility = if (hasFlipper) android.view.View.VISIBLE else android.view.View.GONE
+            binding.tvBadgeAWOK.visibility = if (hasAWOK) android.view.View.VISIBLE else android.view.View.GONE
 
             binding.root.setOnClickListener { onClick(workflow) }
         }

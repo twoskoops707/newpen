@@ -78,7 +78,7 @@ class ConnectFragment : Fragment() {
             appendResponse("> power reboot")
         }
 
-        binding.cardConnected.isVisible = false
+        binding.cardConnectedActions.isVisible = false
         updateStatus("Ready. Tap 'Scan for Flipper' to begin.")
     }
 
@@ -135,28 +135,28 @@ class ConnectFragment : Fragment() {
     private fun connectToDevice(device: BluetoothDevice) {
         val name = try { device.name ?: device.address } catch (e: SecurityException) { device.address }
         updateStatus("Connecting to $name...")
-        binding.cardConnected.isVisible = false
+        binding.cardConnectedActions.isVisible = false
 
         bleManager.connect(
             device,
             onConnected = {
                 requireActivity().runOnUiThread {
                     updateStatus("Connected to $name")
-                    binding.cardConnected.isVisible = true
-                    binding.tvConnectedName.text = name
+                    binding.cardConnectedActions.isVisible = true
+                    binding.tvDeviceName.text = name
                 }
             },
             onDisconnected = {
                 requireActivity().runOnUiThread {
                     updateStatus("Disconnected from $name")
-                    binding.cardConnected.isVisible = false
+                    binding.cardConnectedActions.isVisible = false
                 }
             }
         )
     }
 
     private fun updateStatus(status: String) {
-        binding.tvStatus.text = status
+        binding.tvConnectionStatus.text = status
     }
 
     private fun appendResponse(text: String) {
@@ -181,7 +181,7 @@ class ConnectFragment : Fragment() {
             fun bind(device: BluetoothDevice) {
                 val name = try { device.name ?: "Unknown" } catch (e: SecurityException) { "Unknown" }
                 binding.tvDeviceName.text = name
-                binding.tvDeviceAddress.text = device.address
+                binding.tvDeviceMac.text = device.address
                 binding.root.setOnClickListener { onDeviceClick(device) }
             }
         }
