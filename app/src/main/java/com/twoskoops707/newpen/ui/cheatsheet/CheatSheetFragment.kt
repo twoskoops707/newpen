@@ -57,9 +57,8 @@ class CheatSheetFragment : Fragment() {
         listOf(
             "help" to "List all commands",
             "device_info" to "Show device info",
-            "rfid read" to "Read 125kHz card",
-            "rfid emulate <file>" to "Emulate saved RFID",
-            "lfrfid read" to "Alternative RFID read",
+            "rfid read" to "Read 125kHz card (hold card to back)",
+            "rfid emulate <file>" to "Emulate saved RFID file",
             "nfc detect" to "Detect NFC field",
             "subghz rx <freq>" to "Receive on frequency (Hz)",
             "subghz tx_from_file <path>" to "Transmit .sub file",
@@ -77,20 +76,18 @@ class CheatSheetFragment : Fragment() {
 
         items.add(CheatItem.Header("Termux / Kali Commands"))
         listOf(
-            "pkg install nmap python curl wget hashcat" to "Install essential tools",
+            "pkg install nmap python python-pip curl wget tshark hashcat git -y" to "Install all essential tools",
             "nmap -sT -sV 192.168.1.0/24" to "TCP connect scan with version detection",
             "nmap -sn 192.168.1.0/24" to "Ping sweep (find live hosts)",
-            "hashcat -m 22000 hash.hc22000 wordlist.txt" to "Crack WPA/WPA2",
+            "hashcat -m 22000 hash.hc22000 wordlist.txt" to "Crack WPA2 with wordlist",
             "hashcat -m 22000 hash.hc22000 -a 3 ?d?d?d?d?d?d?d?d" to "Brute force 8-digit PIN",
-            "hashcat -m 22000 hash.hc22000 --show" to "Show cracked results",
-            "tshark -r capture.pcap" to "Read PCAP file",
-            "tshark -r capture.pcap -Y eapol" to "Filter EAPOL frames",
+            "hashcat -m 22000 hash.hc22000 --show" to "Show cracked passwords",
+            "tshark -r capture.pcap" to "Read PCAP file (no root needed)",
+            "tshark -r capture.pcap -Y eapol" to "Filter EAPOL/handshake frames",
             "ss -tulpn" to "Show all active ports/connections",
-            "netstat -an" to "All network connections",
-            "curl ifconfig.me" to "Get external IP",
-            "python3 -m http.server 8080" to "Start web server in current dir",
-            "nethunter" to "Launch Kali NetHunter shell",
-            "aircrack-ng capture.pcap -w wordlist.txt" to "Crack with aircrack"
+            "curl ifconfig.me" to "Get your external IP address",
+            "python3 -m http.server 8080" to "Start web server in current folder",
+            "nethunter" to "Launch Kali NetHunter shell (after install)"
         ).forEach { (cmd, desc) -> items.add(CheatItem.Command(cmd, desc)) }
 
         items.add(CheatItem.Header("DuckyScript (BadUSB)"))
