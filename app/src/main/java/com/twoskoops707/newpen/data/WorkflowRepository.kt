@@ -115,7 +115,7 @@ object WorkflowRepository {
                 WorkflowStep(
                     stepNumber = 1,
                     title = "Two Ways to Connect",
-                    description = "You can connect AWOK to Flipper in two ways:\n1. DIRECT: Plug AWOK into Flipper's GPIO header (if your AWOK has a stacking connector) — the AWOK piggybacks on Flipper\n2. USB: Plug AWOK into your phone with USB-C OTG and control it with PennThis! app directly\n\nThe stacking connector method is much cooler — it's one unit!",
+                    description = "You can connect AWOK to Flipper in two ways:\n1. DIRECT: Plug AWOK into Flipper's GPIO header (if your AWOK has a stacking connector) — the AWOK piggybacks on Flipper\n2. USB: Plug AWOK into your phone with USB-C OTG and control it with PenThis! app directly\n\nThe stacking connector method is much cooler — it's one unit!",
                     tips = listOf("The AWOK Dual Mini v3 is designed to stack on top of or connect to Flipper")
                 ),
                 WorkflowStep(
@@ -201,7 +201,7 @@ object WorkflowRepository {
                 WorkflowStep(
                     stepNumber = 1,
                     title = "Open the Marauder Terminal",
-                    description = "OPTION A — Via Flipper:\nOn Flipper, go to Apps → GPIO → [ESP32] WiFi Marauder. You'll see a black terminal screen.\n\nOPTION B — Via PennThis! app:\nPlug AWOK into phone with USB-C OTG cable. In PennThis!, tap 'Connect AWOK'. The terminal opens in the app.",
+                    description = "OPTION A — Via Flipper:\nOn Flipper, go to Apps → GPIO → [ESP32] WiFi Marauder. You'll see a black terminal screen.\n\nOPTION B — Via PenThis! app:\nPlug AWOK into phone with USB-C OTG cable. In PenThis!, tap 'Connect AWOK'. The terminal opens in the app.",
                     commands = listOf(
                         Command("Via Flipper", "Apps → GPIO → [ESP32] WiFi Marauder", Device.FLIPPER_CLI)
                     )
@@ -251,7 +251,7 @@ object WorkflowRepository {
             subtitle = "Send deauth frames to disconnect clients from an access point",
             categoryId = "wifi",
             hardware = listOf(Hardware.AWOK, Hardware.FLIPPER),
-            prerequisites = listOf("AWOK with Marauder", "Flipper OR phone with PennThis!"),
+            prerequisites = listOf("AWOK with Marauder", "Flipper OR phone with PenThis!"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
@@ -1333,11 +1333,11 @@ object WorkflowRepository {
 
         Workflow(
             id = "rpc_connect",
-            title = "Control Flipper via Bluetooth from PennThis!",
+            title = "Control Flipper via Bluetooth from PenThis!",
             subtitle = "Connect and send commands to Flipper wirelessly from the app",
             categoryId = "connect",
             hardware = listOf(Hardware.FLIPPER, Hardware.PHONE),
-            prerequisites = listOf("Flipper Zero with Bluetooth ON", "PennThis! app"),
+            prerequisites = listOf("Flipper Zero with Bluetooth ON", "PenThis! app"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
@@ -1349,8 +1349,8 @@ object WorkflowRepository {
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Scan from PennThis!",
-                    description = "In this PennThis! app, tap the 'Connect Flipper' section in the left menu. Tap 'Scan for Flipper'. Your Flipper will appear in the list as 'Flipper [name]'. Tap it.",
+                    title = "Scan from PenThis!",
+                    description = "In this PenThis! app, tap the 'Connect Flipper' section in the left menu. Tap 'Scan for Flipper'. Your Flipper will appear in the list as 'Flipper [name]'. Tap it.",
                     tips = listOf("Make sure your phone's Bluetooth is on and you've given the app Bluetooth permission")
                 ),
                 WorkflowStep(
@@ -1634,7 +1634,7 @@ object WorkflowRepository {
                 id = "connect",
                 title = "Flipper BT Control",
                 icon = "ic_link",
-                description = "Control Flipper from PennThis! via Bluetooth",
+                description = "Control Flipper from PenThis! via Bluetooth",
                 workflowCount = countMap["connect"] ?: 0
             ),
             Category(
