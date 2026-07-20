@@ -76,7 +76,9 @@ class CheatSheetFragment : Fragment() {
 
         items.add(CheatItem.Header("Termux / Kali Commands"))
         listOf(
-            "pkg install nmap python python-pip curl wget tshark hashcat git -y" to "Install all essential tools",
+            "pkg install nmap python python-pip curl wget tshark git dpkg -y" to "Install essential tools (no root needed)",
+            "apt install libc++ libnl libpcap libsqlite openssl pcre zlib -y" to "Required libraries for aircrack-ng",
+            "wget https://raw.githubusercontent.com/pitube08642/aircrack-ng-for-termux/main/dists/termux/aircrack-ng/binary-aarch64/aircrack-ng_3_1.7_aarch64.deb && dpkg -i aircrack-ng_3_1.7_aarch64.deb" to "Install aircrack-ng (not in default repo)",
             "nmap -sT -sV 192.168.1.0/24" to "TCP connect scan with version detection",
             "nmap -sn 192.168.1.0/24" to "Ping sweep (find live hosts)",
             "hashcat -m 22000 hash.hc22000 wordlist.txt" to "Crack WPA2 with wordlist",

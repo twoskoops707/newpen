@@ -4,28 +4,32 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:paddingTop="32dp"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
+    android:paddingTop="36dp"
     android:paddingBottom="16dp"
-    android:background="@color/colorToolbar">
+    android:background="@color/colorSurface">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
-        android:textColor="@color/colorPrimary"
-        android:textSize="22sp"
-        android:fontFamily="monospace"
-        android:textStyle="bold"
-        android:letterSpacing="0.05" />
+        android:textColor="@color/colorTextPrimary"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="v1.0"
+        android:text="Flipper Zero + AWOK Guide"
         android:textColor="@color/colorTextSecondary"
-        android:textSize="12sp"
-        android:fontFamily="monospace" />
+        android:textSize="13sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorStroke" />
 
 </LinearLayout>

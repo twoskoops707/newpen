@@ -16,8 +16,25 @@ class CategoryAdapter(
 
         fun bind(category: Category) {
             binding.tvTitle.text = category.title
-            binding.tvDescription.text = category.description
+            binding.tvCount.text = "${category.workflowCount} workflows"
+            binding.tvEmoji.text = emojiFor(category.id)
             binding.root.setOnClickListener { onCategoryClick(category) }
+        }
+
+        private fun emojiFor(id: String) = when (id) {
+            "setup"     -> "⚙️"
+            "wifi"      -> "📡"
+            "subghz"    -> "📻"
+            "rfid"      -> "💳"
+            "nfc"       -> "🔖"
+            "badusb"    -> "⌨️"
+            "bluetooth" -> "🔷"
+            "infrared"  -> "🔴"
+            "ibutton"   -> "🗝️"
+            "gpio"      -> "🔌"
+            "connect"   -> "📲"
+            "tools"     -> "🛠️"
+            else        -> "📁"
         }
     }
 

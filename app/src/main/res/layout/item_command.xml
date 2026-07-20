@@ -5,33 +5,37 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:background="@color/colorTerminal"
-    android:padding="8dp"
     android:layout_marginBottom="4dp"
     android:gravity="center_vertical">
+
+    <View
+        android:layout_width="3dp"
+        android:layout_height="match_parent"
+        android:background="@color/colorCyan" />
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:paddingEnd="8dp">
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/tvCommandLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorCyan"
-            android:textSize="12sp"
+            android:textSize="11sp"
             android:fontFamily="monospace"
             android:textStyle="bold"
-            android:letterSpacing="0.04" />
+            android:letterSpacing="0.06" />
 
         <TextView
             android:id="@+id/tvCommandValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/colorTextPrimary"
             android:textSize="14sp"
             android:fontFamily="monospace"
             android:textIsSelectable="true"
@@ -41,7 +45,7 @@
             android:id="@+id/tvCommandDevice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="3dp"
             android:textColor="@color/colorTextSecondary"
             android:textSize="11sp"
             android:fontFamily="monospace" />
@@ -50,13 +54,14 @@
 
     <ImageButton
         android:id="@+id/btnCopy"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="8dp"
         android:src="@drawable/ic_copy"
         android:contentDescription="@string/cd_copy_button"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:tint="@color/colorTextSecondary"
+        android:tint="@color/colorCyan"
         android:scaleType="center"
-        android:padding="6dp" />
+        android:padding="4dp" />
 
 </LinearLayout>

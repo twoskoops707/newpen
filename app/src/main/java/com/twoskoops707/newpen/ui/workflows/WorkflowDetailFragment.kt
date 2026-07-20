@@ -152,12 +152,10 @@ class WorkflowDetailFragment : Fragment() {
                 }
 
                 if (!step.warning.isNullOrBlank()) {
-                    binding.tvWarning.isVisible = true
-                    binding.tvWarningLabel.isVisible = true
+                    binding.llWarning.isVisible = true
                     binding.tvWarning.text = step.warning
                 } else {
-                    binding.tvWarning.isVisible = false
-                    binding.tvWarningLabel.isVisible = false
+                    binding.llWarning.isVisible = false
                 }
             }
         }

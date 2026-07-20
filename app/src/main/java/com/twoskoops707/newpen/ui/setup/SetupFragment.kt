@@ -69,7 +69,7 @@ Awesome Flipper: github.com/djsime1/awesome-flipperzero
 BadUSB Payloads: github.com/I-Am-Jakoby/Flipper-Zero-BadUSB
         """.trimIndent()
 
-        val installAllCmd = "pkg update -y && pkg install -y nmap python python-pip curl wget tshark hashcat git && pip install requests scapy && echo DONE"
+        val installAllCmd = "pkg update -y && pkg install -y nmap python python-pip curl wget tshark git dpkg && pip install requests scapy && wget https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt && echo ALL DONE"
         val installKaliCmd = "pkg update -y && pkg install -y wget curl && wget -O install-nethunter-termux https://offs.ec/2MceZWr && bash install-nethunter-termux"
 
         binding.btnInstallAll.setOnClickListener {

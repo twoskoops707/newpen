@@ -35,16 +35,14 @@
 
     <style name="Widget.FlipperGuide.Toolbar" parent="Widget.Material3.Toolbar">
         <item name="android:background">@color/colorToolbar</item>
-        <item name="titleTextColor">@color/colorPrimary</item>
+        <item name="titleTextColor">@color/colorTextPrimary</item>
         <item name="subtitleTextColor">@color/colorTextSecondary</item>
         <item name="titleTextAppearance">@style/TextAppearance.FlipperGuide.Toolbar.Title</item>
     </style>
 
     <style name="TextAppearance.FlipperGuide.Toolbar.Title" parent="TextAppearance.Material3.TitleLarge">
-        <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:fontFamily">monospace</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
         <item name="android:textSize">18sp</item>
-        <item name="android:letterSpacing">0.05</item>
     </style>
 
     <style name="Widget.FlipperGuide.NavigationView" parent="Widget.Material3.NavigationView">
@@ -59,7 +57,7 @@
         <item name="strokeColor">@color/colorStroke</item>
         <item name="strokeWidth">1dp</item>
         <item name="cardElevation">0dp</item>
-        <item name="cardCornerRadius">8dp</item>
+        <item name="cardCornerRadius">12dp</item>
         <item name="rippleColor">@color/colorStrokeAlpha</item>
     </style>
 
