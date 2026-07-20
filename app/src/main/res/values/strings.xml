@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">FlipperGuide</string>
+    <string name="app_name">PennThis!</string>
 
     <string name="nav_home">Home</string>
     <string name="nav_cheat_sheet">Cheat Sheet</string>
@@ -36,7 +36,7 @@
     <string name="lbl_prereq_expanded">▼ Prerequisites</string>
     <string name="toast_copied">Copied!</string>
     <string name="lbl_resources">RESOURCES</string>
-    <string name="lbl_home_title">FLIPPER GUIDE</string>
+    <string name="lbl_home_title">PENNTHIS!</string>
     <string name="lbl_home_subtitle">Select a category</string>
     <string name="lbl_scan_hint">Search commands…</string>
     <string name="lbl_device_name">Device Name</string>
