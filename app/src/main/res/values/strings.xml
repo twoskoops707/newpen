@@ -61,4 +61,8 @@
     <string name="lbl_command_input_hint">Enter command…</string>
     <string name="lbl_setup_guide">SETUP GUIDE</string>
     <string name="lbl_cheat_sheet">CHEAT SHEET</string>
+    <string name="btn_run_termux">▶ RUN IN TERMUX</string>
+    <string name="btn_copy_open_termux">COPY + OPEN TERMUX</string>
+    <string name="toast_run_termux">Command copied! Open Termux and paste (long-press → Paste)</string>
+    <string name="lbl_termux_commands">TERMUX COMMANDS:</string>
 </resources>

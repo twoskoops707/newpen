@@ -31,21 +31,26 @@ jobs:
       - name: Build Debug APK
         run: ./gradlew assembleDebug --stacktrace
 
+      - name: Get build number
+        id: buildnum
+        run: echo "num=${{ github.run_number }}" >> $GITHUB_OUTPUT
+
       - name: Rename APK
         run: |
           mkdir -p release
-          cp app/build/outputs/apk/debug/app-debug.apk "release/FlipperGuide-build${{ github.run_number }}.apk"
+          cp app/build/outputs/apk/debug/app-debug.apk "release/PennThis-build${{ github.run_number }}.apk"
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: build-${{ github.run_number }}
-          name: FlipperGuide Build ${{ github.run_number }}
-          files: "release/FlipperGuide-build${{ github.run_number }}.apk"
+          name: "PennThis! Build ${{ github.run_number }}"
+          files: "release/PennThis-build${{ github.run_number }}.apk"
           body: |
-            ## FlipperGuide APK
+            ## PennThis! APK
             Flipper Zero + AWOK Dual Mini v3 complete workflow guide.
             12 categories, 34+ step-by-step workflows: WiFi, Sub-GHz, RFID, NFC, BadUSB, BLE, IR, iButton, GPIO, BT RPC, Kali setup.
-            Build: ${{ github.run_number }}
+            One-tap RUN IN TERMUX buttons for automated command execution.
+            Build ${{ github.run_number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
