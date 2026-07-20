@@ -19,11 +19,11 @@ class WorkflowAdapter(
             binding.tvTitle.text = workflow.title
             binding.tvSubtitle.text = workflow.subtitle
 
-            val hardwareLabel = when (workflow.hardware) {
-                Hardware.FLIPPER -> "Flipper Zero"
-                Hardware.AWOK -> "AWOK ESP32"
-                Hardware.BOTH -> "Flipper + AWOK"
-                Hardware.PHONE -> "Phone Only"
+            val hardwareLabel = when {
+                workflow.hardware.containsAll(listOf(Hardware.FLIPPER, Hardware.AWOK)) || workflow.hardware.contains(Hardware.BOTH) -> "Flipper + AWOK"
+                workflow.hardware.contains(Hardware.FLIPPER) -> "Flipper Zero"
+                workflow.hardware.contains(Hardware.AWOK) -> "AWOK ESP32"
+                else -> "Phone Only"
             }
             binding.tvHardware.text = hardwareLabel
 
