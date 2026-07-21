@@ -1,0 +1,4 @@
+{"type":"server-started","port":62869,"host":"0.0.0.0","url_host":"localhost","url":"http://localhost:62869","screen_dir":"/data/data/com.termux/files/home/newpen/.superpowers/brainstorm/21654-1784607343/content","state_dir":"/data/data/com.termux/files/home/newpen/.superpowers/brainstorm/21654-1784607343/state"}
+{"type":"screen-added","file":"/data/data/com.termux/files/home/newpen/.superpowers/brainstorm/21654-1784607343/content/basic.html"}
+{"type":"screen-added","file":"/data/data/com.termux/files/home/newpen/.superpowers/brainstorm/21654-1784607343/content/v2.html"}
+{"type":"server-stopped","reason":"idle timeout"}

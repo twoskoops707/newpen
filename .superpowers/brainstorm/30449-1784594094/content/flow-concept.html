@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PenThis! — Flow Concept</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0C0C0E;
+  --surface: #131316;
+  --card: #18181D;
+  --border: #232329;
+  --border2: #2E2E36;
+  --primary: #E8E8F0;
+  --secondary: #8888A4;
+  --muted: #3A3A48;
+  --flip: #A855F7;
+  --flip-bg: rgba(168,85,247,0.1);
+  --awok: #F97316;
+  --awok-bg: rgba(249,115,22,0.1);
+  --both: #34D399;
+  --both-bg: rgba(52,211,153,0.1);
+  --step-active: #F0F0FF;
+  --accent: #6366F1;
+  --accent-dim: rgba(99,102,241,0.15);
+  --warn: #FBBF24;
+  --sans: 'Inter', -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+body {
+  background: #09090C;
+  font-family: var(--sans);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 16px 80px;
+}
+
+.page-title { font-size: 14px; font-weight: 600; color: #6366F1; text-align: center; margin-bottom: 3px; letter-spacing: 0.04em; }
+.page-sub { font-size: 11px; color: #484858; text-align: center; margin-bottom: 24px; }
+
+/* ── Phone shell ── */
+.phone {
+  width: 100%;
+  max-width: 375px;
+  background: var(--bg);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 32px 80px rgba(0,0,0,0.8);
+  margin-bottom: 20px;
+}
+
+/* ── Screen label ── */
+.screen-label {
+  background: var(--accent-dim);
+  border-bottom: 1px solid rgba(99,102,241,0.2);
+  padding: 5px 14px;
+  font-size: 9px;
+  font-weight: 600;
+  color: #6366F1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: var(--mono);
+}
+
+/* ════════════════════════════════
+   SCREEN 1 — MISSION HOME
+════════════════════════════════ */
+.home-header {
+  padding: 18px 16px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.home-appname { font-size: 22px; font-weight: 700; color: var(--primary); letter-spacing: -0.02em; }
+.home-appname span { color: var(--accent); }
+.home-tagline { font-size: 12px; color: var(--secondary); margin-top: 3px; }
+.home-hw { display: flex; gap: 8px; margin-top: 12px; }
+.hw-chip {
+  display: flex; align-items: center; gap: 6px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  font-family: var(--mono);
+  letter-spacing: 0.05em;
+  border: 1px solid;
+}
+.hw-chip .dot { width: 6px; height: 6px; border-radius: 50%; }
+.hw-chip.flip { color: var(--flip); border-color: rgba(168,85,247,0.3); background: var(--flip-bg); }
+.hw-chip.flip .dot { background: var(--flip); box-shadow: 0 0 6px var(--flip); }
+.hw-chip.awok { color: var(--awok); border-color: rgba(249,115,22,0.3); background: var(--awok-bg); }
+.hw-chip.awok .dot { background: var(--awok); box-shadow: 0 0 6px var(--awok); }
+
+.mission-list { padding: 12px 14px 16px; display: flex; flex-direction: column; gap: 6px; }
+.mission-section-label {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 8px 0 4px;
+  font-family: var(--mono);
+}
+.mission-row {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 13px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.mission-row:hover { border-color: var(--border2); }
+.mission-row.featured { border-color: rgba(99,102,241,0.3); background: rgba(99,102,241,0.05); }
+.mission-icon { font-size: 20px; flex-shrink: 0; }
+.mission-info { flex: 1; min-width: 0; }
+.mission-name { font-size: 13px; font-weight: 600; color: var(--primary); }
+.mission-meta { display: flex; align-items: center; gap: 6px; margin-top: 3px; }
+.mission-steps { font-size: 10px; color: var(--secondary); }
+.mission-hw-dot {
+  width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0;
+}
+.mission-arrow { color: var(--muted); font-size: 14px; flex-shrink: 0; }
+
+/* ════════════════════════════════
+   SCREEN 2 — WORKFLOW STEPS
+════════════════════════════════ */
+.wf-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.wf-back { font-size: 18px; color: var(--secondary); cursor: pointer; flex-shrink: 0; }
+.wf-title-block { flex: 1; min-width: 0; }
+.wf-title { font-size: 14px; font-weight: 700; color: var(--primary); }
+.wf-hw-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9px;
+  font-weight: 600;
+  font-family: var(--mono);
+  letter-spacing: 0.06em;
+  padding: 2px 7px;
+  border-radius: 4px;
+  margin-top: 3px;
+}
+.wf-hw-tag.flip { color: var(--flip); background: var(--flip-bg); }
+.wf-hw-tag.awok { color: var(--awok); background: var(--awok-bg); }
+
+/* Progress bar */
+.progress-bar {
+  height: 2px;
+  background: var(--border);
+  position: relative;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  width: 40%;
+  transition: width 0.3s;
+}
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 14px 0;
+  font-size: 9px;
+  color: var(--secondary);
+  font-family: var(--mono);
+}
+
+/* Steps list */
+.steps { padding: 10px 14px 14px; display: flex; flex-direction: column; gap: 4px; }
+
+/* Step states:
+   done: completed
+   active: current
+   next: upcoming
+   locked: far future
+*/
+.step {
+  border-radius: 10px;
+  border: 1px solid transparent;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+
+/* Done step */
+.step.done {
+  background: transparent;
+  border-color: var(--border);
+  opacity: 0.5;
+}
+.step.done .step-inner { padding: 9px 12px; display: flex; align-items: center; gap: 10px; }
+.step.done .step-num { width: 20px; height: 20px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.step.done .step-num svg { width: 11px; height: 11px; }
+.step.done .step-action { font-size: 11px; color: var(--secondary); font-family: var(--mono); text-decoration: line-through; text-decoration-color: var(--muted); }
+
+/* Active step */
+.step.active {
+  background: var(--card);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px rgba(99,102,241,0.2), 0 4px 20px rgba(99,102,241,0.08);
+}
+.step-active-header { padding: 14px 14px 10px; display: flex; align-items: flex-start; gap: 12px; }
+.step-num-active {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: #fff;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.step-content { flex: 1; }
+.step-verb { font-size: 11px; font-weight: 600; color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 4px; }
+.step-action-main { font-size: 16px; font-weight: 600; color: var(--step-active); line-height: 1.3; }
+.step-command {
+  margin: 10px 14px;
+  background: #000;
+  border-radius: 6px;
+  border: 1px solid var(--border2);
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.step-command-prompt { font-size: 11px; color: var(--accent); font-family: var(--mono); flex-shrink: 0; }
+.step-command-text { font-size: 11px; color: #A0A8FF; font-family: var(--mono); flex: 1; word-break: break-all; }
+.step-command-copy { font-size: 14px; color: var(--muted); cursor: pointer; flex-shrink: 0; }
+
+/* Expand hint */
+.expand-hint {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px 12px;
+}
+.hint-key {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--border);
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 10px;
+  font-family: var(--mono);
+  color: var(--secondary);
+  cursor: pointer;
+  border: 1px solid var(--border2);
+}
+.hint-key:hover { background: var(--border2); }
+.hint-sep { color: var(--muted); font-size: 10px; }
+.hint-text { font-size: 10px; color: var(--muted); }
+
+/* Expanded explanation */
+.step-explain {
+  margin: 0 14px 12px;
+  background: rgba(99,102,241,0.06);
+  border: 1px solid rgba(99,102,241,0.15);
+  border-radius: 8px;
+  padding: 12px;
+}
+.explain-label { font-size: 9px; font-weight: 600; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; font-family: var(--mono); }
+.explain-text { font-size: 12px; color: var(--secondary); line-height: 1.6; }
+.explain-text strong { color: var(--primary); font-weight: 500; }
+.explain-flags { margin-top: 8px; display: flex; flex-direction: column; gap: 3px; }
+.flag-row { display: flex; gap: 8px; align-items: baseline; }
+.flag-key { font-family: var(--mono); font-size: 10px; color: #A0A8FF; flex-shrink: 0; }
+.flag-val { font-size: 10px; color: var(--muted); line-height: 1.4; }
+
+/* Next steps (upcoming) */
+.step.next {
+  background: transparent;
+  border-color: var(--border);
+}
+.step.next .step-inner { padding: 11px 12px; display: flex; align-items: center; gap: 10px; }
+.step-num-next {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  border: 1px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 600; color: var(--secondary);
+  font-family: var(--mono);
+  flex-shrink: 0;
+}
+.step-next-action { font-size: 13px; font-weight: 500; color: var(--secondary); line-height: 1.3; flex: 1; }
+.step-next-hint { font-size: 9px; color: var(--muted); font-family: var(--mono); flex-shrink: 0; }
+
+/* Nav footer */
+.wf-footer {
+  padding: 12px 14px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface);
+}
+.wf-btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  font-family: var(--sans);
+  border: none;
+}
+.wf-btn.secondary { background: var(--card); color: var(--secondary); border: 1px solid var(--border); }
+.wf-btn.primary { background: var(--accent); color: #fff; }
+
+/* ── Spacer between screens ── */
+.screen-gap { height: 24px; background: #09090C; border-left: 1px solid var(--border); border-right: 1px solid var(--border); max-width: 375px; width: 100%; position: relative; }
+.screen-gap::before { content: '↕  scroll down for workflow view'; font-size: 9px; color: #2a2a38; font-family: var(--mono); position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<p class="page-title">// READABILITY + FLOW</p>
+<p class="page-sub">mission list → step-by-step → expand on demand</p>
+
+<!-- ════ SCREEN 1: MISSION HOME ════ -->
+<div class="phone">
+  <div class="screen-label">SCREEN 1 — Mission Home</div>
+
+  <div class="home-header">
+    <div class="home-appname">Pen<span>This!</span></div>
+    <div class="home-tagline">Choose a mission. Follow the steps.</div>
+    <div class="home-hw">
+      <div class="hw-chip flip"><div class="dot"></div>FLIPPER · ready</div>
+      <div class="hw-chip awok"><div class="dot"></div>AWOK · USB</div>
+    </div>
+  </div>
+
+  <div class="mission-list">
+    <div class="mission-section-label">// wireless</div>
+
+    <div class="mission-row featured">
+      <div class="mission-icon">📡</div>
+      <div class="mission-info">
+        <div class="mission-name">Sub-GHz Replay Attack</div>
+        <div class="mission-meta">
+          <span class="mission-steps">6 steps</span>
+          <div class="mission-hw-dot" style="background:#A855F7;box-shadow:0 0 4px #A855F7"></div>
+          <span style="font-size:9px;color:#8855BB;font-family:var(--mono)">FLIPPER</span>
+        </div>
+      </div>
+      <div class="mission-arrow">›</div>
+    </div>
+
+    <div class="mission-row">
+      <div class="mission-icon">📶</div>
+      <div class="mission-info">
+        <div class="mission-name">WiFi Deauth + PMKID</div>
+        <div class="mission-meta">
+          <span class="mission-steps">5 steps</span>
+          <div class="mission-hw-dot" style="background:#F97316;box-shadow:0 0 4px #F97316"></div>
+          <span style="font-size:9px;color:#AA5510;font-family:var(--mono)">AWOK</span>
+        </div>
+      </div>
+      <div class="mission-arrow">›</div>
+    </div>
+
+    <div class="mission-row">
+      <div class="mission-icon">🔵</div>
+      <div class="mission-info">
+        <div class="mission-name">BLE Spam + Scan</div>
+        <div class="mission-meta">
+          <span class="mission-steps">4 steps</span>
+          <div class="mission-hw-dot" style="background:#34D399;box-shadow:0 0 4px #34D399"></div>
+          <span style="font-size:9px;color:#1A8A5A;font-family:var(--mono)">BOTH</span>
+        </div>
+      </div>
+      <div class="mission-arrow">›</div>
+    </div>
+
+    <div class="mission-section-label">// physical access</div>
+
+    <div class="mission-row">
+      <div class="mission-icon">💳</div>
+      <div class="mission-info">
+        <div class="mission-name">RFID Clone + Emulate</div>
+        <div class="mission-meta">
+          <span class="mission-steps">5 steps</span>
+          <div class="mission-hw-dot" style="background:#A855F7;box-shadow:0 0 4px #A855F7"></div>
+          <span style="font-size:9px;color:#8855BB;font-family:var(--mono)">FLIPPER</span>
+        </div>
+      </div>
+      <div class="mission-arrow">›</div>
+    </div>
+
+    <div class="mission-row">
+      <div class="mission-icon">⌨️</div>
+      <div class="mission-info">
+        <div class="mission-name">Bad USB Payload</div>
+        <div class="mission-meta">
+          <span class="mission-steps">4 steps</span>
+          <div class="mission-hw-dot" style="background:#A855F7;box-shadow:0 0 4px #A855F7"></div>
+          <span style="font-size:9px;color:#8855BB;font-family:var(--mono)">FLIPPER</span>
+        </div>
+      </div>
+      <div class="mission-arrow">›</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- gap -->
+<div class="screen-gap"></div>
+
+<!-- ════ SCREEN 2: WORKFLOW STEPS ════ -->
+<div class="phone">
+  <div class="screen-label">SCREEN 2 — Active Workflow (step 2 of 5, explanation expanded)</div>
+
+  <div class="wf-header">
+    <div class="wf-back">←</div>
+    <div class="wf-title-block">
+      <div class="wf-title">Sub-GHz Replay Attack</div>
+      <div class="wf-hw-tag flip">● FLIPPER ZERO</div>
+    </div>
+  </div>
+
+  <div class="progress-bar"><div class="progress-fill"></div></div>
+  <div class="progress-label">
+    <span>Step 2 of 5</span>
+    <span style="color:#6366F1">40%</span>
+  </div>
+
+  <div class="steps">
+
+    <!-- Step 1: DONE -->
+    <div class="step done">
+      <div class="step-inner">
+        <div class="step-num">
+          <svg viewBox="0 0 12 12" fill="none">
+            <path d="M2.5 6l2.5 2.5 4.5-5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <span class="step-action" style="font-family:var(--mono);font-size:11px">Open Sub-GHz app on Flipper</span>
+      </div>
+    </div>
+
+    <!-- Step 2: ACTIVE + EXPANDED -->
+    <div class="step active">
+      <div class="step-active-header">
+        <div class="step-num-active">2</div>
+        <div class="step-content">
+          <div class="step-verb">Run</div>
+          <div class="step-action-main">Scan for Sub-GHz signals</div>
+        </div>
+      </div>
+
+      <div class="step-command">
+        <span class="step-command-prompt">›</span>
+        <span class="step-command-text">subghz rx 433920000</span>
+        <span class="step-command-copy">⎘</span>
+      </div>
+
+      <!-- Expanded explanation (shown after pressing ?) -->
+      <div class="step-explain">
+        <div class="explain-label">? explanation</div>
+        <div class="explain-text">
+          This scans <strong>433.92 MHz</strong> — the most common frequency for garage doors, car fobs, and remote switches. Hold Flipper near the target and press the remote button to capture.
+        </div>
+        <div class="explain-flags">
+          <div class="flag-row">
+            <span class="flag-key">433920000</span>
+            <span class="flag-val">frequency in Hz (433.92 MHz)</span>
+          </div>
+          <div class="flag-row">
+            <span class="flag-key">subghz rx</span>
+            <span class="flag-val">receive / capture mode</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="expand-hint">
+        <span class="hint-key">?</span>
+        <span class="hint-sep">·</span>
+        <span class="hint-key">i</span>
+        <span class="hint-sep">·</span>
+        <span class="hint-key">*</span>
+        <span class="hint-sep">·</span>
+        <span class="hint-text" style="color:var(--muted);font-size:9px">tap to toggle explain / flags / tips</span>
+      </div>
+    </div>
+
+    <!-- Step 3: NEXT -->
+    <div class="step next">
+      <div class="step-inner">
+        <div class="step-num-next">3</div>
+        <div class="step-next-action">Replay captured signal</div>
+        <span class="step-next-hint">up next</span>
+      </div>
+    </div>
+
+    <!-- Step 4: NEXT -->
+    <div class="step next" style="opacity:0.6">
+      <div class="step-inner">
+        <div class="step-num-next">4</div>
+        <div class="step-next-action">Verify signal was received by target</div>
+      </div>
+    </div>
+
+    <!-- Step 5: NEXT -->
+    <div class="step next" style="opacity:0.35">
+      <div class="step-inner">
+        <div class="step-num-next">5</div>
+        <div class="step-next-action">Save signal to SD card</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="wf-footer">
+    <button class="wf-btn secondary">← Back</button>
+    <button class="wf-btn primary">Done → Next</button>
+  </div>
+
+</div>
+
+</body>
+</html>

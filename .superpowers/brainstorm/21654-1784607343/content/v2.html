@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PenThis! v2</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #000;
+  --surface: #0a0a0a;
+  --border: #1e1e1e;
+  --border2: #2a2a2a;
+  --green: #22c55e;
+  --green-dim: #14532d;
+  --green-faint: #0a1a0e;
+  --text: #e2e8f0;
+  --dim: #555;
+  --muted: #2a2a2a;
+  --flip: #a855f7;
+  --awok: #f97316;
+  --warn: #f59e0b;
+  --mono: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+body {
+  background: #0d0d0d;
+  font-family: var(--mono);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 16px 80px;
+  gap: 20px;
+}
+
+.screen-label {
+  font-size: 9px;
+  color: #333;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: -12px;
+}
+
+.phone {
+  width: 100%;
+  max-width: 360px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* ── TOP BAR ── */
+.topbar {
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.brand {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--green);
+  letter-spacing: 0.06em;
+}
+.brand .slash { color: var(--dim); font-weight: 400; margin: 0 2px; }
+.hw-status { display: flex; gap: 10px; align-items: center; }
+.hw-item { font-size: 9px; color: var(--dim); display: flex; align-items: center; gap: 5px; }
+.hw-item.on { color: var(--green); }
+.hw-item.on2 { color: var(--awok); }
+.led { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+.hw-item.on .led { box-shadow: 0 0 5px var(--green); }
+.hw-item.on2 .led { box-shadow: 0 0 5px var(--awok); }
+
+/* ── MISSION LIST ── */
+.cat-header {
+  padding: 10px 14px 4px;
+  font-size: 9px;
+  color: var(--dim);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-top: 1px solid var(--border);
+}
+.cat-header:first-of-type { border-top: none; }
+
+.mission {
+  display: flex;
+  align-items: center;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  gap: 12px;
+}
+.mission:hover { background: var(--surface); }
+.mission:last-child { border-bottom: none; }
+
+.m-tag {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 2px 6px;
+  border: 1px solid;
+  border-radius: 2px;
+  flex-shrink: 0;
+  width: 36px;
+  text-align: center;
+}
+.m-tag.f { color: var(--flip); border-color: #3b0764; }
+.m-tag.a { color: var(--awok); border-color: #431407; }
+.m-tag.b { color: var(--green); border-color: var(--green-dim); }
+
+.m-info { flex: 1; }
+.m-name { font-size: 12px; font-weight: 600; color: var(--text); line-height: 1.3; }
+.m-steps { font-size: 9px; color: var(--dim); margin-top: 2px; }
+.m-arrow { font-size: 12px; color: var(--muted); }
+
+/* ── STEP SCREEN ── */
+.step-nav {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.back-btn { font-size: 11px; color: var(--green); cursor: pointer; }
+.step-nav-title { font-size: 10px; color: var(--dim); flex: 1; }
+.step-nav-count { font-size: 10px; color: var(--green); }
+
+.progress { height: 1px; background: var(--border); }
+.progress-fill { height: 100%; background: var(--green); width: 40%; }
+
+/* Step body */
+.step-body { padding: 18px 14px 14px; }
+
+/* terminal header line */
+.term-line {
+  font-size: 9px;
+  color: var(--dim);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.term-line .g { color: var(--green); }
+.term-line .cursor {
+  display: inline-block;
+  width: 6px; height: 10px;
+  background: var(--green);
+  animation: blink 1s step-end infinite;
+  vertical-align: bottom;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+.step-num { font-size: 9px; color: var(--green); letter-spacing: 0.1em; margin-bottom: 6px; }
+.step-heading { font-size: 18px; font-weight: 700; color: #fff; line-height: 1.3; margin-bottom: 12px; letter-spacing: -0.01em; }
+.step-desc { font-size: 13px; color: #888; line-height: 1.75; font-family: -apple-system, sans-serif; }
+.step-desc strong { color: #ccc; font-weight: 500; }
+
+/* command */
+.cmd { margin: 14px 0; border-left: 2px solid var(--green); padding: 10px 12px; background: var(--surface); }
+.cmd-label { font-size: 8px; color: var(--dim); letter-spacing: 0.1em; margin-bottom: 5px; }
+.cmd-value { font-size: 12px; color: var(--green); }
+.cmd-copy { font-size: 9px; color: var(--dim); margin-top: 4px; cursor: pointer; }
+
+/* warning */
+.warn {
+  margin: 12px 0;
+  border-left: 2px solid var(--warn);
+  padding: 9px 12px;
+  background: #120f00;
+}
+.warn-text { font-size: 11px; color: var(--warn); line-height: 1.5; font-family: -apple-system, sans-serif; }
+
+/* expand keys */
+.keys { display: flex; gap: 6px; margin-top: 14px; align-items: center; }
+.key {
+  font-size: 10px;
+  color: var(--green);
+  border: 1px solid var(--green-dim);
+  background: var(--green-faint);
+  padding: 3px 8px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.key-hint { font-size: 9px; color: var(--dim); margin-left: 4px; }
+
+/* expanded tips */
+.tips { margin-top: 10px; border-left: 2px solid var(--dim); padding: 8px 12px; background: var(--surface); }
+.tip { font-size: 11px; color: var(--dim); line-height: 1.7; font-family: -apple-system, sans-serif; }
+.tip + .tip { margin-top: 4px; }
+
+/* footer */
+.step-footer {
+  padding: 12px 14px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+}
+.btn { flex: 1; padding: 12px; font-size: 12px; font-weight: 700; text-align: center; border: none; cursor: pointer; letter-spacing: 0.04em; font-family: var(--mono); border-radius: 2px; }
+.btn-sec { background: var(--surface); color: var(--dim); border: 1px solid var(--border2); }
+.btn-pri { background: var(--green); color: #000; }
+</style>
+</head>
+<body>
+
+<div class="screen-label">Screen 1 — Mission List</div>
+<div class="phone">
+  <div class="topbar">
+    <div class="brand">PEN<span class="slash">/</span>THIS</div>
+    <div class="hw-status">
+      <div class="hw-item on"><div class="led"></div>FLIP</div>
+      <div class="hw-item on2"><div class="led"></div>AWOK</div>
+    </div>
+  </div>
+
+  <div class="cat-header">// setup</div>
+  <div class="mission">
+    <div class="m-tag f">FLIP</div>
+    <div class="m-info">
+      <div class="m-name">Install Momentum Firmware</div>
+      <div class="m-steps">6 steps</div>
+    </div>
+    <div class="m-arrow">›</div>
+  </div>
+  <div class="mission">
+    <div class="m-tag b">BOTH</div>
+    <div class="m-info">
+      <div class="m-name">Connect AWOK to Flipper</div>
+      <div class="m-steps">4 steps</div>
+    </div>
+    <div class="m-arrow">›</div>
+  </div>
+
+  <div class="cat-header">// wifi</div>
+  <div class="mission">
+    <div class="m-tag a">AWOK</div>
+    <div class="m-info">
+      <div class="m-name">Scan All Nearby Networks</div>
+      <div class="m-steps">5 steps</div>
+    </div>
+    <div class="m-arrow">›</div>
+  </div>
+  <div class="mission">
+    <div class="m-tag a">AWOK</div>
+    <div class="m-info">
+      <div class="m-name">WiFi Deauth Attack</div>
+      <div class="m-steps">4 steps</div>
+    </div>
+    <div class="m-arrow">›</div>
+  </div>
+
+  <div class="cat-header">// physical</div>
+  <div class="mission">
+    <div class="m-tag f">FLIP</div>
+    <div class="m-info">
+      <div class="m-name">RFID Clone + Emulate</div>
+      <div class="m-steps">5 steps</div>
+    </div>
+    <div class="m-arrow">›</div>
+  </div>
+  <div class="mission">
+    <div class="m-tag f">FLIP</div>
+    <div class="m-info">
+      <div class="m-name">Bad USB Payload</div>
+      <div class="m-steps">4 steps</div>
+    </div>
+    <div class="m-arrow">›</div>
+  </div>
+</div>
+
+<div class="screen-label">Screen 2 — Active Step</div>
+<div class="phone">
+  <div class="step-nav">
+    <div class="back-btn">← back</div>
+    <div class="step-nav-title">Scan All Nearby Networks</div>
+    <div class="step-nav-count">2 / 5</div>
+  </div>
+  <div class="progress"><div class="progress-fill"></div></div>
+
+  <div class="step-body">
+    <div class="term-line">
+      <span class="g">penthis</span><span style="color:#333">@note10</span>
+      <span style="color:#333">$</span>
+      <span class="g">scanap</span>
+      <span class="cursor"></span>
+    </div>
+
+    <div class="step-num">// STEP 2</div>
+    <div class="step-heading">Start the WiFi Scan</div>
+    <div class="step-desc">
+      Type <strong>scanap</strong> and press send. Wait about <strong>15 seconds</strong>. All nearby WiFi networks will appear on screen.
+    </div>
+
+    <div class="cmd">
+      <div class="cmd-label">MARAUDER COMMAND</div>
+      <div class="cmd-value">scanap</div>
+      <div class="cmd-copy">[ tap to copy ]</div>
+    </div>
+
+    <div class="warn">
+      <div class="warn-text">Only scan networks you own or have written permission to test.</div>
+    </div>
+
+    <div class="keys">
+      <div class="key">?</div>
+      <div class="key">i</div>
+      <div class="key">*</div>
+      <div class="key-hint">tap to expand</div>
+    </div>
+
+    <div class="tips">
+      <div class="tip">Each line = network name · MAC address · channel · signal · security type</div>
+      <div class="tip">Wait the full 15 seconds — more networks appear over time</div>
+    </div>
+  </div>
+
+  <div class="step-footer">
+    <button class="btn btn-sec">← prev</button>
+    <button class="btn btn-pri">done → next</button>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="penAccentDark" format="color" />
+    <attr name="penAccentFaint" format="color" />
+    <attr name="penBackground" format="color" />
+    <attr name="penSurface" format="color" />
+</resources>

@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:text="BOTH"
-            android:textColor="@color/colorPrimary"
+            android:textColor="?attr/colorPrimary"
             android:textSize="9sp"
             android:fontFamily="monospace"
             android:textStyle="bold"

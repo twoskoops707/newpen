@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ThemeManager.apply(this)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -43,7 +44,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.cheatSheetFragment,
                 R.id.setupFragment,
                 R.id.resourcesFragment,
-                R.id.connectFragment
+                R.id.connectFragment,
+                R.id.settingsFragment
             ),
             drawerLayout
         )
@@ -58,6 +60,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.setupFragment -> navController.navigate(R.id.setupFragment)
                 R.id.resourcesFragment -> navController.navigate(R.id.resourcesFragment)
                 R.id.connectFragment -> navController.navigate(R.id.connectFragment)
+                R.id.settingsFragment -> navController.navigate(R.id.settingsFragment)
             }
             drawerLayout.closeDrawer(GravityCompat.START)
             true

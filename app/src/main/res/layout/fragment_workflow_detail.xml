@@ -20,7 +20,7 @@
             android:id="@+id/tvStepCounter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimary"
+            android:textColor="?attr/colorPrimary"
             android:textSize="10sp"
             android:fontFamily="monospace"
             android:letterSpacing="0.1"
@@ -47,7 +47,7 @@
         android:layout_height="2dp"
         android:max="100"
         android:progress="0"
-        android:progressTint="@color/colorPrimary"
+        android:progressTint="?attr/colorPrimary"
         android:progressBackgroundTint="@color/colorStroke"
         android:indeterminate="false" />
 
@@ -68,7 +68,7 @@
             android:paddingTop="12dp"
             android:paddingBottom="12dp"
             android:text="// prerequisites"
-            android:textColor="@color/colorPrimary"
+            android:textColor="?attr/colorPrimary"
             android:textSize="11sp"
             android:fontFamily="monospace"
             android:textStyle="bold"

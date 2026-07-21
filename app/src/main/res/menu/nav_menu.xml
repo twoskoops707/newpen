@@ -28,6 +28,11 @@
             android:icon="@drawable/ic_connect"
             android:title="@string/nav_connect" />
 
+        <item
+            android:id="@+id/settingsFragment"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/nav_settings" />
+
     </group>
 
 </menu>

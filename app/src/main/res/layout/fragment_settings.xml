@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="20dp"
+        android:paddingBottom="32dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/lbl_appearance"
+            android:textColor="@color/colorTextMuted"
+            android:textSize="10sp"
+            android:fontFamily="monospace"
+            android:letterSpacing="0.1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/lbl_choose_theme"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="monospace" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/colorStroke" />
+
+        <LinearLayout
+            android:id="@+id/rowTerminal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:paddingEnd="16dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <View
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="14dp"
+                android:background="#22C55E" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="14dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TERMINAL"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:fontFamily="monospace" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/theme_terminal_desc"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textSize="11sp"
+                    android:fontFamily="monospace" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/indTerminal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="›"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="10sp"
+                android:fontFamily="monospace" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorStroke" />
+
+        <LinearLayout
+            android:id="@+id/rowPhosphor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:paddingEnd="16dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <View
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="14dp"
+                android:background="#F97316" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="14dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PHOSPHOR"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:fontFamily="monospace" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/theme_phosphor_desc"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textSize="11sp"
+                    android:fontFamily="monospace" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/indPhosphor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="›"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="10sp"
+                android:fontFamily="monospace" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorStroke" />
+
+        <LinearLayout
+            android:id="@+id/rowArctic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:paddingEnd="16dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <View
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="14dp"
+                android:background="#06B6D4" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="14dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ARCTIC"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:fontFamily="monospace" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/theme_arctic_desc"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textSize="11sp"
+                    android:fontFamily="monospace" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/indArctic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="›"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="10sp"
+                android:fontFamily="monospace" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorStroke" />
+
+        <LinearLayout
+            android:id="@+id/rowMidnight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:paddingEnd="16dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <View
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="14dp"
+                android:background="#A855F7" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="14dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MIDNIGHT"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:fontFamily="monospace" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/theme_midnight_desc"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textSize="11sp"
+                    android:fontFamily="monospace" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/indMidnight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="›"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="10sp"
+                android:fontFamily="monospace" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorStroke" />
+
+        <LinearLayout
+            android:id="@+id/rowSolar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:paddingEnd="16dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <View
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="14dp"
+                android:background="#FBBF24" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="14dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SOLAR"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:fontFamily="monospace" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/theme_solar_desc"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textSize="11sp"
+                    android:fontFamily="monospace" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/indSolar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="›"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="10sp"
+                android:fontFamily="monospace" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorStroke" />
+
+        <LinearLayout
+            android:id="@+id/rowGhost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:paddingEnd="16dp"
+            android:clickable="true"
+            android:focusable="true">
+
+            <View
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="14dp"
+                android:background="#CBD5E1" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="14dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="GHOST"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:fontFamily="monospace" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/theme_ghost_desc"
+                    android:textColor="@color/colorTextSecondary"
+                    android:textSize="11sp"
+                    android:fontFamily="monospace" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/indGhost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="›"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="10sp"
+                android:fontFamily="monospace" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorStroke" />
+
+    </LinearLayout>
+
+</ScrollView>

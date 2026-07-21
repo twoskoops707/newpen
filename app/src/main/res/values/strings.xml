@@ -65,4 +65,13 @@
     <string name="btn_copy_open_termux">COPY + OPEN TERMUX</string>
     <string name="toast_run_termux">Command copied! Open Termux and paste (long-press → Paste)</string>
     <string name="lbl_termux_commands">TERMUX COMMANDS:</string>
+    <string name="nav_settings">Settings</string>
+    <string name="lbl_appearance">// appearance</string>
+    <string name="lbl_choose_theme">Choose a theme</string>
+    <string name="theme_terminal_desc">classic green on black</string>
+    <string name="theme_phosphor_desc">amber warm glow</string>
+    <string name="theme_arctic_desc">cyan — sharp outdoors</string>
+    <string name="theme_midnight_desc">purple for night use</string>
+    <string name="theme_solar_desc">yellow — max sun visibility</string>
+    <string name="theme_ghost_desc">near-white high contrast</string>
 </resources>

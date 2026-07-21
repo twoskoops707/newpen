@@ -39,7 +39,7 @@
                     android:layout_weight="1"
                     android:background="@color/colorBackground"
                     app:navigationIcon="@drawable/ic_menu"
-                    app:navigationIconTint="@color/colorPrimary"
+                    app:navigationIconTint="?attr/colorPrimary"
                     app:contentInsetStartWithNavigation="0dp"
                     app:title="" />
 
@@ -54,7 +54,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="PEN"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="?attr/colorPrimary"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:fontFamily="monospace"
