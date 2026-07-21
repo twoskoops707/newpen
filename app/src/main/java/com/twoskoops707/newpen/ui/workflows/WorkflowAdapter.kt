@@ -17,12 +17,34 @@ class WorkflowAdapter(
 
         fun bind(workflow: Workflow) {
             binding.tvTitle.text = workflow.title
-            binding.tvSubtitle.text = workflow.subtitle
+            binding.tvSubtitle.text = "${workflow.steps.size} steps"
 
-            val hasFlipper = workflow.hardware.contains(Hardware.FLIPPER) || workflow.hardware.contains(Hardware.BOTH)
-            val hasAWOK = workflow.hardware.contains(Hardware.AWOK) || workflow.hardware.contains(Hardware.BOTH)
-            binding.tvBadgeFlipper.visibility = if (hasFlipper) android.view.View.VISIBLE else android.view.View.GONE
-            binding.tvBadgeAWOK.visibility = if (hasAWOK) android.view.View.VISIBLE else android.view.View.GONE
+            val hasFlipper = workflow.hardware.contains(Hardware.FLIPPER)
+            val hasAWOK = workflow.hardware.contains(Hardware.AWOK)
+            val hasBoth = workflow.hardware.contains(Hardware.BOTH) || (hasFlipper && hasAWOK)
+
+            when {
+                hasBoth -> {
+                    binding.tvBadgeBoth.visibility = android.view.View.VISIBLE
+                    binding.tvBadgeFlipper.visibility = android.view.View.GONE
+                    binding.tvBadgeAWOK.visibility = android.view.View.GONE
+                }
+                hasFlipper -> {
+                    binding.tvBadgeFlipper.visibility = android.view.View.VISIBLE
+                    binding.tvBadgeAWOK.visibility = android.view.View.GONE
+                    binding.tvBadgeBoth.visibility = android.view.View.GONE
+                }
+                hasAWOK -> {
+                    binding.tvBadgeAWOK.visibility = android.view.View.VISIBLE
+                    binding.tvBadgeFlipper.visibility = android.view.View.GONE
+                    binding.tvBadgeBoth.visibility = android.view.View.GONE
+                }
+                else -> {
+                    binding.tvBadgeFlipper.visibility = android.view.View.GONE
+                    binding.tvBadgeAWOK.visibility = android.view.View.GONE
+                    binding.tvBadgeBoth.visibility = android.view.View.GONE
+                }
+            }
 
             binding.root.setOnClickListener { onClick(workflow) }
         }

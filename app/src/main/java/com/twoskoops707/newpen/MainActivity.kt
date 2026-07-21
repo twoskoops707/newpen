@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
-        supportActionBar?.title = "FlipperGuide"
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         drawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navigationView

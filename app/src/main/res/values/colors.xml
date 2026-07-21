@@ -1,42 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorBackground">#09090B</color>
-    <color name="colorSurface">#18181B</color>
-    <color name="colorCard">#27272A</color>
-    <color name="colorStroke">#3F3F46</color>
-    <color name="colorDivider">#3F3F46</color>
+    <color name="colorBackground">#000000</color>
+    <color name="colorSurface">#0C0C0C</color>
+    <color name="colorCard">#111111</color>
+    <color name="colorStroke">#1E1E1E</color>
+    <color name="colorDivider">#1E1E1E</color>
+    <color name="colorTerminal">#000000</color>
+
     <color name="colorPrimary">#22C55E</color>
-    <color name="colorPrimaryDark">#16A34A</color>
-    <color name="colorAccent">#06B6D4</color>
-    <color name="colorCyan">#06B6D4</color>
-    <color name="colorSecondary">#06B6D4</color>
-    <color name="colorTextPrimary">#FAFAFA</color>
-    <color name="colorTextSecondary">#A1A1AA</color>
-    <color name="colorWarning">#F97316</color>
-    <color name="colorError">#EF4444</color>
-    <color name="colorTerminal">#0C0C0E</color>
+    <color name="colorPrimaryDark">#14532D</color>
+    <color name="colorPrimaryFaint">#0A1A0E</color>
+    <color name="colorAccent">#22C55E</color>
+    <color name="colorSecondary">#22C55E</color>
+    <color name="colorCyan">#22C55E</color>
+
+    <color name="colorTextPrimary">#E2E8F0</color>
+    <color name="colorTextSecondary">#6B7280</color>
+    <color name="colorTextMuted">#374151</color>
+
     <color name="colorHardwareFlipper">#A855F7</color>
     <color name="colorHardwareAWOK">#F97316</color>
     <color name="colorHardwareBoth">#22C55E</color>
-    <color name="colorBadgeFlipperBg">#3B0764</color>
-    <color name="colorBadgeAWOKBg">#431407</color>
-    <color name="colorBadgeBothBg">#052E16</color>
-    <color name="colorNavBackground">#09090B</color>
-    <color name="colorToolbar">#09090B</color>
-    <color name="colorStatusBar">#09090B</color>
-    <color name="colorNavigationBar">#09090B</color>
-    <color name="colorOnPrimary">#FFFFFF</color>
-    <color name="colorOnSurface">#FAFAFA</color>
-    <color name="colorOnBackground">#FAFAFA</color>
+    <color name="colorBadgeFlipperBg">#1A0D2E</color>
+    <color name="colorBadgeAWOKBg">#1F0D03</color>
+    <color name="colorBadgeBothBg">#0A1A0E</color>
+
+    <color name="colorWarning">#F59E0B</color>
+    <color name="colorWarningBg">#1A1000</color>
+    <color name="colorError">#EF4444</color>
+
+    <color name="colorNavBackground">#000000</color>
+    <color name="colorToolbar">#000000</color>
+    <color name="colorStatusBar">#000000</color>
+    <color name="colorNavigationBar">#000000</color>
+    <color name="colorStrokeAlpha">#331E1E1E</color>
+
     <color name="colorGreen">#22C55E</color>
     <color name="colorOrange">#F97316</color>
     <color name="colorPurple">#A855F7</color>
     <color name="colorRed">#EF4444</color>
-    <color name="colorYellowGreen">#84CC16</color>
-    <color name="colorStrokeAlpha">#3322C55E</color>
-    <color name="colorSurfaceVariant">#1C1C1F</color>
-    <color name="colorPrimaryContainer">#052E16</color>
+    <color name="colorYellowGreen">#F59E0B</color>
+
+    <color name="colorOnPrimary">#000000</color>
+    <color name="colorOnSurface">#E2E8F0</color>
+    <color name="colorOnBackground">#E2E8F0</color>
+    <color name="colorSurfaceVariant">#0C0C0C</color>
+    <color name="colorPrimaryContainer">#0A1A0E</color>
     <color name="colorOnPrimaryContainer">#22C55E</color>
-    <color name="colorSecondaryContainer">#0C4A6E</color>
-    <color name="colorOnSecondaryContainer">#06B6D4</color>
+    <color name="colorSecondaryContainer">#0A1A0E</color>
+    <color name="colorOnSecondaryContainer">#22C55E</color>
 </resources>
