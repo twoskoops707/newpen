@@ -2,6 +2,11 @@ package com.twoskoops707.newpen.data.models
 
 enum class Hardware { FLIPPER, AWOK, BOTH, PHONE }
 enum class Device { FLIPPER_CLI, MARAUDER, TERMUX, ANDROID, PC }
+enum class WifiBoard(val id: String, val displayName: String, val shortName: String, val desc: String) {
+    AWOK_DUAL_MINI_V3("awok", "AWOK DUAL MINI V3", "AWOK", "standalone screen + Flipper GPIO"),
+    FLIPPER_WIFI_DEV_BOARD("devboard", "FLIPPER WIFI DEV BOARD", "DEV BOARD", "ESP32-S2, controlled via Flipper app"),
+    NONE("none", "FLIPPER ONLY", "NONE", "no WiFi/BLE module attached")
+}
 
 data class Command(
     val label: String,
