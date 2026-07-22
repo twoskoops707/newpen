@@ -293,92 +293,152 @@ object WorkflowRepository {
 
         Workflow(
             id = "wifi_pmkid",
-            title = "Capture PMKID Hash",
-            subtitle = "Grab WPA2 handshake material without waiting for a client",
+            title = "Capture PMKID → Crack on Phone",
+            subtitle = "Full pipeline: capture WPA2 hash with AWOK, crack with Termux — no PC needed",
             categoryId = "wifi",
-            hardware = listOf(Hardware.AWOK),
-            prerequisites = listOf("AWOK Dual Mini v3 with Marauder", "MicroSD card in AWOK"),
+            hardware = listOf(Hardware.AWOK, Hardware.PHONE),
+            prerequisites = listOf("AWOK Dual Mini v3 with Marauder", "MicroSD card in AWOK", "Termux installed from F-Droid", "USB OTG card reader (to read SD on Note 10+)"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
-                    title = "What Is a PMKID?",
-                    description = "PMKID is a value in WPA2 that can be grabbed directly from an access point without waiting for a client to connect. Once captured, it can be cracked offline to reveal the WiFi password.",
-                    tips = listOf("Requires a WPA2 network — doesn't work on WPA3 or Open networks", "Cracking is done on a PC later — the AWOK just captures")
+                    title = "One-Time Setup: Install Cracking Tools in Termux",
+                    description = "Do this once before your first capture. Open Termux and run these commands one at a time. Fish shell uses the same commands — just type them exactly.",
+                    commands = listOf(
+                        Command("Update packages", "pkg update -y && pkg upgrade -y", Device.TERMUX),
+                        Command("Install tools", "pkg install -y hashcat hcxtools", Device.TERMUX),
+                        Command("Get wordlist", "curl -L -o ~/rockyou.txt https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt", Device.TERMUX)
+                    ),
+                    tips = listOf("rockyou.txt download is ~130MB — use WiFi", "Only need to do this step once ever")
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Insert MicroSD",
-                    description = "Insert a MicroSD card into the AWOK's slot. Captures are saved as .pcap files that you transfer to a PC for cracking.",
-                    tips = listOf("Any size SD card works — capture files are small (a few KB)")
+                    title = "Insert MicroSD and Scan for Targets",
+                    description = "Make sure a MicroSD card is in your AWOK. On the AWOK screen, navigate to WiFi → Scan APs. Wait 10 seconds for the list to fill in. You'll see all nearby WiFi networks.",
+                    commands = listOf(Command("Scan", "WiFi → Scan APs", Device.MARAUDER)),
+                    tips = listOf("Pick WPA2 networks — they show WPA2 or WPA2-PSK next to the name", "Stronger signal = more reliable capture")
                 ),
                 WorkflowStep(
                     stepNumber = 3,
-                    title = "Select Target AP",
-                    description = "Scan for APs first (WiFi → Scan APs). Then List APs, select your target network.",
-                    commands = listOf(Command("Navigate", "WiFi → Scan APs → List APs → [select]", Device.MARAUDER))
+                    title = "Select Target and Capture PMKID",
+                    description = "From the AP list, press OK on your target network to select it. Then navigate to Sniff → Sniff PMKID. AWOK sends a special probe to the router and captures the PMKID response. Watch the screen — when it says 'PMKID found' or shows a file being saved, you have it.",
+                    commands = listOf(
+                        Command("Select target", "WiFi → List APs → [press OK on target]", Device.MARAUDER),
+                        Command("Capture", "Sniff → Sniff PMKID", Device.MARAUDER)
+                    ),
+                    tips = listOf("Takes 5-30 seconds", "If nothing happens after 30 sec, that AP doesn't support PMKID — try Handshake capture instead", "File saves automatically to SD as pmkid_[timestamp].pcap")
                 ),
                 WorkflowStep(
                     stepNumber = 4,
-                    title = "Start PMKID Capture",
-                    description = "Navigate to Sniff → Sniff PMKID. The AWOK probes the AP and waits for the PMKID response. When captured, you'll see confirmation on screen and the file saves to SD.",
-                    commands = listOf(Command("Capture", "Sniff → Sniff PMKID", Device.MARAUDER)),
-                    tips = listOf("Takes 5-30 seconds per AP", "Some APs won't respond — move on to the next")
+                    title = "Stop Capture and Get the File Off the SD Card",
+                    description = "Press back to stop. Power off or unplug AWOK. Remove the MicroSD card. Plug it into your USB OTG card reader, then plug that into your Note 10+ USB-C port. Your phone will ask what to do — tap 'Files' or open the Files app and find your SD card. Copy the .pcap file to your phone's Downloads folder.",
+                    tips = listOf("File is in the root of the SD card or in a 'captures' folder", "If your phone doesn't see the SD: open Settings → Storage → SD card reader")
                 ),
                 WorkflowStep(
                     stepNumber = 5,
-                    title = "Transfer and Crack",
-                    description = "Remove the SD card. On a PC, use hcxtools to convert the .pcap to hashcat format:\nhcxpcapngtool -o hash.hc22000 capture.pcap\nThen crack with hashcat:\nhashcat -m 22000 hash.hc22000 wordlist.txt",
+                    title = "Convert the Capture File in Termux",
+                    description = "Open Termux. Navigate to your Downloads folder and convert the .pcap to hashcat format. Replace 'capture.pcap' with your actual filename.",
                     commands = listOf(
-                        Command("Convert", "hcxpcapngtool -o hash.hc22000 capture.pcap", Device.PC),
-                        Command("Crack", "hashcat -m 22000 hash.hc22000 wordlist.txt", Device.PC)
+                        Command("Go to Downloads", "cd /sdcard/Download", Device.TERMUX),
+                        Command("List files", "ls *.pcap", Device.TERMUX),
+                        Command("Convert", "hcxpcapngtool -o hash.hc22000 capture.pcap", Device.TERMUX),
+                        Command("Check output", "ls -la hash.hc22000", Device.TERMUX)
                     ),
-                    tips = listOf("rockyou.txt is a common wordlist", "GPU cracking is much faster than CPU")
+                    tips = listOf("If hc22000 file is 0 bytes: the pcap had no PMKID data — try a different capture", "Fish shell tip: use Tab to autocomplete filenames")
+                ),
+                WorkflowStep(
+                    stepNumber = 6,
+                    title = "Crack the Password in Termux",
+                    description = "Run hashcat on your phone. It uses CPU-only on unrooted Android — slower than a GPU but still cracks most common passwords in minutes to hours.",
+                    commands = listOf(
+                        Command("Crack", "hashcat -m 22000 hash.hc22000 ~/rockyou.txt -D 1", Device.TERMUX),
+                        Command("Show cracked", "hashcat -m 22000 hash.hc22000 --show", Device.TERMUX)
+                    ),
+                    tips = listOf("-D 1 forces CPU mode (required on unrooted)", "Progress shown live — Ctrl+C to pause, resume later by re-running same command", "Common passwords crack in seconds, complex ones take longer")
+                ),
+                WorkflowStep(
+                    stepNumber = 7,
+                    title = "Read the Password",
+                    description = "When hashcat finds the password it prints: [network name]:[password]. Run the --show command to display all cracked passwords from this session.",
+                    commands = listOf(
+                        Command("Show result", "hashcat -m 22000 hash.hc22000 --show", Device.TERMUX)
+                    ),
+                    tips = listOf("Password appears after the colon in the output", "Results are also saved in ~/.hashcat/hashcat.potfile — check there if --show shows nothing")
                 )
             )
         ),
 
         Workflow(
             id = "wifi_handshake",
-            title = "Capture WPA2 Handshake",
-            subtitle = "Capture 4-way handshake by forcing a client to reconnect",
+            title = "Capture WPA2 Handshake → Crack on Phone",
+            subtitle = "Force a reconnect to grab the 4-way handshake, crack in Termux",
             categoryId = "wifi",
-            hardware = listOf(Hardware.AWOK),
-            prerequisites = listOf("AWOK Dual Mini v3 with Marauder", "MicroSD card", "At least one client connected to target AP"),
+            hardware = listOf(Hardware.AWOK, Hardware.PHONE),
+            prerequisites = listOf("AWOK Dual Mini v3 with Marauder", "MicroSD card", "Termux with hashcat installed", "At least one device connected to the target network"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
-                    title = "What Is a Handshake?",
-                    description = "When a device connects to WPA2 WiFi, it exchanges a 4-way handshake with the router. Capturing this lets you crack the password offline. You need at least one device already connected to the target network.",
-                    tips = listOf("Combine with deauth — kick a client off, capture when it reconnects")
+                    title = "When to Use This vs PMKID",
+                    description = "Use this if PMKID capture didn't work. This method requires at least one phone or laptop already connected to the target WiFi. You kick it off, it reconnects, and during that reconnect the handshake is captured.",
+                    tips = listOf("PMKID is better when available — no clients needed", "Handshake works on all WPA2 routers including those that block PMKID")
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Start Sniff Handshakes",
-                    description = "Navigate to Sniff → Sniff Handshakes. AWOK listens on the target AP's channel for handshake traffic. Leave it running.",
-                    commands = listOf(Command("Start", "Sniff → Sniff Handshakes", Device.MARAUDER))
+                    title = "Select Target and Start Sniffing",
+                    description = "On AWOK: WiFi → Scan APs → wait for list → press OK on target network. Then: Sniff → Sniff Handshakes. AWOK is now listening on that channel for the handshake.",
+                    commands = listOf(
+                        Command("Select", "WiFi → List APs → [target] → OK", Device.MARAUDER),
+                        Command("Sniff", "Sniff → Sniff Handshakes", Device.MARAUDER)
+                    )
                 ),
                 WorkflowStep(
                     stepNumber = 3,
-                    title = "Force a Reconnect",
-                    description = "While sniffing, run a quick deauth burst on the target AP. Connected clients will drop and immediately reconnect — triggering a new handshake capture.",
-                    commands = listOf(Command("Deauth burst", "Attack → Deauth → [stop after 5 sec]", Device.MARAUDER)),
-                    tips = listOf("Short burst is enough — just long enough to kick clients off")
+                    title = "Kick a Client Off (Deauth)",
+                    description = "While AWOK is sniffing, go to Attack → Deauth on the same target. This sends a disconnect signal to all devices on that network. They'll instantly reconnect — and AWOK captures the handshake during the reconnect.",
+                    commands = listOf(Command("Deauth", "Attack → Deauth", Device.MARAUDER)),
+                    tips = listOf("Run deauth for 3-5 seconds then stop", "Watch the sniff screen — when you see 'EAPOL' appear, the handshake is captured")
                 ),
                 WorkflowStep(
                     stepNumber = 4,
-                    title = "Confirm Capture and Stop",
-                    description = "When AWOK shows 'EAPOL' or 'Handshake captured' on screen, stop sniffing. The .pcap is saved to SD.",
-                    commands = listOf(Command("Stop", "Sniff → Stop Sniff", Device.MARAUDER))
+                    title = "Stop and Save",
+                    description = "Once you see EAPOL packets in the sniff log, press back to stop sniffing. The .pcap file is saved to your MicroSD card automatically.",
+                    tips = listOf("EAPOL = the handshake packets", "File name: handshake_[timestamp].pcap")
                 ),
                 WorkflowStep(
                     stepNumber = 5,
-                    title = "Crack on PC",
-                    description = "Convert and crack:\nhcxpcapngtool -o hash.hc22000 handshake.pcap\nhashcat -m 22000 hash.hc22000 wordlist.txt",
+                    title = "Transfer to Phone",
+                    description = "Remove SD card. Plug into your Note 10+ using a USB OTG card reader. Copy the .pcap file to your Downloads folder using the Files app.",
+                    tips = listOf("Same transfer method as PMKID workflow")
+                ),
+                WorkflowStep(
+                    stepNumber = 6,
+                    title = "Convert in Termux",
+                    description = "Open Termux. Convert the pcap to hashcat format.",
                     commands = listOf(
-                        Command("Convert", "hcxpcapngtool -o hash.hc22000 handshake.pcap", Device.PC),
-                        Command("Crack", "hashcat -m 22000 hash.hc22000 wordlist.txt -r rules/best64.rule", Device.PC)
+                        Command("Go to Downloads", "cd /sdcard/Download", Device.TERMUX),
+                        Command("Convert", "hcxpcapngtool -o hash.hc22000 handshake.pcap", Device.TERMUX),
+                        Command("Verify", "wc -l hash.hc22000", Device.TERMUX)
                     ),
-                    tips = listOf("Add rules (-r best64.rule) to crack more complex passwords", "Try multiple wordlists")
+                    tips = listOf("wc -l should return 1 or more — if 0 the capture was incomplete, try again")
+                ),
+                WorkflowStep(
+                    stepNumber = 7,
+                    title = "Crack in Termux",
+                    description = "Run hashcat with the wordlist. The -D 1 flag is required for CPU-only mode on unrooted Android.",
+                    commands = listOf(
+                        Command("Crack", "hashcat -m 22000 hash.hc22000 ~/rockyou.txt -D 1", Device.TERMUX),
+                        Command("With rules (more coverage)", "hashcat -m 22000 hash.hc22000 ~/rockyou.txt -D 1 -r /data/data/com.termux/files/usr/share/hashcat/rules/best64.rule", Device.TERMUX),
+                        Command("Show cracked", "hashcat -m 22000 hash.hc22000 --show", Device.TERMUX)
+                    ),
+                    tips = listOf("Rules mutation adds numbers/symbols to every word — catches 'password1', 'letmein!' etc", "Let it run in background: hashcat ... & (fish: run it in a new Termux session)")
+                ),
+                WorkflowStep(
+                    stepNumber = 8,
+                    title = "Get the Password",
+                    description = "Cracked password appears as: [SSID]:[password]. Copy it from the terminal output.",
+                    commands = listOf(
+                        Command("Show result", "hashcat -m 22000 hash.hc22000 --show", Device.TERMUX),
+                        Command("Check potfile", "cat ~/.hashcat/hashcat.potfile", Device.TERMUX)
+                    )
                 )
             )
         ),
@@ -1744,102 +1804,163 @@ object WorkflowRepository {
 
         Workflow(
             id = "tools_hashcat",
-            title = "Crack Hashes with Hashcat",
-            subtitle = "GPU-accelerate password cracking on a PC",
+            title = "Crack Hashes with Hashcat in Termux",
+            subtitle = "Crack WiFi passwords and other hashes on your unrooted phone",
             categoryId = "tools",
             hardware = listOf(Hardware.PHONE),
-            prerequisites = listOf("PC with GPU (NVIDIA or AMD)", "Hashcat installed", "Wordlist (rockyou.txt)"),
+            prerequisites = listOf("Termux with hashcat installed (see Termux Setup workflow)", "rockyou.txt in home folder", "Hash file to crack"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
-                    title = "Get rockyou.txt Wordlist",
-                    description = "The standard wordlist for password cracking. Contains 14 million real passwords from the 2009 RockYou breach.",
-                    commands = listOf(Command("Download", "wget https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt", Device.PC))
+                    title = "Crack WPA2 (from AWOK capture)",
+                    description = "This is the main use case — crack a .pcap capture from AWOK. First convert it, then crack it. Both commands run in Termux on your unrooted Note 10+.",
+                    commands = listOf(
+                        Command("Convert pcap", "hcxpcapngtool -o hash.hc22000 /sdcard/Download/capture.pcap", Device.TERMUX),
+                        Command("Crack WPA2", "hashcat -m 22000 hash.hc22000 ~/rockyou.txt -D 1", Device.TERMUX),
+                        Command("Show password", "hashcat -m 22000 hash.hc22000 --show", Device.TERMUX)
+                    ),
+                    tips = listOf("-D 1 = CPU mode, required on unrooted Android", "Change capture.pcap to your actual filename")
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Crack WPA2 Hash",
-                    description = "After capturing a PMKID or handshake from AWOK, convert with hcxtools and crack with hashcat.",
+                    title = "Add Rules for Complex Passwords",
+                    description = "If rockyou alone doesn't crack it, use mutation rules. Rules take each word and try variations: Password1, p@ssword, PASSWORD!, etc.",
                     commands = listOf(
-                        Command("Convert PMKID", "hcxpcapngtool -o hash.hc22000 capture.pcap", Device.PC),
-                        Command("Crack WPA2", "hashcat -m 22000 hash.hc22000 rockyou.txt -r rules/best64.rule", Device.PC)
-                    )
+                        Command("With best64 rules", "hashcat -m 22000 hash.hc22000 ~/rockyou.txt -D 1 -r /data/data/com.termux/files/usr/share/hashcat/rules/best64.rule", Device.TERMUX),
+                        Command("Brute force 8-char", "hashcat -m 22000 hash.hc22000 -a 3 ?d?d?d?d?d?d?d?d -D 1", Device.TERMUX)
+                    ),
+                    tips = listOf("?d = digit. Use for routers with 8-digit default passwords", "?l = lowercase, ?u = uppercase, ?s = symbol, ?a = all")
                 ),
                 WorkflowStep(
                     stepNumber = 3,
-                    title = "Crack Other Hash Types",
-                    description = "Hashcat supports 300+ hash types. Common ones:",
+                    title = "Crack Other Hash Types in Termux",
+                    description = "Hashcat handles all common hash types — change the -m number.",
                     commands = listOf(
-                        Command("NTLM (Windows)", "hashcat -m 1000 hash.txt rockyou.txt", Device.PC),
-                        Command("MD5", "hashcat -m 0 hash.txt rockyou.txt", Device.PC),
-                        Command("bcrypt", "hashcat -m 3200 hash.txt rockyou.txt", Device.PC),
-                        Command("SHA-256", "hashcat -m 1400 hash.txt rockyou.txt", Device.PC)
+                        Command("NTLM (Windows)", "hashcat -m 1000 hash.txt ~/rockyou.txt -D 1", Device.TERMUX),
+                        Command("MD5", "hashcat -m 0 hash.txt ~/rockyou.txt -D 1", Device.TERMUX),
+                        Command("SHA-256", "hashcat -m 1400 hash.txt ~/rockyou.txt -D 1", Device.TERMUX),
+                        Command("bcrypt", "hashcat -m 3200 hash.txt ~/rockyou.txt -D 1", Device.TERMUX)
                     ),
-                    tips = listOf("Use -a 3 for brute force: hashcat -m 1000 -a 3 hash.txt ?a?a?a?a?a?a?a?a")
+                    tips = listOf("bcrypt is slow — even on a GPU. On phone CPU expect hours per hash")
                 ),
                 WorkflowStep(
                     stepNumber = 4,
-                    title = "Rule-Based Attack",
-                    description = "Rules mutate wordlist entries (add numbers, capitalize, l33t-speak). Best64 rule covers most common password patterns.",
-                    commands = listOf(Command("Rule attack", "hashcat -m 22000 hash.hc22000 rockyou.txt -r rules/best64.rule -r rules/combinator.rule", Device.PC)),
-                    tips = listOf("best64.rule is in hashcat/rules/ — comes with hashcat", "Combining 2-3 rule files dramatically increases coverage")
+                    title = "Check Your Results",
+                    description = "Cracked passwords are saved in hashcat's potfile. Check it anytime — even if you close Termux and come back later.",
+                    commands = listOf(
+                        Command("Show all cracked", "hashcat -m 22000 hash.hc22000 --show", Device.TERMUX),
+                        Command("Check potfile", "cat ~/.hashcat/hashcat.potfile", Device.TERMUX),
+                        Command("Restore session", "hashcat --restore", Device.TERMUX)
+                    ),
+                    tips = listOf("Potfile remembers every hash you've ever cracked", "hashcat --restore continues a session that was interrupted")
                 )
             )
         ),
 
         Workflow(
             id = "tools_termux_setup",
-            title = "Termux Security Toolkit Setup",
-            subtitle = "Turn Termux into a full mobile pentest environment",
+            title = "Termux Full Security Setup",
+            subtitle = "One-time setup: cracking tools, recon, fish shell, storage access — unrooted",
             categoryId = "tools",
             hardware = listOf(Hardware.PHONE),
-            prerequisites = listOf("Termux from F-Droid (NOT Google Play)", "Internet connection"),
+            prerequisites = listOf("Termux from F-Droid (NOT Google Play version)", "Internet/WiFi connection", "~2GB free storage"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
-                    title = "Update Packages",
-                    description = "Open Termux and update everything first.",
-                    commands = listOf(Command("Update", "pkg update && pkg upgrade -y", Device.TERMUX))
+                    title = "Install Termux from F-Droid",
+                    description = "The Google Play version of Termux is outdated and many tools won't install. You need the F-Droid version. Go to f-droid.org on your phone browser → search Termux → install. Then open it.",
+                    warning = "Do NOT use the Google Play version — it's broken for security tools",
+                    tips = listOf("F-Droid is a free open-source app store, totally safe")
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Install Core Tools",
-                    description = "Install the essentials for recon and scanning.",
-                    commands = listOf(
-                        Command("Network tools", "pkg install nmap netcat-openbsd curl wget git python -y", Device.TERMUX),
-                        Command("More tools", "pkg install hydra john sqlmap -y", Device.TERMUX)
-                    )
+                    title = "Grant Storage Access",
+                    description = "Termux needs permission to read your phone storage (SD card, Downloads folder, etc.) so you can move capture files in and out. Run this command and tap Allow when Android asks.",
+                    commands = listOf(Command("Grant storage", "termux-setup-storage", Device.TERMUX)),
+                    tips = listOf("After this, /sdcard/ in Termux = your phone's internal storage", "/sdcard/Download = your Downloads folder")
                 ),
                 WorkflowStep(
                     stepNumber = 3,
-                    title = "Install Python Recon Tools",
-                    description = "Python-based tools cover most recon needs.",
-                    commands = listOf(
-                        Command("theHarvester", "pip install theHarvester", Device.TERMUX),
-                        Command("Sublist3r", "git clone https://github.com/aboul3la/Sublist3r && cd Sublist3r && pip install -r requirements.txt", Device.TERMUX),
-                        Command("Sherlock", "pip install sherlock-project", Device.TERMUX)
-                    ),
-                    tips = listOf("Sherlock finds usernames across 300+ social platforms")
+                    title = "Update Everything",
+                    description = "Update all packages first. This takes a few minutes on the first run.",
+                    commands = listOf(Command("Update", "pkg update -y && pkg upgrade -y", Device.TERMUX)),
+                    tips = listOf("If it asks 'keep existing?' press Enter to accept default")
                 ),
                 WorkflowStep(
                     stepNumber = 4,
-                    title = "Install Metasploit (Optional)",
-                    description = "Metasploit runs on Termux with some setup.",
+                    title = "Install Fish Shell",
+                    description = "Fish is your shell. Install it and set it as default.",
                     commands = listOf(
-                        Command("Install Ruby", "pkg install ruby -y", Device.TERMUX),
-                        Command("Install MSF", "curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && sh msfinstall", Device.TERMUX)
+                        Command("Install fish", "pkg install -y fish", Device.TERMUX),
+                        Command("Set as default", "chsh -s fish", Device.TERMUX),
+                        Command("Launch fish now", "fish", Device.TERMUX)
                     ),
-                    tips = listOf("MSF on Android is slow but works for basic exploit testing")
+                    tips = listOf("After this, new Termux sessions open in fish automatically", "Fish autocompletes commands with Tab — very useful")
                 ),
                 WorkflowStep(
                     stepNumber = 5,
-                    title = "Connect AWOK for Serial Control",
-                    description = "With Termux and USB OTG, control AWOK from command line:",
+                    title = "Install WiFi Cracking Tools",
+                    description = "Install hashcat (password cracker) and hcxtools (converts pcap captures to crackable format). These are the two tools you need for WiFi password cracking.",
                     commands = listOf(
-                        Command("Install pyserial", "pip install pyserial", Device.TERMUX),
-                        Command("Connect serial", "python -c \"import serial; s=serial.Serial('/dev/ttyUSB0',115200); s.write(b'scanap\\n'); print(s.read(1000))\"", Device.TERMUX)
+                        Command("Install cracking tools", "pkg install -y hashcat hcxtools", Device.TERMUX),
+                        Command("Verify hashcat", "hashcat --version", Device.TERMUX),
+                        Command("Verify hcxtools", "hcxpcapngtool --version", Device.TERMUX)
                     ),
-                    tips = listOf("Device path may be /dev/ttyUSB0 or /dev/ttyACM0 — check with ls /dev/tty*")
+                    tips = listOf("If hcxtools not found: pkg install -y root-repo && pkg install -y hcxtools", "hashcat on unrooted = CPU mode only, still cracks common passwords")
+                ),
+                WorkflowStep(
+                    stepNumber = 6,
+                    title = "Download the rockyou.txt Wordlist",
+                    description = "rockyou.txt is the standard password wordlist — 14 million real passwords. Download it once, use it forever. It goes to your home folder.",
+                    commands = listOf(
+                        Command("Download", "curl -L -o ~/rockyou.txt https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt", Device.TERMUX),
+                        Command("Check size", "ls -lh ~/rockyou.txt", Device.TERMUX)
+                    ),
+                    tips = listOf("File is ~134MB — needs WiFi", "Should say '133M' or similar when done")
+                ),
+                WorkflowStep(
+                    stepNumber = 7,
+                    title = "Install Network Recon Tools",
+                    description = "Tools for scanning networks, finding devices, and brute-forcing logins.",
+                    commands = listOf(
+                        Command("Core network tools", "pkg install -y nmap netcat-openbsd curl wget git python", Device.TERMUX),
+                        Command("Login brute force", "pkg install -y hydra", Device.TERMUX),
+                        Command("Web vuln scanner", "pkg install -y python && pip install sqlmap", Device.TERMUX)
+                    )
+                ),
+                WorkflowStep(
+                    stepNumber = 8,
+                    title = "Install OSINT Tools",
+                    description = "Username and email lookup tools.",
+                    commands = listOf(
+                        Command("Sherlock (username finder)", "pip install sherlock-project", Device.TERMUX),
+                        Command("theHarvester", "pip install theHarvester", Device.TERMUX)
+                    ),
+                    tips = listOf("Sherlock: sherlock username → finds that username on 300+ sites")
+                ),
+                WorkflowStep(
+                    stepNumber = 9,
+                    title = "Control AWOK from Termux via USB",
+                    description = "Plug AWOK into your Note 10+ with USB-C OTG adapter. Then send Marauder commands directly from Termux — no AWOK screen navigation needed.",
+                    commands = listOf(
+                        Command("Install serial", "pip install pyserial", Device.TERMUX),
+                        Command("Find device", "ls /dev/tty*", Device.TERMUX),
+                        Command("Test connection", "python -c \"import serial; s=serial.Serial('/dev/ttyUSB0',115200,timeout=2); s.write(b'help\\n'); print(s.read(2000).decode())\"", Device.TERMUX)
+                    ),
+                    tips = listOf("Device is usually /dev/ttyUSB0 or /dev/ttyACM0", "If 'permission denied': ls -la /dev/ttyUSB0 → check if termux has access")
+                ),
+                WorkflowStep(
+                    stepNumber = 10,
+                    title = "Test Everything Works",
+                    description = "Quick verification that your setup is complete.",
+                    commands = listOf(
+                        Command("Check hashcat", "hashcat --version", Device.TERMUX),
+                        Command("Check hcxtools", "hcxpcapngtool --version", Device.TERMUX),
+                        Command("Check wordlist", "wc -l ~/rockyou.txt", Device.TERMUX),
+                        Command("Check nmap", "nmap --version", Device.TERMUX),
+                        Command("Check storage", "ls /sdcard/Download", Device.TERMUX)
+                    ),
+                    tips = listOf("rockyou.txt line count should be ~14,344,392", "If any command not found — re-run the install step for that tool")
                 )
             )
         ),
