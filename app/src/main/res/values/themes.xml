@@ -23,33 +23,37 @@
         <item name="android:windowLightNavigationBar">false</item>
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.FlipperGuide.AlertDialog</item>
         <item name="toolbarStyle">@style/Widget.FlipperGuide.Toolbar</item>
-        <item name="navigationViewStyle">@style/Widget.FlipperGuide.NavigationView</item>
+        <item name="bottomNavigationStyle">@style/Widget.PenThis.BottomNav</item>
         <item name="materialCardViewStyle">@style/Widget.FlipperGuide.CardView</item>
-        <item name="textAppearanceBodyLarge">@style/TextAppearance.FlipperGuide.BodyLarge</item>
-        <item name="textAppearanceBodyMedium">@style/TextAppearance.FlipperGuide.BodyMedium</item>
         <item name="textAppearanceTitleLarge">@style/TextAppearance.FlipperGuide.TitleLarge</item>
-        <item name="searchViewStyle">@style/Widget.FlipperGuide.SearchView</item>
-        <item name="snackbarStyle">@style/Widget.FlipperGuide.Snackbar</item>
-        <item name="snackbarButtonStyle">@style/Widget.FlipperGuide.SnackbarButton</item>
     </style>
 
     <style name="Widget.FlipperGuide.Toolbar" parent="Widget.Material3.Toolbar">
         <item name="android:background">@color/colorToolbar</item>
         <item name="titleTextColor">@color/colorTextPrimary</item>
         <item name="subtitleTextColor">@color/colorTextSecondary</item>
-        <item name="titleTextAppearance">@style/TextAppearance.FlipperGuide.Toolbar.Title</item>
     </style>
 
-    <style name="TextAppearance.FlipperGuide.Toolbar.Title" parent="TextAppearance.Material3.TitleLarge">
-        <item name="android:textColor">@color/colorTextPrimary</item>
-        <item name="android:textSize">18sp</item>
+    <style name="Widget.PenThis.BottomNav" parent="Widget.Material3.BottomNavigationView">
+        <item name="android:background">@color/colorNavBackground</item>
+        <item name="itemIconTint">@color/bottomnav_item_color</item>
+        <item name="itemTextColor">@color/bottomnav_item_color</item>
+        <item name="itemActiveIndicatorStyle">@style/Widget.PenThis.BottomNav.Indicator</item>
+        <item name="labelVisibilityMode">labeled</item>
+        <item name="elevation">0dp</item>
+        <item name="itemTextAppearanceActive">@style/TextAppearance.PenThis.NavLabel</item>
+        <item name="itemTextAppearanceInactive">@style/TextAppearance.PenThis.NavLabel</item>
     </style>
 
-    <style name="Widget.FlipperGuide.NavigationView" parent="Widget.Material3.NavigationView">
-        <item name="android:background">@color/colorSurface</item>
-        <item name="itemIconTint">@color/colorPrimary</item>
-        <item name="itemTextColor">@color/colorTextPrimary</item>
-        <item name="itemRippleColor">@color/colorStrokeAlpha</item>
+    <style name="Widget.PenThis.BottomNav.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/colorNavIndicator</item>
+    </style>
+
+    <style name="TextAppearance.PenThis.NavLabel" parent="TextAppearance.Material3.LabelSmall">
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.04</item>
+        <item name="android:textSize">9sp</item>
     </style>
 
     <style name="Widget.FlipperGuide.CardView" parent="Widget.Material3.CardView.Elevated">
@@ -57,34 +61,13 @@
         <item name="strokeColor">@color/colorStroke</item>
         <item name="strokeWidth">1dp</item>
         <item name="cardElevation">0dp</item>
-        <item name="cardCornerRadius">12dp</item>
+        <item name="cardCornerRadius">14dp</item>
         <item name="rippleColor">@color/colorStrokeAlpha</item>
-    </style>
-
-    <style name="TextAppearance.FlipperGuide.BodyLarge" parent="TextAppearance.Material3.BodyLarge">
-        <item name="android:textColor">@color/colorTextPrimary</item>
-    </style>
-
-    <style name="TextAppearance.FlipperGuide.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
-        <item name="android:textColor">@color/colorTextSecondary</item>
     </style>
 
     <style name="TextAppearance.FlipperGuide.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
         <item name="android:textColor">@color/colorTextPrimary</item>
-        <item name="android:fontFamily">monospace</item>
-    </style>
-
-    <style name="Widget.FlipperGuide.SearchView" parent="Widget.AppCompat.SearchView">
-        <item name="android:background">@color/colorCard</item>
-        <item name="queryHint">@string/btn_scan</item>
-    </style>
-
-    <style name="Widget.FlipperGuide.Snackbar" parent="Widget.Material3.Snackbar">
-        <item name="android:background">@color/colorSurface</item>
-    </style>
-
-    <style name="Widget.FlipperGuide.SnackbarButton" parent="Widget.Material3.Button.TextButton.Snackbar">
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:fontFamily">sans-serif</item>
     </style>
 
     <style name="ThemeOverlay.FlipperGuide.AlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
@@ -94,17 +77,11 @@
     </style>
 
     <style name="Widget.FlipperGuide.Button.Primary" parent="Widget.Material3.Button.OutlinedButton">
-        <item name="android:textColor">@color/colorPrimary</item>
-        <item name="strokeColor">@color/colorPrimary</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="strokeColor">?attr/colorPrimary</item>
         <item name="android:fontFamily">monospace</item>
         <item name="android:letterSpacing">0.05</item>
         <item name="rippleColor">@color/colorStrokeAlpha</item>
-    </style>
-
-    <style name="Widget.FlipperGuide.Button.Danger" parent="Widget.Material3.Button.OutlinedButton">
-        <item name="android:textColor">@color/colorError</item>
-        <item name="strokeColor">@color/colorError</item>
-        <item name="android:fontFamily">monospace</item>
     </style>
 
     <style name="Widget.FlipperGuide.Badge" parent="Widget.Material3.Button.TextButton">
@@ -114,39 +91,21 @@
         <item name="android:paddingBottom">2dp</item>
         <item name="android:textSize">10sp</item>
         <item name="android:fontFamily">monospace</item>
-        <item name="cornerRadius">4dp</item>
+        <item name="cornerRadius">6dp</item>
         <item name="android:minHeight">0dp</item>
         <item name="android:minWidth">0dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
     </style>
 
-    <style name="Widget.FlipperGuide.Badge.Flipper" parent="Widget.FlipperGuide.Badge">
-        <item name="android:textColor">@color/colorHardwareFlipper</item>
-        <item name="android:background">@color/colorBadgeFlipperBg</item>
-    </style>
-
-    <style name="Widget.FlipperGuide.Badge.AWOK" parent="Widget.FlipperGuide.Badge">
-        <item name="android:textColor">@color/colorHardwareAWOK</item>
-        <item name="android:background">@color/colorBadgeAWOKBg</item>
-    </style>
-
-    <style name="Widget.FlipperGuide.Badge.Both" parent="Widget.FlipperGuide.Badge">
-        <item name="android:textColor">@color/colorHardwareBoth</item>
-        <item name="android:background">@color/colorBadgeBothBg</item>
-    </style>
-
+    <!-- ===== Accent theme variants (referenced by ThemeManager.styleRes) ===== -->
     <style name="Theme.PenThis.Terminal" parent="Theme.FlipperGuide">
         <item name="colorPrimary">#22C55E</item>
         <item name="colorPrimaryVariant">#22C55E</item>
         <item name="colorAccent">#22C55E</item>
         <item name="colorSecondary">#22C55E</item>
-        <item name="penAccentDark">#14532D</item>
-        <item name="penAccentFaint">#0A1A0E</item>
-        <item name="penBackground">#000000</item>
-        <item name="penSurface">#0C0C0C</item>
-        <item name="android:statusBarColor">#000000</item>
-        <item name="android:navigationBarColor">#000000</item>
+        <item name="android:statusBarColor">#060708</item>
+        <item name="android:navigationBarColor">#070809</item>
     </style>
 
     <style name="Theme.PenThis.Phosphor" parent="Theme.FlipperGuide">
@@ -154,12 +113,8 @@
         <item name="colorPrimaryVariant">#F97316</item>
         <item name="colorAccent">#F97316</item>
         <item name="colorSecondary">#F97316</item>
-        <item name="penAccentDark">#7C2D12</item>
-        <item name="penAccentFaint">#150700</item>
-        <item name="penBackground">#000000</item>
-        <item name="penSurface">#0C0800</item>
-        <item name="android:statusBarColor">#000000</item>
-        <item name="android:navigationBarColor">#000000</item>
+        <item name="android:statusBarColor">#060708</item>
+        <item name="android:navigationBarColor">#070809</item>
     </style>
 
     <style name="Theme.PenThis.Arctic" parent="Theme.FlipperGuide">
@@ -167,12 +122,8 @@
         <item name="colorPrimaryVariant">#06B6D4</item>
         <item name="colorAccent">#06B6D4</item>
         <item name="colorSecondary">#06B6D4</item>
-        <item name="penAccentDark">#164E63</item>
-        <item name="penAccentFaint">#030C10</item>
-        <item name="penBackground">#000000</item>
-        <item name="penSurface">#030C10</item>
-        <item name="android:statusBarColor">#000000</item>
-        <item name="android:navigationBarColor">#000000</item>
+        <item name="android:statusBarColor">#060708</item>
+        <item name="android:navigationBarColor">#070809</item>
     </style>
 
     <style name="Theme.PenThis.Midnight" parent="Theme.FlipperGuide">
@@ -180,12 +131,8 @@
         <item name="colorPrimaryVariant">#A855F7</item>
         <item name="colorAccent">#A855F7</item>
         <item name="colorSecondary">#A855F7</item>
-        <item name="penAccentDark">#4C1D95</item>
-        <item name="penAccentFaint">#0E0614</item>
-        <item name="penBackground">#050008</item>
-        <item name="penSurface">#0A0010</item>
-        <item name="android:statusBarColor">#050008</item>
-        <item name="android:navigationBarColor">#050008</item>
+        <item name="android:statusBarColor">#060708</item>
+        <item name="android:navigationBarColor">#070809</item>
     </style>
 
     <style name="Theme.PenThis.Solar" parent="Theme.FlipperGuide">
@@ -193,12 +140,8 @@
         <item name="colorPrimaryVariant">#FBBF24</item>
         <item name="colorAccent">#FBBF24</item>
         <item name="colorSecondary">#FBBF24</item>
-        <item name="penAccentDark">#92400E</item>
-        <item name="penAccentFaint">#150E00</item>
-        <item name="penBackground">#060400</item>
-        <item name="penSurface">#0C0900</item>
-        <item name="android:statusBarColor">#060400</item>
-        <item name="android:navigationBarColor">#060400</item>
+        <item name="android:statusBarColor">#060708</item>
+        <item name="android:navigationBarColor">#070809</item>
     </style>
 
     <style name="Theme.PenThis.Ghost" parent="Theme.FlipperGuide">
@@ -206,12 +149,8 @@
         <item name="colorPrimaryVariant">#CBD5E1</item>
         <item name="colorAccent">#CBD5E1</item>
         <item name="colorSecondary">#CBD5E1</item>
-        <item name="penAccentDark">#475569</item>
-        <item name="penAccentFaint">#111318</item>
-        <item name="penBackground">#0A0A0A</item>
-        <item name="penSurface">#141414</item>
-        <item name="android:statusBarColor">#0A0A0A</item>
-        <item name="android:navigationBarColor">#0A0A0A</item>
+        <item name="android:statusBarColor">#060708</item>
+        <item name="android:navigationBarColor">#070809</item>
     </style>
 
 </resources>

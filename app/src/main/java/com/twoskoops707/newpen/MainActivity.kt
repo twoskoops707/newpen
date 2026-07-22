@@ -1,18 +1,13 @@
 package com.twoskoops707.newpen
 
 import android.os.Bundle
-import android.view.MenuItem
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.navigation.NavigationView
 import com.twoskoops707.newpen.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -20,7 +15,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var drawerLayout: DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,51 +25,32 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        drawerLayout = binding.drawerLayout
-        val navView: NavigationView = binding.navigationView
-
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
 
+        // Top-level destinations = the five bottom-nav tabs (no Up arrow shown on these).
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.homeFragment,
                 R.id.cheatSheetFragment,
-                R.id.setupFragment,
-                R.id.resourcesFragment,
                 R.id.connectFragment,
+                R.id.resourcesFragment,
                 R.id.settingsFragment
-            ),
-            drawerLayout
+            )
         )
 
         setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+        binding.bottomNav.setupWithNavController(navController)
 
-        navView.setNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.homeFragment -> navController.navigate(R.id.homeFragment)
-                R.id.cheatSheetFragment -> navController.navigate(R.id.cheatSheetFragment)
-                R.id.setupFragment -> navController.navigate(R.id.setupFragment)
-                R.id.resourcesFragment -> navController.navigate(R.id.resourcesFragment)
-                R.id.connectFragment -> navController.navigate(R.id.connectFragment)
-                R.id.settingsFragment -> navController.navigate(R.id.settingsFragment)
-            }
-            drawerLayout.closeDrawer(GravityCompat.START)
-            true
+        // Hide the bottom bar on the pushed detail screens for a focused reading view.
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            val onTab = appBarConfiguration.topLevelDestinations.contains(destination.id)
+            binding.bottomNav.visibility = if (onTab) android.view.View.VISIBLE else android.view.View.GONE
         }
     }
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-    }
-
-    override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
     }
 }

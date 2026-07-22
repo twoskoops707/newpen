@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.twoskoops707.newpen.R
 import com.twoskoops707.newpen.data.WorkflowRepository
 import com.twoskoops707.newpen.databinding.FragmentHomeBinding
@@ -36,7 +36,7 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_homeFragment_to_workflowListFragment, bundle)
         }
 
-        binding.rvCategories.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvCategories.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.rvCategories.adapter = adapter
     }
 

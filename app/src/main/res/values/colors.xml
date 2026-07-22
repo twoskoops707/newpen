@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorBackground">#000000</color>
-    <color name="colorSurface">#0C0C0C</color>
-    <color name="colorCard">#111111</color>
-    <color name="colorStroke">#1E1E1E</color>
-    <color name="colorDivider">#1E1E1E</color>
+    <color name="colorBackground">#060708</color>
+    <color name="colorSurface">#0A0C0F</color>
+    <color name="colorCard">#0B0D10</color>
+    <color name="colorCardElevated">#0E1116</color>
+    <color name="colorStroke">#1A1E23</color>
+    <color name="colorStrokeStrong">#23272E</color>
+    <color name="colorDivider">#14171B</color>
     <color name="colorTerminal">#000000</color>
 
     <color name="colorPrimary">#22C55E</color>
@@ -12,27 +14,35 @@
     <color name="colorPrimaryFaint">#0A1A0E</color>
     <color name="colorAccent">#22C55E</color>
     <color name="colorSecondary">#22C55E</color>
-    <color name="colorCyan">#22C55E</color>
+    <color name="colorCyan">#38BDF8</color>
 
-    <color name="colorTextPrimary">#E2E8F0</color>
-    <color name="colorTextSecondary">#6B7280</color>
-    <color name="colorTextMuted">#374151</color>
+    <color name="colorTextPrimary">#E6EAF0</color>
+    <color name="colorTextSecondary">#8B93A1</color>
+    <color name="colorTextMuted">#565E6B</color>
+    <color name="colorTextFaint">#3F4855</color>
 
     <color name="colorHardwareFlipper">#A855F7</color>
     <color name="colorHardwareAWOK">#F97316</color>
     <color name="colorHardwareBoth">#22C55E</color>
-    <color name="colorBadgeFlipperBg">#1A0D2E</color>
-    <color name="colorBadgeAWOKBg">#1F0D03</color>
+    <color name="colorHardwarePhone">#38BDF8</color>
+    <color name="colorBadgeFlipperBg">#1A1030</color>
+    <color name="colorBadgeAWOKBg">#1F1003</color>
     <color name="colorBadgeBothBg">#0A1A0E</color>
+    <color name="colorBadgePhoneBg">#04141F</color>
+
+    <color name="colorDiffEasy">#22C55E</color>
+    <color name="colorDiffMedium">#FBBF24</color>
+    <color name="colorDiffAdvanced">#EF4444</color>
 
     <color name="colorWarning">#F59E0B</color>
     <color name="colorWarningBg">#1A1000</color>
     <color name="colorError">#EF4444</color>
 
-    <color name="colorNavBackground">#000000</color>
-    <color name="colorToolbar">#000000</color>
-    <color name="colorStatusBar">#000000</color>
-    <color name="colorNavigationBar">#000000</color>
+    <color name="colorNavBackground">#070809</color>
+    <color name="colorNavIndicator">#161A20</color>
+    <color name="colorToolbar">#070809</color>
+    <color name="colorStatusBar">#060708</color>
+    <color name="colorNavigationBar">#070809</color>
     <color name="colorStrokeAlpha">#331E1E1E</color>
 
     <color name="colorGreen">#22C55E</color>
@@ -41,10 +51,10 @@
     <color name="colorRed">#EF4444</color>
     <color name="colorYellowGreen">#F59E0B</color>
 
-    <color name="colorOnPrimary">#000000</color>
-    <color name="colorOnSurface">#E2E8F0</color>
-    <color name="colorOnBackground">#E2E8F0</color>
-    <color name="colorSurfaceVariant">#0C0C0C</color>
+    <color name="colorOnPrimary">#04140A</color>
+    <color name="colorOnSurface">#E6EAF0</color>
+    <color name="colorOnBackground">#E6EAF0</color>
+    <color name="colorSurfaceVariant">#0A0C0F</color>
     <color name="colorPrimaryContainer">#0A1A0E</color>
     <color name="colorOnPrimaryContainer">#22C55E</color>
     <color name="colorSecondaryContainer">#0A1A0E</color>
