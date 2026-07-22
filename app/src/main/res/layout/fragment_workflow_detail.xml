@@ -51,6 +51,27 @@
         android:progressBackgroundTint="@color/colorStroke"
         android:indeterminate="false" />
 
+    <TextView
+        android:id="@+id/tvGearBanner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="10sp"
+        android:fontFamily="monospace"
+        android:letterSpacing="0.08"
+        android:background="@color/colorSurface"
+        android:textIsSelectable="true"
+        android:visibility="gone" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorStroke" />
+
     <LinearLayout
         android:id="@+id/cardPrerequisites"
         android:layout_width="match_parent"

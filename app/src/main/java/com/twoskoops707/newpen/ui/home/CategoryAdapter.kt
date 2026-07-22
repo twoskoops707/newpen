@@ -15,8 +15,9 @@ class CategoryAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(category: Category) {
-            binding.tvTitle.text = "// ${category.title.lowercase()}"
-            binding.tvCount.text = "${category.workflowCount} workflows"
+            binding.tvTitle.text = category.title
+            val n = category.workflowCount
+            binding.tvCount.text = if (n == 1) "1 guide" else "$n guides"
             binding.root.setOnClickListener { onCategoryClick(category) }
         }
     }
