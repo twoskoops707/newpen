@@ -129,7 +129,11 @@ class WorkflowDetailFragment : Fragment() {
             intent.putExtra("com.termux.RUN_COMMAND_WORKDIR", "/data/data/com.termux/files/home")
             intent.putExtra("com.termux.RUN_COMMAND_TERMINAL", true)
             requireContext().startService(intent)
-            Toast.makeText(requireContext(), "Running in Termux...", Toast.LENGTH_SHORT).show()
+            val launch = requireContext().packageManager.getLaunchIntentForPackage("com.termux")
+            if (launch != null) {
+                launch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                requireContext().startActivity(launch)
+            }
         } catch (e: Exception) {
             copyToClipboard(command)
             val launch = requireContext().packageManager.getLaunchIntentForPackage("com.termux")
