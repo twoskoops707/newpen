@@ -1881,13 +1881,22 @@ object WorkflowRepository {
                 ),
                 WorkflowStep(
                     stepNumber = 3,
+                    title = "Enable PenThis Automation",
+                    description = "This lets the PenThis app send commands directly to Termux — tap [ run ] in any workflow step and it executes automatically. Run this once, then restart Termux.",
+                    commands = listOf(
+                        Command("Enable automation", "mkdir -p ~/.termux && echo 'allow-external-apps = true' >> ~/.termux/termux.properties", Device.TERMUX)
+                    ),
+                    tips = listOf("After running this, close Termux completely and reopen it", "Then come back to PenThis — [ run ] buttons will work automatically from now on")
+                ),
+                WorkflowStep(
+                    stepNumber = 4,
                     title = "Update Everything",
                     description = "Update all packages first. This takes a few minutes on the first run.",
                     commands = listOf(Command("Update", "pkg update -y && pkg upgrade -y", Device.TERMUX)),
                     tips = listOf("If it asks 'keep existing?' press Enter to accept default")
                 ),
                 WorkflowStep(
-                    stepNumber = 4,
+                    stepNumber = 5,
                     title = "Install Fish Shell",
                     description = "Fish is your shell. Install it and set it as default.",
                     commands = listOf(
@@ -1898,7 +1907,7 @@ object WorkflowRepository {
                     tips = listOf("After this, new Termux sessions open in fish automatically", "Fish autocompletes commands with Tab — very useful")
                 ),
                 WorkflowStep(
-                    stepNumber = 5,
+                    stepNumber = 6,
                     title = "Install WiFi Cracking Tools",
                     description = "Install hashcat (password cracker) and hcxtools (converts pcap captures to crackable format). These are the two tools you need for WiFi password cracking.",
                     commands = listOf(
@@ -1909,7 +1918,7 @@ object WorkflowRepository {
                     tips = listOf("If hcxtools not found: pkg install -y root-repo && pkg install -y hcxtools", "hashcat on unrooted = CPU mode only, still cracks common passwords")
                 ),
                 WorkflowStep(
-                    stepNumber = 6,
+                    stepNumber = 7,
                     title = "Download the rockyou.txt Wordlist",
                     description = "rockyou.txt is the standard password wordlist — 14 million real passwords. Download it once, use it forever. It goes to your home folder.",
                     commands = listOf(
@@ -1919,7 +1928,7 @@ object WorkflowRepository {
                     tips = listOf("File is ~134MB — needs WiFi", "Should say '133M' or similar when done")
                 ),
                 WorkflowStep(
-                    stepNumber = 7,
+                    stepNumber = 8,
                     title = "Install Network Recon Tools",
                     description = "Tools for scanning networks, finding devices, and brute-forcing logins.",
                     commands = listOf(
@@ -1929,7 +1938,7 @@ object WorkflowRepository {
                     )
                 ),
                 WorkflowStep(
-                    stepNumber = 8,
+                    stepNumber = 9,
                     title = "Install OSINT Tools",
                     description = "Username and email lookup tools.",
                     commands = listOf(
@@ -1939,7 +1948,7 @@ object WorkflowRepository {
                     tips = listOf("Sherlock: sherlock username → finds that username on 300+ sites")
                 ),
                 WorkflowStep(
-                    stepNumber = 9,
+                    stepNumber = 10,
                     title = "Control AWOK from Termux via USB",
                     description = "Plug AWOK into your Note 10+ with USB-C OTG adapter. Then send Marauder commands directly from Termux — no AWOK screen navigation needed.",
                     commands = listOf(
@@ -1950,7 +1959,7 @@ object WorkflowRepository {
                     tips = listOf("Device is usually /dev/ttyUSB0 or /dev/ttyACM0", "If 'permission denied': ls -la /dev/ttyUSB0 → check if termux has access")
                 ),
                 WorkflowStep(
-                    stepNumber = 10,
+                    stepNumber = 11,
                     title = "Test Everything Works",
                     description = "Quick verification that your setup is complete.",
                     commands = listOf(

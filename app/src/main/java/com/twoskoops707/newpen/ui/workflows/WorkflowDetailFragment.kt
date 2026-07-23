@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.twoskoops707.newpen.DeviceProfileManager
+import com.twoskoops707.newpen.R
 import com.twoskoops707.newpen.data.WorkflowRepository
 import com.twoskoops707.newpen.data.models.Device
 import com.twoskoops707.newpen.data.models.Hardware
@@ -84,10 +85,11 @@ class WorkflowDetailFragment : Fragment() {
                 copyToClipboard(command)
                 Toast.makeText(requireContext(), "Copied!", Toast.LENGTH_SHORT).show()
             },
-            onRunTermux = { command ->
-                copyToClipboard(command)
-                openTermux()
-                Toast.makeText(requireContext(), getString(com.twoskoops707.newpen.R.string.toast_run_termux), Toast.LENGTH_LONG).show()
+            onCommandRun = { command ->
+                executeInTermux(command)
+            },
+            onRunTermux = { commands ->
+                executeInTermux(commands)
             },
             onStepVisible = { stepIndex ->
                 val progress = ((stepIndex + 1) * 100) / totalSteps
@@ -117,13 +119,23 @@ class WorkflowDetailFragment : Fragment() {
         clipboard.setPrimaryClip(ClipData.newPlainText("command", text))
     }
 
-    private fun openTermux() {
-        val intent = requireContext().packageManager.getLaunchIntentForPackage("com.termux")
-        if (intent != null) {
-            startActivity(intent)
-        } else {
-            val storeIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://f-droid.org/packages/com.termux/"))
-            startActivity(storeIntent)
+    private fun executeInTermux(command: String) {
+        try {
+            val intent = Intent()
+            intent.setClassName("com.termux", "com.termux.app.run_command.RunCommandService")
+            intent.action = "com.termux.RUN_COMMAND"
+            intent.putExtra("com.termux.RUN_COMMAND_PATH", "/data/data/com.termux/files/usr/bin/bash")
+            intent.putExtra("com.termux.RUN_COMMAND_ARGUMENTS", arrayOf("-c", command))
+            intent.putExtra("com.termux.RUN_COMMAND_WORKDIR", "/data/data/com.termux/files/home")
+            intent.putExtra("com.termux.RUN_COMMAND_TERMINAL", true)
+            requireContext().startService(intent)
+            Toast.makeText(requireContext(), "Running in Termux...", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            copyToClipboard(command)
+            val launch = requireContext().packageManager.getLaunchIntentForPackage("com.termux")
+            if (launch != null) startActivity(launch)
+            else startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://f-droid.org/packages/com.termux/")))
+            Toast.makeText(requireContext(), getString(R.string.toast_run_termux), Toast.LENGTH_LONG).show()
         }
     }
 
@@ -136,6 +148,7 @@ class WorkflowDetailFragment : Fragment() {
         private val steps: List<WorkflowStep>,
         private val wifiBoard: WifiBoard,
         private val onCommandCopy: (String) -> Unit,
+        private val onCommandRun: (String) -> Unit,
         private val onRunTermux: (String) -> Unit,
         private val onStepVisible: (Int) -> Unit
     ) : RecyclerView.Adapter<StepAdapter.StepViewHolder>() {
@@ -173,6 +186,12 @@ class WorkflowDetailFragment : Fragment() {
                         cmdBinding.tvCommandValue.text = cmd.value
                         cmdBinding.tvCommandDevice.text = cmd.device.name.lowercase().replace('_', ' ')
                         cmdBinding.btnCopy.setOnClickListener { onCommandCopy(cmd.value) }
+                        if (cmd.device == Device.TERMUX) {
+                            cmdBinding.btnRun.isVisible = true
+                            cmdBinding.btnRun.setOnClickListener { onCommandRun(cmd.value) }
+                        } else {
+                            cmdBinding.btnRun.isVisible = false
+                        }
                         binding.llCommands.addView(cmdBinding.root)
                     }
 
@@ -180,7 +199,7 @@ class WorkflowDetailFragment : Fragment() {
                     if (termuxCmds.isNotEmpty()) {
                         binding.btnRunTermux.isVisible = true
                         binding.btnRunTermux.setOnClickListener {
-                            val cmdText = termuxCmds.joinToString("\n") { it.value }
+                            val cmdText = termuxCmds.joinToString(" && ") { it.value }
                             onRunTermux(cmdText)
                         }
                     } else {
