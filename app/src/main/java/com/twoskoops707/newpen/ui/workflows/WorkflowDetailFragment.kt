@@ -122,12 +122,13 @@ class WorkflowDetailFragment : Fragment() {
     private fun executeInTermux(command: String) {
         try {
             val intent = Intent()
-            intent.setClassName("com.termux", "com.termux.app.run_command.RunCommandService")
+            intent.setClassName("com.termux", "com.termux.app.RunCommandService")
             intent.action = "com.termux.RUN_COMMAND"
             intent.putExtra("com.termux.RUN_COMMAND_PATH", "/data/data/com.termux/files/usr/bin/bash")
             intent.putExtra("com.termux.RUN_COMMAND_ARGUMENTS", arrayOf("-c", command))
             intent.putExtra("com.termux.RUN_COMMAND_WORKDIR", "/data/data/com.termux/files/home")
-            intent.putExtra("com.termux.RUN_COMMAND_TERMINAL", true)
+            intent.putExtra("com.termux.RUN_COMMAND_BACKGROUND", false)
+            intent.putExtra("com.termux.RUN_COMMAND_SESSION_ACTION", "0")
             requireContext().startService(intent)
             val launch = requireContext().packageManager.getLaunchIntentForPackage("com.termux")
             if (launch != null) {

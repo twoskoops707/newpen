@@ -17,6 +17,10 @@
         android:name="com.twoskoops707.newpen.USB_PERMISSION"
         android:protectionLevel="signature" />
 
+    <queries>
+        <package android:name="com.termux" />
+    </queries>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

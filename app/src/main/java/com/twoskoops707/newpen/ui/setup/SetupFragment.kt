@@ -58,7 +58,8 @@ class SetupFragment : Fragment() {
 ☐ Pair Flipper to this phone via mobile app
 ☐ Allow-external-apps in Termux (if using Termux features)
 ☐ termux-setup-storage in Termux
-☐ pkg install nmap python curl wget hashcat
+☐ Tap [ Install All Tools ] below (nmap, aircrack-ng, hcxtools, hydra, sqlmap)
+☐ hashcat: only inside Kali NetHunter (needs OpenCL)
         """.trimIndent()
 
         binding.tvResourcesContent.text = """
@@ -69,7 +70,7 @@ Awesome Flipper: github.com/djsime1/awesome-flipperzero
 BadUSB Payloads: github.com/I-Am-Jakoby/Flipper-Zero-BadUSB
         """.trimIndent()
 
-        val installAllCmd = "pkg update -y && pkg install -y nmap python python-pip curl wget tshark git dpkg && pip install requests scapy && wget https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt && echo ALL DONE"
+        val installAllCmd = "pkg update -y && pkg install -y nmap python python-pip curl wget tshark git dpkg clang make openssl libcurl libssh libnl libpcap libsqlite pcre zlib pkg-config && pip install requests scapy sqlmap && cd ~ && rm -rf hcxtools && git clone https://github.com/ZerBea/hcxtools && cd hcxtools && make && make install PREFIX=\$PREFIX && cd ~ && rm -rf thc-hydra && git clone https://github.com/vanhauser-thc/thc-hydra && cd thc-hydra && ./configure && make && cp hydra \$PREFIX/bin/ && cd ~ && wget -O aircrack.deb https://raw.githubusercontent.com/pitube08642/aircrack-ng-for-termux/main/dists/termux/aircrack-ng/binary-aarch64/aircrack-ng_3_1.7_aarch64.deb && dpkg -i aircrack.deb && curl -L -o ~/rockyou.txt https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt && echo ALL DONE"
         val installKaliCmd = "pkg update -y && pkg install -y wget curl && wget -O install-nethunter-termux https://offs.ec/2MceZWr && bash install-nethunter-termux"
 
         binding.btnInstallAll.setOnClickListener {
